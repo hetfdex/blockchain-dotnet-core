@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace blockchain_dotnet_core
+namespace blockchain_dotnet_core.API
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {

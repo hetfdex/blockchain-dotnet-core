@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace blockchain_dotnet_core
+namespace blockchain_dotnet_core.API
 {
     public class Startup
     {

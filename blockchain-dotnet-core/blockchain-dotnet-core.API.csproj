@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <RootNamespace>blockchain_dotnet_core</RootNamespace>
+    <RootNamespace>blockchain_dotnet_core.API</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
