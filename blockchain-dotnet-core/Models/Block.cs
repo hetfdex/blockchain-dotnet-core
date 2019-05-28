@@ -1,17 +1,20 @@
-﻿using System;
-using blockchain_dotnet_core.API.Utils;
+﻿using blockchain_dotnet_core.API.Utils;
 
 namespace blockchain_dotnet_core.API.Models
 {
     public class Block
     {
-        public string Hash { get; set; }
+        public long Timestamp { get; set; }
 
         public string LastHash { get; set; }
 
-        public long TimeStamp => (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+        public string Hash { get; set; }
 
         public string Data { get; set; }
+
+        public int Nonce { get; set; }
+
+        public int Difficulty { get; set; }
 
         public override string ToString()
         {
