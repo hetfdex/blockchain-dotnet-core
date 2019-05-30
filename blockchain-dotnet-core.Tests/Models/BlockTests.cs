@@ -82,7 +82,7 @@ namespace blockchain_dotnet_core.Tests.Models
                 Difficulty = -1
             };
 
-            var differentBlockObject = (object) differentBlock;
+            var differentBlockObject = (object)differentBlock;
 
             Assert.IsNotNull(differentBlockObject);
             Assert.IsFalse(_block.Equals(differentBlockObject));

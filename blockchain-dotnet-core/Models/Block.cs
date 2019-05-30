@@ -43,7 +43,7 @@ namespace blockchain_dotnet_core.API.Models
         public bool Equals(Block other)
         {
             return Timestamp == other.Timestamp && string.Equals(LastHash, other.LastHash) &&
-                   string.Equals(Hash, other.Hash) && Equals(Transactions, other.Transactions) && Nonce == other.Nonce &&
+                   string.Equals(Hash, other.Hash) /*&& Equals(Transactions, other.Transactions) */&& Nonce == other.Nonce &&
                    Difficulty == other.Difficulty;
         }
     }

@@ -22,7 +22,8 @@ namespace blockchain_dotnet_core.API
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddScoped<IBlockService, BlockService>();
+            services.AddTransient<IBlockService, BlockService>();
+            services.AddTransient<IBlockchainService, BlockchainService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

@@ -45,7 +45,7 @@ namespace blockchain_dotnet_core.API.Services
         {
             var genesisBlock = new Block
             {
-                Timestamp = GetTimestamp(),
+                Timestamp = 0L,
                 LastHash = SHA256Util.ComputeSHA256("genesis-lasthash"),
                 Transactions = new List<Transaction>(),
                 Nonce = 0,

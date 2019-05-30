@@ -7,13 +7,18 @@ namespace blockchain_dotnet_core.API.Services
 {
     public class BlockchainService : IBlockchainService
     {
-        private readonly BlockService _blockService;
+        private readonly IBlockService _blockService;
 
         public List<Block> Blockchain { get; set; }
 
-        public BlockchainService(BlockService blockService)
+        public BlockchainService(IBlockService blockService)
         {
             _blockService = blockService;
+
+            Blockchain = new List<Block>
+            {
+                _blockService.GetGenesisBlock()
+            };
         }
 
         public void AddBlock(List<Transaction> transactions)

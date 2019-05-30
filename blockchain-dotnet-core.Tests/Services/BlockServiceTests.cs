@@ -16,7 +16,7 @@ namespace blockchain_dotnet_core.Tests.Services
 
         private readonly string _lastHash = SHA256Util.ComputeSHA256("test-lasthash");
 
-        private const List<Transaction> Transactions = null; 
+        private const List<Transaction> Transactions = null;
 
         private const int Nonce = 0;
 
@@ -58,7 +58,7 @@ namespace blockchain_dotnet_core.Tests.Services
         [TestMethod]
         public void GetsGenesisBlock()
         {
-            var expectedTimestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+            var expectedTimestamp = 0L;
 
             var expectedLastHash = SHA256Util.ComputeSHA256("genesis-lasthash");
 
