@@ -6,7 +6,6 @@ using Org.BouncyCastle.Asn1.X9;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Security;
 
 namespace blockchain_dotnet_core.API.Utils
@@ -31,40 +30,30 @@ namespace blockchain_dotnet_core.API.Utils
             return ecKeyPairGenerator.GenerateKeyPair();
         }
 
-        public static string GenerateSignature(ECPrivateKeyParameters ecPrivateKeyParameters, List<Transaction> transactions)
+        public static string GenerateSignature(ECPrivateKeyParameters ecPrivateKeyParameters, TransactionOutput transactionOutput)
         {
             var curve = SecNamedCurves.GetByName("secp256k1");
-
-            var ecDomainParameters = new ECDomainParameters(curve.Curve, curve.G, curve.N, curve.H);
 
             ISigner signer = SignerUtilities.GetSigner("SHA-256withECDSA");
 
             signer.Init(true, ecPrivateKeyParameters);
 
-            signer.BlockUpdate(Encoding.ASCII.GetBytes(transactions.ToString()), 0, transactions.ToString().Length);
+            signer.BlockUpdate(Encoding.ASCII.GetBytes(transactionOutput.ToString()), 0, transactionOutput.ToString().Length);
 
             var result = signer.GenerateSignature();
 
             return HexUtils.ToHex(result);
         }
 
-        public static bool VerifySignature(string publicKey, List<Transaction> transactions, string signature)
+        public static bool VerifySignature(ECPublicKeyParameters publicKey, Transaction transaction, string signature)
         {
             var curve = SecNamedCurves.GetByName("secp256k1");
 
-            var ecDomainParameters = new ECDomainParameters(curve.Curve, curve.G, curve.N, curve.H);
-
-            var publicKeyBytes = HexUtils.FromHex(publicKey);
-
-            var q = curve.Curve.DecodePoint(publicKeyBytes);
-
-            var ecPublicKeyParameters = new ECPublicKeyParameters(q, ecDomainParameters);
-
             ISigner signer = SignerUtilities.GetSigner("SHA-256withECDSA");
 
-            signer.Init(false, ecPublicKeyParameters);
+            signer.Init(false, publicKey);
 
-            signer.BlockUpdate(Encoding.ASCII.GetBytes(transactions.ToString()), 0, transactions.ToString().Length);
+            signer.BlockUpdate(Encoding.ASCII.GetBytes(transaction.ToString()), 0, transaction.ToString().Length);
 
             var signatureBytes = HexUtils.FromHex(signature);
 

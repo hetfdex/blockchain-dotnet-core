@@ -25,6 +25,7 @@ namespace blockchain_dotnet_core.API
             services.AddTransient<IBlockService, BlockService>();
             services.AddTransient<IBlockchainService, BlockchainService>();
             services.AddTransient<IWalletService, WalletService>();
+            services.AddTransient<ITransactionService, TransactionService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

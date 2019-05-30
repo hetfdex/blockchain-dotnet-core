@@ -2,7 +2,6 @@
 using blockchain_dotnet_core.API.Services;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.Tests.Services
@@ -97,7 +96,7 @@ namespace blockchain_dotnet_core.Tests.Services
         {
             var lastBlock = _blockchainService.Blockchain[_blockchainService.Blockchain.Count - 1];
 
-            var timestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+            var timestamp = TimestampUtils.GetTimestamp();
 
             var lastHash = lastBlock.Hash;
 
@@ -129,7 +128,7 @@ namespace blockchain_dotnet_core.Tests.Services
         {
             var lastBlock = _replacementBlockchain[_replacementBlockchain.Count - 1];
 
-            var timestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+            var timestamp = TimestampUtils.GetTimestamp();
 
             var lastHash = lastBlock.Hash;
 
@@ -151,7 +150,7 @@ namespace blockchain_dotnet_core.Tests.Services
                 Difficulty = difficulty
             };
 
-            timestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+            timestamp = TimestampUtils.GetTimestamp();
 
             lastHash = blockOne.Hash;
 
@@ -173,7 +172,7 @@ namespace blockchain_dotnet_core.Tests.Services
                 Difficulty = difficulty
             };
 
-            timestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+            timestamp = TimestampUtils.GetTimestamp();
 
             lastHash = blockTwo.Hash;
 
@@ -209,7 +208,7 @@ namespace blockchain_dotnet_core.Tests.Services
         {
             var lastBlock = _replacementBlockchain[_replacementBlockchain.Count - 1];
 
-            var timestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+            var timestamp = TimestampUtils.GetTimestamp();
 
             var lastHash = lastBlock.Hash;
 
@@ -231,7 +230,7 @@ namespace blockchain_dotnet_core.Tests.Services
                 Difficulty = difficulty
             };
 
-            timestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+            timestamp = TimestampUtils.GetTimestamp();
 
             lastHash = blockOne.Hash;
 
@@ -253,7 +252,7 @@ namespace blockchain_dotnet_core.Tests.Services
                 Difficulty = difficulty
             };
 
-            timestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+            timestamp = TimestampUtils.GetTimestamp();
 
             lastHash = blockTwo.Hash;
 

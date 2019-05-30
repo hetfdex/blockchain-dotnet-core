@@ -1,7 +1,6 @@
 ﻿using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.Tests.Models
@@ -9,7 +8,7 @@ namespace blockchain_dotnet_core.Tests.Models
     [TestClass]
     public class BlockTests
     {
-        private readonly long _timestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+        private readonly long _timestamp = TimestampUtils.GetTimestamp();
 
         private readonly string _lastHash = HashUtils.ComputeSHA256("test-lasthash");
 

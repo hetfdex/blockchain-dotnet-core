@@ -1,4 +1,5 @@
 ﻿using System;
+using Org.BouncyCastle.Crypto.Parameters;
 
 namespace blockchain_dotnet_core.API.Models
 {
@@ -6,9 +7,15 @@ namespace blockchain_dotnet_core.API.Models
     {
         public Guid Id { get; } = Guid.NewGuid();
 
-        public string OutputMap { get; set; }
+        public ECPublicKeyParameters Sender { get; set; }
 
-        public string Input { get; set; }
+        public ECPublicKeyParameters Recipient { get; set; }
+
+        public decimal Amount { get; set; }
+
+        public TransactionOutput TransactionOutput { get; set; }
+
+        public TransactionInput TransactionInput { get; set; }
 
     }
 }

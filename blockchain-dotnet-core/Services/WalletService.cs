@@ -7,7 +7,7 @@ namespace blockchain_dotnet_core.API.Services
 {
     public class WalletService : IWalletService
     {
-        private Wallet _wallet;
+        private readonly Wallet _wallet;
 
         public WalletService()
         {
@@ -19,11 +19,64 @@ namespace blockchain_dotnet_core.API.Services
             };
         }
 
-        public string Sign(List<Transaction> transactions)
+        public string Sign(TransactionOutput transactionOutput)
         {
             var ecPrivateKeyParameters = _wallet.KeyPair.Private as ECPrivateKeyParameters;
 
-            return KeyPairUtils.GenerateSignature(ecPrivateKeyParameters, transactions);
+            return KeyPairUtils.GenerateSignature(ecPrivateKeyParameters, transactionOutput);
+        }
+
+        public Transaction GenerateTransaction(ECPublicKeyParameters recipient, decimal amount, List<Block> blockchain)
+        {
+            if (blockchain != null)
+            {
+                _wallet.Balance = CalculateBalance(blockchain, _wallet.PublicKey);
+            }
+
+            if (amount > _wallet.Balance)
+            {
+                return null;
+            }
+
+            return new Transaction
+            {
+                Sender = _wallet.PublicKey,
+                Recipient = recipient,
+                Amount = amount
+            };
+        }
+
+        public decimal CalculateBalance(List<Block> blockchain, ECPublicKeyParameters address)
+        {
+            var hasConductedTransaction = false;
+
+            decimal outputsTotal = 0;
+
+            for (int i = blockchain.Count - 1; i > 0; i--)
+            {
+                var block = blockchain[i];
+
+                foreach (var transaction in block.Transactions)
+                {
+                    if (transaction.TransactionInput.Address.Equals(address))
+                    {
+                        hasConductedTransaction = true;
+                    }
+
+                    var addressOutput = transaction.TransactionOutput.Output[address];
+
+                    if (addressOutput != 0)
+                    {
+                        outputsTotal -= addressOutput;
+                    }
+
+                    if (hasConductedTransaction)
+                    {
+                        break;
+                    }
+                }
+            }
+            return hasConductedTransaction ? outputsTotal : Constants.StartBalance - outputsTotal;
         }
     }
 }

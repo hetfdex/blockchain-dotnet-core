@@ -8,6 +8,6 @@
 
         public const decimal StartBalance = 1000;
 
-        public const int MinerRewardAmmount = 50;
+        public const decimal MinerRewardAmmount = 50;
     }
 }

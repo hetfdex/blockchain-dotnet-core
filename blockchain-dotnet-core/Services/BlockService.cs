@@ -1,6 +1,5 @@
 ﻿using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
-using System;
 using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.API.Services
@@ -23,7 +22,7 @@ namespace blockchain_dotnet_core.API.Services
             {
                 nonce++;
 
-                timestamp = GetTimestamp();
+                timestamp = TimestampUtils.GetTimestamp();
 
                 difficulty = AdjustDifficulty(lastBlock, timestamp);
 
@@ -73,8 +72,6 @@ namespace blockchain_dotnet_core.API.Services
 
             return difficulty + 1;
         }
-
-        private long GetTimestamp() => (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
 
         private string GetLeadingZeros(int difficulty) => new string('0', difficulty);
     }
