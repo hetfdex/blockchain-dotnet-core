@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using blockchain_dotnet_core.API.Models;
+﻿using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
 using Org.BouncyCastle.Crypto.Parameters;
+using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.API.Services
 {
@@ -19,11 +19,11 @@ namespace blockchain_dotnet_core.API.Services
             };
         }
 
-        public string Sign(TransactionOutput transactionOutput)
+        public string Sign(Dictionary<ECPublicKeyParameters, decimal> transactionOutputs)
         {
             var ecPrivateKeyParameters = _wallet.KeyPair.Private as ECPrivateKeyParameters;
 
-            return KeyPairUtils.GenerateSignature(ecPrivateKeyParameters, transactionOutput);
+            return KeyPairUtils.GenerateSignature(ecPrivateKeyParameters, transactionOutputs);
         }
 
         public Transaction GenerateTransaction(ECPublicKeyParameters recipient, decimal amount, List<Block> blockchain)
@@ -63,7 +63,7 @@ namespace blockchain_dotnet_core.API.Services
                         hasConductedTransaction = true;
                     }
 
-                    var addressOutput = transaction.TransactionOutput.Output[address];
+                    var addressOutput = transaction.TransactionOutputs[address];
 
                     if (addressOutput != 0)
                     {

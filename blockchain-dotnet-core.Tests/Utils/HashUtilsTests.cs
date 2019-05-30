@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace blockchain_dotnet_core.Tests.Utils
 {
     [TestClass]
-    public class SHA256UtilsTests
+    public class HashUtilsTests
     {
         [TestMethod]
         public void GeneratesSHA256Output()

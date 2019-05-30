@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace blockchain_dotnet_core.Tests.Services
 {
     [TestClass]
-    public class BlockchainServicesTest
+    public class BlockchainServicesTests
     {
         private IBlockchainService _blockchainService;
 
@@ -15,7 +15,7 @@ namespace blockchain_dotnet_core.Tests.Services
 
         private List<Block> _originalBlockchain = new List<Block>();
 
-        private List<Block> _replacementBlockchain = new List<Block>();
+        private readonly List<Block> _replacementBlockchain = new List<Block>();
 
         [TestInitialize]
         public void BlockchainServiceTestsSetup()

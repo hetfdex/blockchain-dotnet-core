@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using blockchain_dotnet_core.API.Models;
+﻿using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
 using Org.BouncyCastle.Crypto.Parameters;
+using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.API.Services
 {
@@ -15,58 +14,56 @@ namespace blockchain_dotnet_core.API.Services
             _walletService = walletService;
         }
 
-        public TransactionOutput GenerateTransactionOutput(Wallet senderWallet, ECPublicKeyParameters recipient,
+        public Dictionary<ECPublicKeyParameters, decimal> GenerateTransactionOutput(Wallet senderWallet, ECPublicKeyParameters recipient,
             decimal amount)
         {
-            TransactionOutput transactionOutput = new TransactionOutput();
-
-            transactionOutput.Output.Add(recipient, amount);
-            transactionOutput.Output.Add(senderWallet.PublicKey, senderWallet.Balance - amount);
-
-            return transactionOutput;
+            return new Dictionary<ECPublicKeyParameters, decimal>
+            {
+                {recipient, amount}, {senderWallet.PublicKey, senderWallet.Balance - amount}
+            };
         }
 
-        public TransactionInput GenerateTransactionInput(Wallet senderWallet, TransactionOutput transactionOutput)
+        public TransactionInput GenerateTransactionInput(Wallet senderWallet, Dictionary<ECPublicKeyParameters, decimal> transactionOutputs)
         {
             return new TransactionInput
             {
                 Timestamp = TimestampUtils.GetTimestamp(),
                 Address = senderWallet.PublicKey,
                 Amount = senderWallet.Balance,
-                Signature = _walletService.Sign(transactionOutput)
+                Signature = _walletService.Sign(transactionOutputs)
             };
         }
 
         public void Update(Transaction transaction, Wallet senderWallet, ECPublicKeyParameters recipient, decimal amount)
         {
-            if (amount > transaction.TransactionOutput.Output[senderWallet.PublicKey])
+            if (amount > transaction.TransactionOutputs[senderWallet.PublicKey])
             {
                 return;
             }
 
-            if (transaction.TransactionOutput.Output[recipient] == 0)
+            if (transaction.TransactionOutputs[recipient] == 0)
             {
-                transaction.TransactionOutput.Output[recipient] = amount;
+                transaction.TransactionOutputs[recipient] = amount;
             }
             else
             {
-                transaction.TransactionOutput.Output[recipient] += amount;
+                transaction.TransactionOutputs[recipient] += amount;
             }
 
-            transaction.TransactionOutput.Output[senderWallet.PublicKey] -= amount;
+            transaction.TransactionOutputs[senderWallet.PublicKey] -= amount;
 
-            transaction.TransactionInput = GenerateTransactionInput(senderWallet, transaction.TransactionOutput);
+            transaction.TransactionInput = GenerateTransactionInput(senderWallet, transaction.TransactionOutputs);
         }
 
         public bool IsValidTransaction(Transaction transaction)
         {
-            var transactionOutput = transaction.TransactionOutput;
+            var transactionOutputs = transaction.TransactionOutputs;
 
             var transactionInput = transaction.TransactionInput;
 
             decimal outputTotal = 0;
 
-            foreach (var output in transactionOutput.Output)
+            foreach (var output in transactionOutputs)
             {
                 outputTotal += output.Value;
             }
@@ -91,19 +88,15 @@ namespace blockchain_dotnet_core.API.Services
                 Address = null
             };
 
-            var output = new Dictionary<ECPublicKeyParameters, decimal>();
-
-            output.Add(minerWallet.PublicKey, Constants.MinerRewardAmmount);
-
-            var transactionOutput = new TransactionOutput
+            var transactionOutputs = new Dictionary<ECPublicKeyParameters, decimal>
             {
-                Output = output
+                { minerWallet.PublicKey, Constants.MinerRewardAmmount }
             };
 
             return new Transaction
             {
                 TransactionInput = transactionInput,
-                TransactionOutput = transactionOutput
+                TransactionOutputs = transactionOutputs
             };
         }
     }
