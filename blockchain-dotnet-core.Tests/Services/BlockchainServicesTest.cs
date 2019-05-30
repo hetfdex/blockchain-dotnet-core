@@ -107,7 +107,7 @@ namespace blockchain_dotnet_core.Tests.Services
 
             var difficulty = lastBlock.Difficulty - 2;
 
-            var hash = SHA256Util.ComputeSHA256(timestamp, lastHash, transactions, nonce, difficulty);
+            var hash = HashUtils.ComputeSHA256(timestamp, lastHash, transactions, nonce, difficulty);
 
             var fakeBlock = new Block
             {
@@ -139,7 +139,7 @@ namespace blockchain_dotnet_core.Tests.Services
 
             var difficulty = lastBlock.Difficulty;
 
-            var hash = SHA256Util.ComputeSHA256(timestamp, lastHash, transactions, nonce, difficulty);
+            var hash = HashUtils.ComputeSHA256(timestamp, lastHash, transactions, nonce, difficulty);
 
             var blockOne = new Block
             {
@@ -161,7 +161,7 @@ namespace blockchain_dotnet_core.Tests.Services
 
             difficulty = blockOne.Difficulty;
 
-            hash = SHA256Util.ComputeSHA256(timestamp, lastHash, transactions, nonce, difficulty);
+            hash = HashUtils.ComputeSHA256(timestamp, lastHash, transactions, nonce, difficulty);
 
             var blockTwo = new Block
             {
@@ -183,7 +183,7 @@ namespace blockchain_dotnet_core.Tests.Services
 
             difficulty = blockTwo.Difficulty;
 
-            hash = SHA256Util.ComputeSHA256(timestamp, lastHash, transactions, nonce, difficulty);
+            hash = HashUtils.ComputeSHA256(timestamp, lastHash, transactions, nonce, difficulty);
 
             var blockThree = new Block
             {
@@ -219,7 +219,7 @@ namespace blockchain_dotnet_core.Tests.Services
 
             var difficulty = lastBlock.Difficulty;
 
-            var hash = SHA256Util.ComputeSHA256(timestamp, lastHash, transactions, nonce, difficulty);
+            var hash = HashUtils.ComputeSHA256(timestamp, lastHash, transactions, nonce, difficulty);
 
             var blockOne = new Block
             {
@@ -241,7 +241,7 @@ namespace blockchain_dotnet_core.Tests.Services
 
             difficulty = blockOne.Difficulty;
 
-            hash = SHA256Util.ComputeSHA256(timestamp, lastHash, transactions, nonce, difficulty);
+            hash = HashUtils.ComputeSHA256(timestamp, lastHash, transactions, nonce, difficulty);
 
             var blockTwo = new Block
             {
@@ -263,7 +263,7 @@ namespace blockchain_dotnet_core.Tests.Services
 
             difficulty = blockTwo.Difficulty;
 
-            hash = SHA256Util.ComputeSHA256(timestamp, lastHash, transactions, nonce, difficulty);
+            hash = HashUtils.ComputeSHA256(timestamp, lastHash, transactions, nonce, difficulty);
 
             var blockThree = new Block
             {

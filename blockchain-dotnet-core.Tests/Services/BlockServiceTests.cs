@@ -14,7 +14,7 @@ namespace blockchain_dotnet_core.Tests.Services
 
         private readonly long _timestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
 
-        private readonly string _lastHash = SHA256Util.ComputeSHA256("test-lasthash");
+        private readonly string _lastHash = HashUtils.ComputeSHA256("test-lasthash");
 
         private const List<Transaction> Transactions = null;
 
@@ -22,7 +22,7 @@ namespace blockchain_dotnet_core.Tests.Services
 
         private readonly int _difficulty = Constants.InitialDifficulty;
 
-        private string Hash => SHA256Util.ComputeSHA256(_timestamp, _lastHash, Transactions,
+        private string Hash => HashUtils.ComputeSHA256(_timestamp, _lastHash, Transactions,
             Nonce, _difficulty);
 
         private Block _block;
@@ -60,7 +60,7 @@ namespace blockchain_dotnet_core.Tests.Services
         {
             var expectedTimestamp = 0L;
 
-            var expectedLastHash = SHA256Util.ComputeSHA256("genesis-lasthash");
+            var expectedLastHash = HashUtils.ComputeSHA256("genesis-lasthash");
 
             var expectedTransactions = new List<Transaction>();
 
@@ -68,7 +68,7 @@ namespace blockchain_dotnet_core.Tests.Services
 
             var expectedDifficulty = Constants.InitialDifficulty;
 
-            var expectedHash = SHA256Util.ComputeSHA256(expectedTimestamp, expectedLastHash, expectedTransactions,
+            var expectedHash = HashUtils.ComputeSHA256(expectedTimestamp, expectedLastHash, expectedTransactions,
                 expectedNonce, expectedDifficulty);
 
             var genesisBlock = _blockService.GetGenesisBlock();
@@ -94,7 +94,7 @@ namespace blockchain_dotnet_core.Tests.Services
 
             var minedBlock = _blockService.MineBlock(lastBlock, transactions);
 
-            var expectedHash = SHA256Util.ComputeSHA256(minedBlock.Timestamp, lastBlock.Hash, transactions, minedBlock.Nonce, minedBlock.Difficulty);
+            var expectedHash = HashUtils.ComputeSHA256(minedBlock.Timestamp, lastBlock.Hash, transactions, minedBlock.Nonce, minedBlock.Difficulty);
 
             var expectedLeadingZeros = new string('0', minedBlock.Difficulty);
 

@@ -6,7 +6,7 @@
 
         public const int MineRate = 2;
 
-        public const int StartBalance = 1000;
+        public const decimal StartBalance = 1000;
 
         public const int MinerRewardAmmount = 50;
     }

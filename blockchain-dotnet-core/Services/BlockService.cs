@@ -27,7 +27,7 @@ namespace blockchain_dotnet_core.API.Services
 
                 difficulty = AdjustDifficulty(lastBlock, timestamp);
 
-                hash = SHA256Util.ComputeSHA256(timestamp, lastHash, transactions, nonce, difficulty);
+                hash = HashUtils.ComputeSHA256(timestamp, lastHash, transactions, nonce, difficulty);
             } while (hash.Substring(0, difficulty) != GetLeadingZeros(difficulty));
 
             return new Block
@@ -46,13 +46,13 @@ namespace blockchain_dotnet_core.API.Services
             var genesisBlock = new Block
             {
                 Timestamp = 0L,
-                LastHash = SHA256Util.ComputeSHA256("genesis-lasthash"),
+                LastHash = HashUtils.ComputeSHA256("genesis-lasthash"),
                 Transactions = new List<Transaction>(),
                 Nonce = 0,
                 Difficulty = Constants.InitialDifficulty
             };
 
-            genesisBlock.Hash = SHA256Util.ComputeSHA256(genesisBlock);
+            genesisBlock.Hash = HashUtils.ComputeSHA256(genesisBlock);
 
             return genesisBlock;
         }

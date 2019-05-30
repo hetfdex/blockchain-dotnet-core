@@ -20,7 +20,7 @@ namespace blockchain_dotnet_core.API.Models
 
         public override string ToString()
         {
-            return string.IsNullOrEmpty(Hash) ? SHA256Util.ComputeSHA256(this) : Hash;
+            return string.IsNullOrEmpty(Hash) ? HashUtils.ComputeSHA256(this) : Hash;
         }
 
         public override int GetHashCode() => HashCode.Combine(Timestamp, LastHash, Hash, Transactions, Nonce, Difficulty);

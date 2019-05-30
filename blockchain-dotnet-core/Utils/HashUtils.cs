@@ -5,7 +5,7 @@ using System.Text;
 
 namespace blockchain_dotnet_core.API.Utils
 {
-    public static class SHA256Util
+    public static class HashUtils
     {
         public static string ComputeSHA256(Block block)
         {
@@ -27,20 +27,8 @@ namespace blockchain_dotnet_core.API.Utils
             {
                 var hash = sha256.ComputeHash(Encoding.Default.GetBytes(toHash));
 
-                return ToHex(hash);
+                return HexUtils.ToHex(hash);
             }
-        }
-
-        private static string ToHex(byte[] bytes)
-        {
-            StringBuilder result = new StringBuilder(bytes.Length * 2);
-
-            foreach (var b in bytes)
-            {
-                result.Append(b.ToString("x2"));
-            }
-
-            return result.ToString();
         }
     }
 }

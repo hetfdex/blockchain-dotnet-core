@@ -12,7 +12,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         {
             var expectedResult = "5aa9f91f2c781d70f4201aff39ea9026a5566a28515825d5164979d46831c5e0";
 
-            var result = SHA256Util.ComputeSHA256("hetfdex");
+            var result = HashUtils.ComputeSHA256("hetfdex");
 
             Assert.IsNotNull(result);
             Assert.AreEqual(expectedResult, result);
@@ -23,11 +23,11 @@ namespace blockchain_dotnet_core.Tests.Utils
         {
             var block = new Block();
 
-            var blockHash = SHA256Util.ComputeSHA256(block);
+            var blockHash = HashUtils.ComputeSHA256(block);
 
             block.LastHash = "fake-lastHash";
 
-            var modifiedBlockHash = SHA256Util.ComputeSHA256(block);
+            var modifiedBlockHash = HashUtils.ComputeSHA256(block);
 
             Assert.IsNotNull(blockHash);
             Assert.IsNotNull(modifiedBlockHash);

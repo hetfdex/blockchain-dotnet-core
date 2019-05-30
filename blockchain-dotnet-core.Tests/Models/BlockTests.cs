@@ -11,7 +11,7 @@ namespace blockchain_dotnet_core.Tests.Models
     {
         private readonly long _timestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
 
-        private readonly string _lastHash = SHA256Util.ComputeSHA256("test-lasthash");
+        private readonly string _lastHash = HashUtils.ComputeSHA256("test-lasthash");
 
         private const List<Transaction> Transactions = null;
 
@@ -19,7 +19,7 @@ namespace blockchain_dotnet_core.Tests.Models
 
         private readonly int _difficulty = Constants.InitialDifficulty;
 
-        private string Hash => SHA256Util.ComputeSHA256(_timestamp, _lastHash, Transactions,
+        private string Hash => HashUtils.ComputeSHA256(_timestamp, _lastHash, Transactions,
             Nonce, _difficulty);
 
         private Block _block;
