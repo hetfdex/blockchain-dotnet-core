@@ -1,4 +1,5 @@
-﻿using blockchain_dotnet_core.API.Models;
+﻿using System.Collections.Generic;
+using blockchain_dotnet_core.API.Models;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -8,14 +9,14 @@ namespace blockchain_dotnet_core.API.Utils
     {
         public static string ComputeSHA256(Block block)
         {
-            var toHash = block.Timestamp + block.LastHash + block.Data + block.Nonce + block.Difficulty;
+            var toHash = block.Timestamp + block.LastHash + block.Transactions + block.Nonce + block.Difficulty;
 
             return ComputeSHA256(toHash);
         }
 
-        public static string ComputeSHA256(long timestamp, string lastHash, string data, int nonce, int difficulty)
+        public static string ComputeSHA256(long timestamp, string lastHash, List<Transaction> transactions, int nonce, int difficulty)
         {
-            var toHash = timestamp + lastHash + data + nonce + difficulty;
+            var toHash = timestamp + lastHash + transactions + nonce + difficulty;
 
             return ComputeSHA256(toHash);
         }

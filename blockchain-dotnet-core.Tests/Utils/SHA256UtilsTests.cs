@@ -1,4 +1,5 @@
-﻿using blockchain_dotnet_core.API.Models;
+﻿using System.Collections.Generic;
+using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -25,7 +26,7 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             var blockHash = SHA256Util.ComputeSHA256(block);
 
-            block.Data = "hetfdex";
+            block.LastHash = "fake-lastHash";
 
             var modifiedBlockHash = SHA256Util.ComputeSHA256(block);
 

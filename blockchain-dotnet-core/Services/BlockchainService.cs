@@ -16,11 +16,11 @@ namespace blockchain_dotnet_core.API.Services
             _blockService = blockService;
         }
 
-        public void AddBlock(string data)
+        public void AddBlock(List<Transaction> transactions)
         {
             var lastBlock = Blockchain[Blockchain.Count - 1];
 
-            var block = _blockService.MineBlock(lastBlock, data);
+            var block = _blockService.MineBlock(lastBlock, transactions);
 
             Blockchain.Add(block);
         }
@@ -67,7 +67,7 @@ namespace blockchain_dotnet_core.API.Services
                     return false;
                 }
 
-                var validHash = SHA256Util.ComputeSHA256(block.Timestamp, block.LastHash, block.Data, block.Nonce,
+                var validHash = SHA256Util.ComputeSHA256(block.Timestamp, block.LastHash, block.Transactions, block.Nonce,
                     block.Difficulty);
 
                 if (block.Hash != validHash)

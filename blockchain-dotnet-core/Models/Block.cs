@@ -1,5 +1,6 @@
 ﻿using blockchain_dotnet_core.API.Utils;
 using System;
+using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.API.Models
 {
@@ -11,7 +12,7 @@ namespace blockchain_dotnet_core.API.Models
 
         public string Hash { get; set; }
 
-        public string Data { get; set; }
+        public List<Transaction> Transactions { get; set; }
 
         public int Nonce { get; set; }
 
@@ -22,7 +23,7 @@ namespace blockchain_dotnet_core.API.Models
             return string.IsNullOrEmpty(Hash) ? SHA256Util.ComputeSHA256(this) : Hash;
         }
 
-        public override int GetHashCode() => HashCode.Combine(Timestamp, LastHash, Hash, Data, Nonce, Difficulty);
+        public override int GetHashCode() => HashCode.Combine(Timestamp, LastHash, Hash, Transactions, Nonce, Difficulty);
 
         public override bool Equals(object obj)
         {
@@ -42,7 +43,7 @@ namespace blockchain_dotnet_core.API.Models
         public bool Equals(Block other)
         {
             return Timestamp == other.Timestamp && string.Equals(LastHash, other.LastHash) &&
-                   string.Equals(Hash, other.Hash) && string.Equals(Data, other.Data) && Nonce == other.Nonce &&
+                   string.Equals(Hash, other.Hash) && Equals(Transactions, other.Transactions) && Nonce == other.Nonce &&
                    Difficulty == other.Difficulty;
         }
     }

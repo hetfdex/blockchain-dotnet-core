@@ -1,12 +1,13 @@
 ﻿using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
 using System;
+using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.API.Services
 {
     public class BlockService : IBlockService
     {
-        public Block MineBlock(Block lastBlock, string data)
+        public Block MineBlock(Block lastBlock, List<Transaction> transactions)
         {
             long timestamp;
 
@@ -26,7 +27,7 @@ namespace blockchain_dotnet_core.API.Services
 
                 difficulty = AdjustDifficulty(lastBlock, timestamp);
 
-                hash = SHA256Util.ComputeSHA256(timestamp, lastHash, data, nonce, difficulty);
+                hash = SHA256Util.ComputeSHA256(timestamp, lastHash, transactions, nonce, difficulty);
             } while (hash.Substring(0, difficulty) != GetLeadingZeros(difficulty));
 
             return new Block
@@ -34,7 +35,7 @@ namespace blockchain_dotnet_core.API.Services
                 Timestamp = timestamp,
                 LastHash = lastHash,
                 Hash = hash,
-                Data = data,
+                Transactions = transactions,
                 Nonce = nonce,
                 Difficulty = difficulty
             };
@@ -46,7 +47,7 @@ namespace blockchain_dotnet_core.API.Services
             {
                 Timestamp = GetTimestamp(),
                 LastHash = SHA256Util.ComputeSHA256("genesis-lasthash"),
-                Data = "genesis-data",
+                Transactions = new List<Transaction>(),
                 Nonce = 0,
                 Difficulty = Constants.InitialDifficulty
             };

@@ -5,7 +5,7 @@ namespace blockchain_dotnet_core.API.Services
 {
     public interface IBlockchainService
     {
-        void AddBlock(string data);
+        void AddBlock(List<Transaction> transactions);
 
         void ReplaceChain(List<Block> otherBlockchain, bool validateTransactionData);
 

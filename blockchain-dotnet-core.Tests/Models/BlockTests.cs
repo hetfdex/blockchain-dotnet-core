@@ -2,6 +2,7 @@
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.Tests.Models
 {
@@ -12,13 +13,13 @@ namespace blockchain_dotnet_core.Tests.Models
 
         private readonly string _lastHash = SHA256Util.ComputeSHA256("test-lasthash");
 
-        private const string Data = "test-data";
+        private const List<Transaction> Transactions = null;
 
         private const int Nonce = 0;
 
         private readonly int _difficulty = Constants.InitialDifficulty;
 
-        private string Hash => SHA256Util.ComputeSHA256(_timestamp, _lastHash, Data,
+        private string Hash => SHA256Util.ComputeSHA256(_timestamp, _lastHash, Transactions,
             Nonce, _difficulty);
 
         private Block _block;
@@ -31,7 +32,7 @@ namespace blockchain_dotnet_core.Tests.Models
                 Timestamp = _timestamp,
                 LastHash = _lastHash,
                 Hash = Hash,
-                Data = Data,
+                Transactions = Transactions,
                 Nonce = Nonce,
                 Difficulty = _difficulty
             };
@@ -76,7 +77,7 @@ namespace blockchain_dotnet_core.Tests.Models
                 Timestamp = 0L,
                 LastHash = "fake-lasHash",
                 Hash = "fake-Hash",
-                Data = "fake-Data",
+                Transactions = new List<Transaction>(),
                 Nonce = -1,
                 Difficulty = -1
             };
@@ -122,7 +123,7 @@ namespace blockchain_dotnet_core.Tests.Models
                 Timestamp = 0L,
                 LastHash = "fake-lasHash",
                 Hash = "fake-Hash",
-                Data = "fake-Data",
+                Transactions = new List<Transaction>(),
                 Nonce = -1,
                 Difficulty = -1
             };

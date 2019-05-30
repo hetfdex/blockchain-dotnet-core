@@ -3,6 +3,7 @@ using blockchain_dotnet_core.API.Services;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.Tests.Services
 {
@@ -15,13 +16,13 @@ namespace blockchain_dotnet_core.Tests.Services
 
         private readonly string _lastHash = SHA256Util.ComputeSHA256("test-lasthash");
 
-        private const string Data = "test-data";
+        private const List<Transaction> Transactions = null; 
 
         private const int Nonce = 0;
 
         private readonly int _difficulty = Constants.InitialDifficulty;
 
-        private string Hash => SHA256Util.ComputeSHA256(_timestamp, _lastHash, Data,
+        private string Hash => SHA256Util.ComputeSHA256(_timestamp, _lastHash, Transactions,
             Nonce, _difficulty);
 
         private Block _block;
@@ -36,7 +37,7 @@ namespace blockchain_dotnet_core.Tests.Services
                 Timestamp = _timestamp,
                 LastHash = _lastHash,
                 Hash = Hash,
-                Data = Data,
+                Transactions = Transactions,
                 Nonce = Nonce,
                 Difficulty = _difficulty
             };
@@ -49,7 +50,7 @@ namespace blockchain_dotnet_core.Tests.Services
             Assert.AreEqual(_timestamp, _block.Timestamp);
             Assert.AreEqual(_lastHash, _block.LastHash);
             Assert.AreEqual(Hash, _block.Hash);
-            Assert.AreEqual(Data, _block.Data);
+            Assert.AreEqual(Transactions, _block.Transactions);
             Assert.AreEqual(Nonce, _block.Nonce);
             Assert.AreEqual(_difficulty, _block.Difficulty);
         }
@@ -61,13 +62,13 @@ namespace blockchain_dotnet_core.Tests.Services
 
             var expectedLastHash = SHA256Util.ComputeSHA256("genesis-lasthash");
 
-            var expectedData = "genesis-data";
+            var expectedTransactions = new List<Transaction>();
 
             var expectedNonce = 0;
 
             var expectedDifficulty = Constants.InitialDifficulty;
 
-            var expectedHash = SHA256Util.ComputeSHA256(expectedTimestamp, expectedLastHash, expectedData,
+            var expectedHash = SHA256Util.ComputeSHA256(expectedTimestamp, expectedLastHash, expectedTransactions,
                 expectedNonce, expectedDifficulty);
 
             var genesisBlock = _blockService.GetGenesisBlock();
@@ -77,7 +78,9 @@ namespace blockchain_dotnet_core.Tests.Services
             Assert.AreEqual(expectedTimestamp, genesisBlock.Timestamp);
             Assert.AreEqual(expectedLastHash, genesisBlock.LastHash);
             Assert.AreEqual(expectedHash, genesisBlock.Hash);
-            Assert.AreEqual(expectedData, genesisBlock.Data);
+            Assert.IsInstanceOfType(genesisBlock.Transactions, typeof(List<Transaction>));
+            Assert.IsNotNull(genesisBlock.Transactions);
+            Assert.AreEqual(0, genesisBlock.Transactions.Count);
             Assert.AreEqual(expectedNonce, genesisBlock.Nonce);
             Assert.AreEqual(expectedDifficulty, genesisBlock.Difficulty);
         }
@@ -87,11 +90,11 @@ namespace blockchain_dotnet_core.Tests.Services
         {
             var lastBlock = _blockService.GetGenesisBlock();
 
-            var data = string.Empty;
+            var transactions = new List<Transaction>();
 
-            var minedBlock = _blockService.MineBlock(lastBlock, data);
+            var minedBlock = _blockService.MineBlock(lastBlock, transactions);
 
-            var expectedHash = SHA256Util.ComputeSHA256(minedBlock.Timestamp, lastBlock.Hash, data, minedBlock.Nonce, minedBlock.Difficulty);
+            var expectedHash = SHA256Util.ComputeSHA256(minedBlock.Timestamp, lastBlock.Hash, transactions, minedBlock.Nonce, minedBlock.Difficulty);
 
             var expectedLeadingZeros = new string('0', minedBlock.Difficulty);
 
@@ -101,7 +104,7 @@ namespace blockchain_dotnet_core.Tests.Services
             Assert.AreEqual(lastBlock.Hash, minedBlock.LastHash);
             Assert.AreEqual(expectedHash, minedBlock.Hash);
             Assert.AreEqual(expectedLeadingZeros, minedBlock.Hash.Substring(0, minedBlock.Difficulty));
-            Assert.AreEqual(data, minedBlock.Data);
+            Assert.AreEqual(transactions, minedBlock.Transactions);
         }
 
         [TestMethod]
