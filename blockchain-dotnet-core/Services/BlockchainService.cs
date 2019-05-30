@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using blockchain_dotnet_core.API.Models;
+﻿using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
+using System;
+using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.API.Services
 {

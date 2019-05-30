@@ -1,5 +1,5 @@
-﻿using System;
-using blockchain_dotnet_core.API.Utils;
+﻿using blockchain_dotnet_core.API.Utils;
+using System;
 
 namespace blockchain_dotnet_core.API.Models
 {
@@ -26,22 +26,17 @@ namespace blockchain_dotnet_core.API.Models
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-
             if (obj == null)
             {
                 return false;
             }
 
-            if (GetHashCode() != obj.GetHashCode())
+            if (!(obj is Block))
             {
                 return false;
             }
 
-            return obj.GetType() == GetType() && Equals((Block) obj);
+            return Equals((Block)obj);
         }
 
         public bool Equals(Block other)
