@@ -73,7 +73,7 @@ namespace blockchain_dotnet_core.API.Services
                 return false;
             }
 
-            if (!KeyPairUtils.VerifySignature(transactionInput.Address, transaction, transactionInput.Signature))
+            if (!KeyPairUtils.VerifySignature(transactionInput.Address, transaction.TransactionOutputs, transactionInput.Signature))
             {
                 return false;
             }

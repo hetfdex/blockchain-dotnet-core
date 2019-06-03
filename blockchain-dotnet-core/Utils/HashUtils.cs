@@ -27,7 +27,7 @@ namespace blockchain_dotnet_core.API.Utils
             {
                 var hash = sha256.ComputeHash(Encoding.Default.GetBytes(toHash));
 
-                return HexUtils.ToHex(hash);
+                return HexUtils.BytesToString(hash);
             }
         }
     }

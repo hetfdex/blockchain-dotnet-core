@@ -1,5 +1,4 @@
-﻿using blockchain_dotnet_core.API.Models;
-using Org.BouncyCastle.Asn1.X9;
+﻿using Org.BouncyCastle.Asn1.X9;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
@@ -34,22 +33,22 @@ namespace blockchain_dotnet_core.API.Utils
 
             signer.Init(true, ecPrivateKeyParameters);
 
-            signer.BlockUpdate(Encoding.ASCII.GetBytes(transactionOutputs.ToString()), 0, transactionOutputs.ToString().Length);
+            signer.BlockUpdate(Encoding.Default.GetBytes(transactionOutputs.ToString()), 0, transactionOutputs.ToString().Length);
 
             var result = signer.GenerateSignature();
 
-            return HexUtils.ToHex(result);
+            return HexUtils.BytesToString(result);
         }
 
-        public static bool VerifySignature(ECPublicKeyParameters publicKey, Transaction transaction, string signature)
+        public static bool VerifySignature(ECPublicKeyParameters publicKey, Dictionary<ECPublicKeyParameters, decimal> transactionOutputs, string signature)
         {
             ISigner signer = SignerUtilities.GetSigner("SHA-256withECDSA");
 
             signer.Init(false, publicKey);
 
-            signer.BlockUpdate(Encoding.ASCII.GetBytes(transaction.ToString()), 0, transaction.ToString().Length);
+            signer.BlockUpdate(Encoding.Default.GetBytes(transactionOutputs.ToString()), 0, transactionOutputs.ToString().Length);
 
-            var signatureBytes = HexUtils.FromHex(signature);
+            var signatureBytes = HexUtils.StringToBytes(signature);
 
             return signer.VerifySignature(signatureBytes);
         }
