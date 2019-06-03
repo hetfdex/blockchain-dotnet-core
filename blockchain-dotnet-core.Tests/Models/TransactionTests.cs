@@ -24,7 +24,7 @@ namespace blockchain_dotnet_core.Tests.Models
 
             _transactionInput = new TransactionInput
             {
-                Timestamp = TimestampUtils.GetTimestamp(),
+                Timestamp = TimestampUtils.GenerateTimestamp(),
                 Address = keyPair.Public as ECPublicKeyParameters,
                 Amount = 0,
                 Signature = "test-signature"

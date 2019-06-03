@@ -11,7 +11,7 @@ namespace blockchain_dotnet_core.Tests.Services
     {
         private IBlockService _blockService;
 
-        private readonly long _timestamp = TimestampUtils.GetTimestamp();
+        private readonly long _timestamp = TimestampUtils.GenerateTimestamp();
 
         private readonly string _lastHash = HashUtils.ComputeSHA256("test-lasthash");
 

@@ -15,7 +15,7 @@ namespace blockchain_dotnet_core.Tests.Models
         {
             _block = new Block
             {
-                Timestamp = TimestampUtils.GetTimestamp(),
+                Timestamp = TimestampUtils.GenerateTimestamp(),
                 LastHash = HashUtils.ComputeSHA256("test-lastHash"),
                 Transactions = new List<Transaction>(),
                 Nonce = 0,

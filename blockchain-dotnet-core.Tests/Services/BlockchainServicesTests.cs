@@ -96,7 +96,7 @@ namespace blockchain_dotnet_core.Tests.Services
         {
             var lastBlock = _blockchainService.Blockchain[_blockchainService.Blockchain.Count - 1];
 
-            var timestamp = TimestampUtils.GetTimestamp();
+            var timestamp = TimestampUtils.GenerateTimestamp();
 
             var lastHash = lastBlock.Hash;
 
@@ -128,7 +128,7 @@ namespace blockchain_dotnet_core.Tests.Services
         {
             var lastBlock = _replacementBlockchain[_replacementBlockchain.Count - 1];
 
-            var timestamp = TimestampUtils.GetTimestamp();
+            var timestamp = TimestampUtils.GenerateTimestamp();
 
             var lastHash = lastBlock.Hash;
 
@@ -150,7 +150,7 @@ namespace blockchain_dotnet_core.Tests.Services
                 Difficulty = difficulty
             };
 
-            timestamp = TimestampUtils.GetTimestamp();
+            timestamp = TimestampUtils.GenerateTimestamp();
 
             lastHash = blockOne.Hash;
 
@@ -172,7 +172,7 @@ namespace blockchain_dotnet_core.Tests.Services
                 Difficulty = difficulty
             };
 
-            timestamp = TimestampUtils.GetTimestamp();
+            timestamp = TimestampUtils.GenerateTimestamp();
 
             lastHash = blockTwo.Hash;
 
@@ -208,7 +208,7 @@ namespace blockchain_dotnet_core.Tests.Services
         {
             var lastBlock = _replacementBlockchain[_replacementBlockchain.Count - 1];
 
-            var timestamp = TimestampUtils.GetTimestamp();
+            var timestamp = TimestampUtils.GenerateTimestamp();
 
             var lastHash = lastBlock.Hash;
 
@@ -230,7 +230,7 @@ namespace blockchain_dotnet_core.Tests.Services
                 Difficulty = difficulty
             };
 
-            timestamp = TimestampUtils.GetTimestamp();
+            timestamp = TimestampUtils.GenerateTimestamp();
 
             lastHash = blockOne.Hash;
 
@@ -252,7 +252,7 @@ namespace blockchain_dotnet_core.Tests.Services
                 Difficulty = difficulty
             };
 
-            timestamp = TimestampUtils.GetTimestamp();
+            timestamp = TimestampUtils.GenerateTimestamp();
 
             lastHash = blockTwo.Hash;
 

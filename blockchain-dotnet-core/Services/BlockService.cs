@@ -22,7 +22,7 @@ namespace blockchain_dotnet_core.API.Services
             {
                 nonce++;
 
-                timestamp = TimestampUtils.GetTimestamp();
+                timestamp = TimestampUtils.GenerateTimestamp();
 
                 difficulty = AdjustDifficulty(lastBlock, timestamp);
 

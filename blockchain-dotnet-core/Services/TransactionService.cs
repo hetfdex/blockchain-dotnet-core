@@ -27,7 +27,7 @@ namespace blockchain_dotnet_core.API.Services
         {
             return new TransactionInput
             {
-                Timestamp = TimestampUtils.GetTimestamp(),
+                Timestamp = TimestampUtils.GenerateTimestamp(),
                 Address = senderWallet.PublicKey,
                 Amount = senderWallet.Balance,
                 Signature = _walletService.Sign(transactionOutputs)
