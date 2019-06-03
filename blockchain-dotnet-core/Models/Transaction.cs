@@ -20,7 +20,7 @@ namespace blockchain_dotnet_core.API.Models
 
         public override string ToString()
         {
-            return Id.ToString();
+            return Id + Sender.ToString() + Recipient + Amount + TransactionOutputs + TransactionInput;
         }
 
         public override int GetHashCode() =>

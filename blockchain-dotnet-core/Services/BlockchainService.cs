@@ -90,7 +90,7 @@ namespace blockchain_dotnet_core.API.Services
 
         public bool IsValidTransactionData(List<Block> blockchain)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

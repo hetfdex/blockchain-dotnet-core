@@ -14,7 +14,7 @@ namespace blockchain_dotnet_core.API.Models
 
         public override string ToString()
         {
-            return Balance + KeyPair.ToString() + PublicKey.ToString();
+            return Balance + KeyPair.ToString() + PublicKey;
         }
 
         public override int GetHashCode() =>

@@ -8,70 +8,58 @@ namespace blockchain_dotnet_core.Tests.Models
     [TestClass]
     public class BlockTests
     {
-        private readonly long _timestamp = TimestampUtils.GetTimestamp();
-
-        private readonly string _lastHash = HashUtils.ComputeSHA256("test-lasthash");
-
-        private const List<Transaction> Transactions = null;
-
-        private const int Nonce = 0;
-
-        private readonly int _difficulty = Constants.InitialDifficulty;
-
-        private string Hash => HashUtils.ComputeSHA256(_timestamp, _lastHash, Transactions,
-            Nonce, _difficulty);
-
         private Block _block;
 
         [TestInitialize]
-        public void BlockServiceTestsSetup()
+        public void BlockTestsSetup()
         {
-            _block = new Block()
+            _block = new Block
             {
-                Timestamp = _timestamp,
-                LastHash = _lastHash,
-                Hash = Hash,
-                Transactions = Transactions,
-                Nonce = Nonce,
-                Difficulty = _difficulty
+                Timestamp = TimestampUtils.GetTimestamp(),
+                LastHash = HashUtils.ComputeSHA256("test-lastHash"),
+                Transactions = new List<Transaction>(),
+                Nonce = 0,
+                Difficulty = Constants.InitialDifficulty
             };
+
+            _block.Hash = HashUtils.ComputeSHA256(_block);
         }
 
         [TestMethod]
-        public void BlockWithHash_ToString_ReturnsHash()
+        public void BlockWithHashToStringReturnsHash()
         {
             var result = _block.ToString();
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(result, _block.Hash);
+            Assert.AreEqual(_block.Hash, result);
         }
 
         [TestMethod]
-        public void BlockNoHash_ToString_ReturnsHash()
+        public void BlockWithoutHashToStringReturnsHash()
         {
-            var expectedHash = Hash;
+            var expectedResult = HashUtils.ComputeSHA256(_block);
 
             _block.Hash = null;
 
             var result = _block.ToString();
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(result, expectedHash);
+            Assert.AreEqual(expectedResult, result);
         }
 
         [TestMethod]
         public void BlocksAreEqual()
         {
-            var sameBlockObject = (object)_block;
+            var sameObject = (object)_block;
 
-            Assert.IsNotNull(sameBlockObject);
-            Assert.IsTrue(_block.Equals(sameBlockObject));
+            Assert.IsNotNull(sameObject);
+            Assert.IsTrue(_block.Equals(sameObject));
         }
 
         [TestMethod]
         public void BlocksAreNotEqualDifferentProperties()
         {
-            var differentBlock = new Block()
+            var differentBlock = new Block
             {
                 Timestamp = 0L,
                 LastHash = "fake-lasHash",
@@ -81,28 +69,28 @@ namespace blockchain_dotnet_core.Tests.Models
                 Difficulty = -1
             };
 
-            var differentBlockObject = (object)differentBlock;
+            var differentObject = (object)differentBlock;
 
-            Assert.IsNotNull(differentBlockObject);
-            Assert.IsFalse(_block.Equals(differentBlockObject));
+            Assert.IsNotNull(differentObject);
+            Assert.IsFalse(_block.Equals(differentObject));
         }
 
         [TestMethod]
         public void BlockAndObjectAreNotEqual()
         {
-            var differentBlockObject = new object();
+            var differentObject = new object();
 
-            Assert.IsNotNull(differentBlockObject);
-            Assert.IsFalse(_block.Equals(differentBlockObject));
+            Assert.IsNotNull(differentObject);
+            Assert.IsFalse(_block.Equals(differentObject));
         }
 
         [TestMethod]
         public void BlockAndNullAreNotEqual()
         {
-            object differentBlock = null;
+            object differentObject = null;
 
-            Assert.IsNull(differentBlock);
-            Assert.IsFalse(_block.Equals(differentBlock));
+            Assert.IsNull(differentObject);
+            Assert.IsFalse(_block.Equals(differentObject));
         }
 
         [TestMethod]
@@ -117,7 +105,7 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void BlocksDoNotHaveSameHashCode()
         {
-            var differentBlock = new Block()
+            var differentBlock = new Block
             {
                 Timestamp = 0L,
                 LastHash = "fake-lasHash",
