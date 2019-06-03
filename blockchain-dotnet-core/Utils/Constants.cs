@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using blockchain_dotnet_core.API.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace blockchain_dotnet_core.API.Utils
 {
@@ -11,6 +12,14 @@ namespace blockchain_dotnet_core.API.Utils
 
         public const decimal StartBalance = 1000;
 
-        public const decimal MinerRewardAmmount = 50;
+        public const decimal MinerRewardAmount = 50;
+
+        public static readonly TransactionInput MinerTransactionInput = new TransactionInput
+        {
+            Timestamp = TimestampUtils.GenerateTimestamp(),
+            Address = null,
+            Amount = -1,
+            Signature = "miner-reward"
+        };
     }
 }

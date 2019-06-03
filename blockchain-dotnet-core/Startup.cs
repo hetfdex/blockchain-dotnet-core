@@ -1,5 +1,4 @@
-﻿using blockchain_dotnet_core.API.Services;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -21,11 +20,6 @@ namespace blockchain_dotnet_core.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            services.AddTransient<IBlockService, BlockService>();
-            services.AddTransient<IBlockchainService, BlockchainService>();
-            services.AddTransient<IWalletService, WalletService>();
-            services.AddTransient<ITransactionService, TransactionService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

@@ -2,11 +2,11 @@
 using blockchain_dotnet_core.API.Utils;
 using System.Collections.Generic;
 
-namespace blockchain_dotnet_core.API.Services
+namespace blockchain_dotnet_core.API.Extensions
 {
-    public class BlockService : IBlockService
+    public static class BlockExtensions
     {
-        public Block MineBlock(Block lastBlock, List<Transaction> transactions)
+        public static Block MineBlock(Block lastBlock, List<Transaction> transactions)
         {
             long timestamp;
 
@@ -40,7 +40,7 @@ namespace blockchain_dotnet_core.API.Services
             };
         }
 
-        public Block GetGenesisBlock()
+        public static Block GetGenesisBlock()
         {
             var genesisBlock = new Block
             {
@@ -56,7 +56,7 @@ namespace blockchain_dotnet_core.API.Services
             return genesisBlock;
         }
 
-        public int AdjustDifficulty(Block lastBlock, long timestamp)
+        public static int AdjustDifficulty(Block lastBlock, long timestamp)
         {
             var difficulty = lastBlock.Difficulty;
 
@@ -73,6 +73,6 @@ namespace blockchain_dotnet_core.API.Services
             return difficulty + 1;
         }
 
-        private string GetLeadingZeros(int difficulty) => new string('0', difficulty);
+        private static string GetLeadingZeros(int difficulty) => new string('0', difficulty);
     }
 }

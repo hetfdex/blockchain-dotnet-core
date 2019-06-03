@@ -34,17 +34,7 @@ namespace blockchain_dotnet_core.Tests.Utils
 
         private bool IsEqual(DateTime? expectedDate, DateTime? actualDate, TimeSpan maximumDelta)
         {
-            if (expectedDate == null && actualDate == null)
-            {
-                return false;
-            }
-
-            if (expectedDate == null)
-            {
-                return false;
-            }
-
-            if (actualDate == null)
+            if (expectedDate == null || actualDate == null)
             {
                 return false;
             }

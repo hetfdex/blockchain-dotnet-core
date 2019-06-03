@@ -3,18 +3,11 @@ using blockchain_dotnet_core.API.Utils;
 using Org.BouncyCastle.Crypto.Parameters;
 using System.Collections.Generic;
 
-namespace blockchain_dotnet_core.API.Services
+namespace blockchain_dotnet_core.API.Extensions
 {
-    public class TransactionService : ITransactionService
+    public static class TransactionExtensions
     {
-        private readonly IWalletService _walletService;
-
-        public TransactionService(IWalletService walletService)
-        {
-            _walletService = walletService;
-        }
-
-        public Dictionary<ECPublicKeyParameters, decimal> GenerateTransactionOutput(Wallet senderWallet, ECPublicKeyParameters recipient,
+        public static Dictionary<ECPublicKeyParameters, decimal> GenerateTransactionOutput(Wallet senderWallet, ECPublicKeyParameters recipient,
             decimal amount)
         {
             return new Dictionary<ECPublicKeyParameters, decimal>
@@ -23,18 +16,20 @@ namespace blockchain_dotnet_core.API.Services
             };
         }
 
-        public TransactionInput GenerateTransactionInput(Wallet senderWallet, Dictionary<ECPublicKeyParameters, decimal> transactionOutputs)
+        public static TransactionInput GenerateTransactionInput(Wallet senderWallet, Dictionary<ECPublicKeyParameters, decimal> transactionOutputs)
         {
+            var privateKey = senderWallet.KeyPair.Private as ECPrivateKeyParameters;
+
             return new TransactionInput
             {
                 Timestamp = TimestampUtils.GenerateTimestamp(),
                 Address = senderWallet.PublicKey,
                 Amount = senderWallet.Balance,
-                Signature = _walletService.Sign(transactionOutputs)
+                Signature = Utils.KeyPairUtils.GenerateSignature(privateKey, transactionOutputs)
             };
         }
 
-        public void Update(Transaction transaction, Wallet senderWallet, ECPublicKeyParameters recipient, decimal amount)
+        public static void UpdateTransacions(this Transaction transaction, Wallet senderWallet, ECPublicKeyParameters recipient, decimal amount)
         {
             if (amount > transaction.TransactionOutputs[senderWallet.PublicKey])
             {
@@ -55,7 +50,7 @@ namespace blockchain_dotnet_core.API.Services
             transaction.TransactionInput = GenerateTransactionInput(senderWallet, transaction.TransactionOutputs);
         }
 
-        public bool IsValidTransaction(Transaction transaction)
+        public static bool IsValidTransaction(this Transaction transaction)
         {
             var transactionOutputs = transaction.TransactionOutputs;
 
@@ -81,21 +76,16 @@ namespace blockchain_dotnet_core.API.Services
             return true;
         }
 
-        public Transaction GetMinerRewardTransaction(Wallet minerWallet)
+        public static Transaction GetMinerRewardTransaction(Wallet minerWallet)
         {
-            var transactionInput = new TransactionInput
-            {
-                Address = null
-            };
-
             var transactionOutputs = new Dictionary<ECPublicKeyParameters, decimal>
             {
-                { minerWallet.PublicKey, Constants.MinerRewardAmmount }
+                { minerWallet.PublicKey, Constants.MinerRewardAmount }
             };
 
             return new Transaction
             {
-                TransactionInput = transactionInput,
+                TransactionInput = Constants.MinerTransactionInput,
                 TransactionOutputs = transactionOutputs
             };
         }
