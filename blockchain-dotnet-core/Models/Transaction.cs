@@ -8,44 +8,34 @@ namespace blockchain_dotnet_core.API.Models
     {
         public Guid Id { get; } = Guid.NewGuid();
 
-        public ECPublicKeyParameters Sender { get; set; }
-
-        public ECPublicKeyParameters Recipient { get; set; }
-
-        public decimal Amount { get; set; }
-
         public Dictionary<ECPublicKeyParameters, decimal> TransactionOutputs { get; set; }
 
         public TransactionInput TransactionInput { get; set; }
 
         public override string ToString()
         {
-            return Id + Sender.ToString() + Recipient + Amount + TransactionOutputs + TransactionInput;
+            return Id.ToString() + TransactionOutputs + TransactionInput;
         }
 
         public override int GetHashCode() =>
-            HashCode.Combine(Id, Sender, Recipient, Amount, TransactionOutputs, TransactionInput);
+            HashCode.Combine(Id, TransactionOutputs, TransactionInput);
 
         public override bool Equals(object obj)
         {
-            if (obj == null)
+            var transaction = obj as Transaction;
+
+            if (transaction == null)
             {
                 return false;
             }
 
-            if (!(obj is Transaction))
-            {
-                return false;
-            }
-
-            return Equals((Transaction)obj);
+            return Equals(transaction);
         }
 
         public bool Equals(Transaction other)
         {
-            return Id == other.Id && Sender.Equals(other.Sender) && Recipient.Equals(other.Recipient) &&
-                   Amount == other.Amount &&
-                   TransactionOutputs == other.TransactionOutputs && TransactionInput.Equals(other.TransactionInput);
+            return Id.Equals(other.Id) && TransactionOutputs == other.TransactionOutputs &&
+                   TransactionInput.Equals(other.TransactionInput);
         }
     }
 }

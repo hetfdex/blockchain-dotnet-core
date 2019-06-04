@@ -22,22 +22,19 @@ namespace blockchain_dotnet_core.API.Models
 
         public override bool Equals(object obj)
         {
-            if (obj == null)
+            var wallet = obj as Wallet;
+
+            if (wallet == null)
             {
                 return false;
             }
 
-            if (!(obj is Wallet))
-            {
-                return false;
-            }
-
-            return Equals((Wallet)obj);
+            return Equals(wallet);
         }
 
         public bool Equals(Wallet other)
         {
-            return Balance == other.Balance && KeyPair.Equals(other.KeyPair) && PublicKey.Equals(other.PublicKey);
+            return Balance.Equals(other.Balance) && KeyPair.Equals(other.KeyPair) && PublicKey.Equals(other.PublicKey);
         }
     }
 }

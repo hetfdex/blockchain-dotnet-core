@@ -73,10 +73,7 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void WalletAndNullAreNotEqual()
         {
-            object differentObject = null;
-
-            Assert.IsNull(differentObject);
-            Assert.IsFalse(_wallet.Equals(differentObject));
+            Assert.IsFalse(_wallet.Equals((object)null));
         }
 
         [TestMethod]

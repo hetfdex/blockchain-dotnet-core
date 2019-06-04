@@ -23,23 +23,20 @@ namespace blockchain_dotnet_core.API.Models
 
         public override bool Equals(object obj)
         {
-            if (obj == null)
+            var transactionInput = obj as TransactionInput;
+
+            if (transactionInput == null)
             {
                 return false;
             }
 
-            if (!(obj is TransactionInput))
-            {
-                return false;
-            }
-
-            return Equals((TransactionInput)obj);
+            return Equals(transactionInput);
         }
 
         public bool Equals(TransactionInput other)
         {
-            return Timestamp == other.Timestamp && Address.Equals(other.Address) && Amount == other.Amount &&
-                   Signature == other.Signature;
+            return Timestamp.Equals(other.Timestamp) && Address.Equals(other.Address) && Amount.Equals(other.Amount) &&
+                   Signature.Equals(other.Signature);
         }
     }
 }

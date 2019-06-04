@@ -12,34 +12,14 @@ namespace blockchain_dotnet_core.API.Extensions
         {
             var lastBlock = blockchain[blockchain.Count - 1];
 
-            var block = BlockExtensions.MineBlock(lastBlock, transactions);
+            var block = BlockUtils.MineBlock(lastBlock, transactions);
 
             blockchain.Add(block);
         }
 
-        public static void ReplaceChain(ref List<Block> blockchain, List<Block> otherBlockchain, bool validateTransactionData)
-        {
-            if (otherBlockchain.Count <= blockchain.Count)
-            {
-                return;
-            }
-
-            if (!IsValidChain(otherBlockchain))
-            {
-                return;
-            }
-
-            if (validateTransactionData && !IsValidTransactionData(otherBlockchain))
-            {
-                return;
-            }
-
-            blockchain = otherBlockchain;
-        }
-
         public static bool IsValidChain(this List<Block> blockchain)
         {
-            var genesisBlock = BlockExtensions.GetGenesisBlock();
+            var genesisBlock = BlockUtils.GetGenesisBlock();
 
             if (!blockchain[0].Equals(genesisBlock))
             {
@@ -77,10 +57,8 @@ namespace blockchain_dotnet_core.API.Extensions
 
         public static bool IsValidTransactionData(this List<Block> blockchain)
         {
-            for (int i = 0; i < blockchain.Count; i++)
+            foreach (var block in blockchain)
             {
-                var block = blockchain[i];
-
                 var minerRewardCount = 0;
 
                 foreach (var transaction in block.Transactions)
@@ -103,13 +81,13 @@ namespace blockchain_dotnet_core.API.Extensions
                     }
                     else
                     {
-                        if (!TransactionExtensions.IsValidTransaction(transaction))
+                        if (!transaction.IsValidTransaction())
                         {
                             return false;
                         }
 
                         var actualWalletBalance =
-                            WalletExtensions.CalculateBalance(blockchain, transaction.TransactionInput.Address);
+                            WalletUtils.CalculateBalance(blockchain, transaction.TransactionInput.Address);
 
                         if (transaction.TransactionInput.Amount != actualWalletBalance)
                         {

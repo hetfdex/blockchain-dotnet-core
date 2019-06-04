@@ -27,26 +27,13 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             var currentTime = startTime.AddMilliseconds(result).ToLocalTime();
 
+            double totalDifference = Math.Abs((currentTime - expectedResult).TotalMilliseconds);
+
+            var variation = TimeSpan.FromMilliseconds(1);
+
             Assert.IsNotNull(currentTime);
             Assert.IsInstanceOfType(currentTime, typeof(DateTime));
-            Assert.IsTrue(IsEqual(expectedResult, currentTime, TimeSpan.FromMilliseconds(1)));
-        }
-
-        private bool IsEqual(DateTime? expectedDate, DateTime? actualDate, TimeSpan maximumDelta)
-        {
-            if (expectedDate == null || actualDate == null)
-            {
-                return false;
-            }
-
-            double totalDifference = Math.Abs(((DateTime)actualDate - (DateTime)expectedDate).TotalMilliseconds);
-
-            if (totalDifference > maximumDelta.TotalMilliseconds)
-            {
-                return false;
-            }
-
-            return true;
+            Assert.IsTrue(totalDifference <= variation.Milliseconds);
         }
     }
 }

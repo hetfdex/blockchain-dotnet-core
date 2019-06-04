@@ -1,10 +1,9 @@
 ﻿using blockchain_dotnet_core.API.Models;
-using blockchain_dotnet_core.API.Utils;
 using System.Collections.Generic;
 
-namespace blockchain_dotnet_core.API.Extensions
+namespace blockchain_dotnet_core.API.Utils
 {
-    public static class BlockExtensions
+    public static class BlockUtils
     {
         public static Block MineBlock(Block lastBlock, List<Transaction> transactions)
         {
@@ -45,7 +44,7 @@ namespace blockchain_dotnet_core.API.Extensions
             var genesisBlock = new Block
             {
                 Timestamp = 0L,
-                LastHash = HashUtils.ComputeSHA256("genesis-lasthash"),
+                LastHash = HashUtils.ComputeSHA256("genesis-lastHash"),
                 Transactions = new List<Transaction>(),
                 Nonce = 0,
                 Difficulty = Constants.InitialDifficulty

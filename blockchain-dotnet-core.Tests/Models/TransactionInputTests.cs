@@ -75,10 +75,7 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void TransactionInputAndNullAreNotEqual()
         {
-            object differentObject = null;
-
-            Assert.IsNull(differentObject);
-            Assert.IsFalse(_transactionInput.Equals(differentObject));
+            Assert.IsFalse(_transactionInput.Equals((object)null));
         }
 
         [TestMethod]

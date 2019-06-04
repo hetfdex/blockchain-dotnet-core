@@ -1,20 +1,14 @@
 ﻿using blockchain_dotnet_core.API.Models;
-using blockchain_dotnet_core.API.Utils;
 using Org.BouncyCastle.Crypto.Parameters;
 using System.Collections.Generic;
 
-namespace blockchain_dotnet_core.API.Extensions
+namespace blockchain_dotnet_core.API.Utils
 {
-    public static class WalletExtensions
+    public static class WalletUtils
     {
         public static Transaction GenerateTransaction(Wallet wallet, ECPublicKeyParameters recipient, decimal amount, List<Block> blockchain)
         {
-            var result = new Transaction
-            {
-                TransactionOutputs = TransactionExtensions.GenerateTransactionOutput(wallet, recipient, amount)
-            };
-
-            result.TransactionInput = TransactionExtensions.GenerateTransactionInput(wallet, result.TransactionOutputs);
+            var result = new Transaction();
 
             if (blockchain != null)
             {
@@ -26,9 +20,8 @@ namespace blockchain_dotnet_core.API.Extensions
                 return null;
             }
 
-            result.Sender = wallet.PublicKey;
-            result.Recipient = recipient;
-            result.Amount = amount;
+            result.TransactionOutputs = TransactionUtils.GenerateTransactionOutput(wallet, recipient, amount);
+            result.TransactionInput = TransactionUtils.GenerateTransactionInput(wallet, result.TransactionOutputs);
 
             return result;
         }
@@ -45,16 +38,19 @@ namespace blockchain_dotnet_core.API.Extensions
 
                 foreach (var transaction in block.Transactions)
                 {
-                    if (transaction.TransactionInput?.Address.Equals(address) == true)
+                    if (transaction.TransactionInput != null && transaction.TransactionInput.Address.Equals(address))
                     {
                         hasConductedTransaction = true;
                     }
 
-                    var addressOutput = transaction.TransactionOutputs[address];
-
-                    if (addressOutput != 0)
+                    if (transaction.TransactionOutputs != null)
                     {
-                        outputsTotal -= addressOutput;
+                        var addressOutput = transaction.TransactionOutputs[address];
+
+                        if (addressOutput != 0)
+                        {
+                            outputsTotal += addressOutput;
+                        }
                     }
 
                     if (hasConductedTransaction)
@@ -63,7 +59,7 @@ namespace blockchain_dotnet_core.API.Extensions
                     }
                 }
             }
-            return hasConductedTransaction ? outputsTotal : Constants.StartBalance - outputsTotal;
+            return hasConductedTransaction ? outputsTotal : Constants.StartBalance + outputsTotal;
         }
     }
 }

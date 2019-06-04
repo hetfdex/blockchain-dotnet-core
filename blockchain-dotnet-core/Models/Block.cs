@@ -1,6 +1,7 @@
 ﻿using blockchain_dotnet_core.API.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace blockchain_dotnet_core.API.Models
 {
@@ -27,24 +28,21 @@ namespace blockchain_dotnet_core.API.Models
 
         public override bool Equals(object obj)
         {
-            if (obj == null)
+            var block = obj as Block;
+
+            if (block == null)
             {
                 return false;
             }
 
-            if (!(obj is Block))
-            {
-                return false;
-            }
-
-            return Equals((Block)obj);
+            return Equals(block);
         }
 
         public bool Equals(Block other)
         {
-            return Timestamp == other.Timestamp && string.Equals(LastHash, other.LastHash) &&
-                   string.Equals(Hash, other.Hash) /*&& Equals(Transactions, other.Transactions) */&& Nonce == other.Nonce &&
-                   Difficulty == other.Difficulty;
+            return Timestamp.Equals(other.Timestamp) && string.Equals(LastHash, other.LastHash) &&
+                   string.Equals(Hash, other.Hash) && Transactions.SequenceEqual(other.Transactions) &&
+                   Nonce.Equals(other.Nonce) && Difficulty.Equals(other.Difficulty);
         }
     }
 }

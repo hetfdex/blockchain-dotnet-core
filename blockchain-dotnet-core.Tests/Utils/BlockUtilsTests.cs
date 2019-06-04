@@ -1,22 +1,24 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using blockchain_dotnet_core.API.Models;
+using blockchain_dotnet_core.API.Utils;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
-namespace blockchain_dotnet_core.Tests.Extensions
+namespace blockchain_dotnet_core.Tests.Utils
 {
     [TestClass]
-    public class BlockServiceTests
+    public class BlockUtilsTests
     {
-        /*private readonly long _timestamp = TimestampUtils.GenerateTimestamp();
+        private readonly long _timestamp = TimestampUtils.GenerateTimestamp();
 
-        private readonly string _lastHash = HashUtils.ComputeSHA256("test-lasthash");
+        private readonly string _lastHash = HashUtils.ComputeSHA256("test-lastHash");
 
-        private const List<Transaction> Transactions = null;
+        private readonly string _hash = HashUtils.ComputeSHA256("test-hash");
 
-        private const int Nonce = 0;
+        private readonly List<Transaction> _transactions = new List<Transaction>();
 
-        private readonly int _difficulty = Constants.InitialDifficulty;
+        private readonly int _nonce = 1;
 
-        private string Hash => HashUtils.ComputeSHA256(_timestamp, _lastHash, Transactions,
-            Nonce, _difficulty);
+        private readonly int _difficulty = 1;
 
         private Block _block;
 
@@ -27,9 +29,9 @@ namespace blockchain_dotnet_core.Tests.Extensions
             {
                 Timestamp = _timestamp,
                 LastHash = _lastHash,
-                Hash = Hash,
-                Transactions = Transactions,
-                Nonce = Nonce,
+                Hash = _hash,
+                Transactions = _transactions,
+                Nonce = _nonce,
                 Difficulty = _difficulty
             };
         }
@@ -40,9 +42,9 @@ namespace blockchain_dotnet_core.Tests.Extensions
             Assert.IsNotNull(_block);
             Assert.AreEqual(_timestamp, _block.Timestamp);
             Assert.AreEqual(_lastHash, _block.LastHash);
-            Assert.AreEqual(Hash, _block.Hash);
-            Assert.AreEqual(Transactions, _block.Transactions);
-            Assert.AreEqual(Nonce, _block.Nonce);
+            Assert.AreEqual(_hash, _block.Hash);
+            Assert.AreEqual(_transactions, _block.Transactions);
+            Assert.AreEqual(_nonce, _block.Nonce);
             Assert.AreEqual(_difficulty, _block.Difficulty);
         }
 
@@ -51,7 +53,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
         {
             var expectedTimestamp = 0L;
 
-            var expectedLastHash = HashUtils.ComputeSHA256("genesis-lasthash");
+            var expectedLastHash = HashUtils.ComputeSHA256("genesis-lastHash");
 
             var expectedTransactions = new List<Transaction>();
 
@@ -62,7 +64,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
             var expectedHash = HashUtils.ComputeSHA256(expectedTimestamp, expectedLastHash, expectedTransactions,
                 expectedNonce, expectedDifficulty);
 
-            var genesisBlock = _blockService.GetGenesisBlock();
+            var genesisBlock = BlockUtils.GetGenesisBlock();
 
             Assert.IsNotNull(genesisBlock);
             Assert.IsInstanceOfType(genesisBlock, typeof(Block));
@@ -79,11 +81,11 @@ namespace blockchain_dotnet_core.Tests.Extensions
         [TestMethod]
         public void MinesBlock()
         {
-            var lastBlock = _blockService.GetGenesisBlock();
+            var lastBlock = BlockUtils.GetGenesisBlock();
 
             var transactions = new List<Transaction>();
 
-            var minedBlock = _blockService.MineBlock(lastBlock, transactions);
+            var minedBlock = BlockUtils.MineBlock(lastBlock, transactions);
 
             var expectedHash = HashUtils.ComputeSHA256(minedBlock.Timestamp, lastBlock.Hash, transactions, minedBlock.Nonce, minedBlock.Difficulty);
 
@@ -103,7 +105,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
         {
             var expectedRaisedDifficulty = _block.Difficulty + 1;
 
-            var result = _blockService.AdjustDifficulty(_block, _block.Timestamp + Constants.MineRate - 100);
+            var result = BlockUtils.AdjustDifficulty(_block, _block.Timestamp + Constants.MineRate - 100);
 
             Assert.AreEqual(expectedRaisedDifficulty, result);
         }
@@ -113,7 +115,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
         {
             var expectedLoweredDifficulty = _block.Difficulty - 1;
 
-            var result = _blockService.AdjustDifficulty(_block, _block.Timestamp + Constants.MineRate + 100);
+            var result = BlockUtils.AdjustDifficulty(_block, _block.Timestamp + Constants.MineRate + 100);
 
             Assert.AreEqual(expectedLoweredDifficulty, result);
         }
@@ -125,9 +127,9 @@ namespace blockchain_dotnet_core.Tests.Extensions
 
             var expectedLimitDifficulty = 1;
 
-            var result = _blockService.AdjustDifficulty(_block, _block.Timestamp);
+            var result = BlockUtils.AdjustDifficulty(_block, _block.Timestamp);
 
             Assert.AreEqual(expectedLimitDifficulty, result);
-        }*/
+        }
     }
 }
