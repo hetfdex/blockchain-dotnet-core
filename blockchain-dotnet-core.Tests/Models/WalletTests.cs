@@ -18,7 +18,7 @@ namespace blockchain_dotnet_core.Tests.Models
             _wallet = new Wallet
             {
                 Balance = 0,
-                KeyPair = keyPair,
+                PrivateKey = keyPair.Private as ECPrivateKeyParameters,
                 PublicKey = keyPair.Public as ECPublicKeyParameters
             };
         }
@@ -28,7 +28,7 @@ namespace blockchain_dotnet_core.Tests.Models
         {
             var result = _wallet.ToString();
 
-            var expectedResult = _wallet.Balance + _wallet.KeyPair.ToString() + _wallet.PublicKey;
+            var expectedResult = _wallet.Balance + _wallet.PrivateKey.ToString() + _wallet.PublicKey;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(expectedResult, result);
@@ -51,7 +51,7 @@ namespace blockchain_dotnet_core.Tests.Models
             var differentWallet = new Wallet
             {
                 Balance = 0,
-                KeyPair = keyPair,
+                PrivateKey = keyPair.Private as ECPrivateKeyParameters,
                 PublicKey = keyPair.Public as ECPublicKeyParameters
             };
 
@@ -93,7 +93,7 @@ namespace blockchain_dotnet_core.Tests.Models
             var differentWallet = new Wallet
             {
                 Balance = 0,
-                KeyPair = keyPair,
+                PrivateKey = keyPair.Private as ECPrivateKeyParameters,
                 PublicKey = keyPair.Public as ECPublicKeyParameters
             };
 

@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using blockchain_dotnet_core.API.Models;
+﻿using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Services;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Org.BouncyCastle.Crypto.Parameters;
+using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.Tests.Services
 {
@@ -22,7 +22,7 @@ namespace blockchain_dotnet_core.Tests.Services
             _wallet = new Wallet
             {
                 Balance = 1000,
-                KeyPair = keyPair,
+                PrivateKey = keyPair.Private as ECPrivateKeyParameters,
                 PublicKey = keyPair.Public as ECPublicKeyParameters
             };
 

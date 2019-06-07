@@ -146,7 +146,7 @@ namespace blockchain_dotnet_core.Tests.Utils
             var senderWallet = new Wallet
             {
                 Balance = Constants.StartBalance,
-                KeyPair = senderKeyPair,
+                PrivateKey = senderKeyPair.Private as ECPrivateKeyParameters,
                 PublicKey = senderKeyPair.Public as ECPublicKeyParameters
             };
 
@@ -177,7 +177,7 @@ namespace blockchain_dotnet_core.Tests.Utils
             var senderWallet = new Wallet
             {
                 Balance = Constants.StartBalance,
-                KeyPair = senderKeyPair,
+                PrivateKey = senderKeyPair.Private as ECPrivateKeyParameters,
                 PublicKey = senderKeyPair.Public as ECPublicKeyParameters
             };
 
@@ -209,7 +209,7 @@ namespace blockchain_dotnet_core.Tests.Utils
             var senderWallet = new Wallet
             {
                 Balance = Constants.StartBalance,
-                KeyPair = senderKeyPair,
+                PrivateKey = senderKeyPair.Private as ECPrivateKeyParameters,
                 PublicKey = senderKeyPair.Public as ECPublicKeyParameters
             };
 
@@ -241,7 +241,7 @@ namespace blockchain_dotnet_core.Tests.Utils
             var senderWallet = new Wallet
             {
                 Balance = Constants.StartBalance,
-                KeyPair = senderKeyPair,
+                PrivateKey = senderKeyPair.Private as ECPrivateKeyParameters,
                 PublicKey = senderKeyPair.Public as ECPublicKeyParameters
             };
 
@@ -274,7 +274,7 @@ namespace blockchain_dotnet_core.Tests.Utils
             var senderWallet = new Wallet
             {
                 Balance = Constants.StartBalance,
-                KeyPair = senderKeyPair,
+                PrivateKey = senderKeyPair.Private as ECPrivateKeyParameters,
                 PublicKey = senderKeyPair.Public as ECPublicKeyParameters
             };
 
@@ -307,7 +307,7 @@ namespace blockchain_dotnet_core.Tests.Utils
             var senderWallet = new Wallet
             {
                 Balance = 9999,
-                KeyPair = senderKeyPair,
+                PrivateKey = senderKeyPair.Private as ECPrivateKeyParameters,
                 PublicKey = senderKeyPair.Public as ECPublicKeyParameters
             };
 

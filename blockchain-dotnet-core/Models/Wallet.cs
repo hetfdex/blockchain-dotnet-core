@@ -1,5 +1,4 @@
-﻿using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Crypto.Parameters;
+﻿using Org.BouncyCastle.Crypto.Parameters;
 using System;
 
 namespace blockchain_dotnet_core.API.Models
@@ -8,17 +7,17 @@ namespace blockchain_dotnet_core.API.Models
     {
         public decimal Balance { get; set; }
 
-        public AsymmetricCipherKeyPair KeyPair { get; set; }
+        public ECPrivateKeyParameters PrivateKey { get; set; }
 
         public ECPublicKeyParameters PublicKey { get; set; }
 
         public override string ToString()
         {
-            return Balance + KeyPair.ToString() + PublicKey;
+            return Balance + PrivateKey.ToString() + PublicKey;
         }
 
         public override int GetHashCode() =>
-            HashCode.Combine(Balance, KeyPair, PublicKey);
+            HashCode.Combine(Balance, PrivateKey, PublicKey);
 
         public override bool Equals(object obj)
         {
@@ -34,7 +33,7 @@ namespace blockchain_dotnet_core.API.Models
 
         public bool Equals(Wallet other)
         {
-            return Balance.Equals(other.Balance) && KeyPair.Equals(other.KeyPair) && PublicKey.Equals(other.PublicKey);
+            return Balance.Equals(other.Balance) && PrivateKey.Equals(other.PrivateKey) && PublicKey.Equals(other.PublicKey);
         }
     }
 }

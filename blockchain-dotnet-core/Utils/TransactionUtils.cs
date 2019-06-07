@@ -17,14 +17,12 @@ namespace blockchain_dotnet_core.API.Utils
 
         public static TransactionInput GenerateTransactionInput(Wallet senderWallet, Dictionary<ECPublicKeyParameters, decimal> transactionOutputs)
         {
-            var privateKey = senderWallet.KeyPair.Private as ECPrivateKeyParameters;
-
             return new TransactionInput
             {
                 Timestamp = TimestampUtils.GenerateTimestamp(),
                 Address = senderWallet.PublicKey,
                 Amount = senderWallet.Balance,
-                Signature = KeyPairUtils.GenerateSignature(privateKey, transactionOutputs)
+                Signature = KeyPairUtils.GenerateSignature(senderWallet.PrivateKey, transactionOutputs)
             };
         }
 
