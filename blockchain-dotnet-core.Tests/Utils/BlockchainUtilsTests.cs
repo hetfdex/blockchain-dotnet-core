@@ -18,6 +18,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         public void BlockchainUtilsTestsSetup()
         {
             _blockchain.Add(BlockUtils.GetGenesisBlock());
+
             _replacementBlockchain.Add(BlockUtils.GetGenesisBlock());
 
             var transactionsOne = new List<Transaction>

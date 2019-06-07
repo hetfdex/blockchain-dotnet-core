@@ -39,8 +39,7 @@ namespace blockchain_dotnet_core.API.Extensions
                     return false;
                 }
 
-                var validHash = HashUtils.ComputeSHA256(block.Timestamp, block.LastHash, block.Transactions, block.Nonce,
-                    block.Difficulty);
+                var validHash = HashUtils.ComputeSHA256(block);
 
                 if (block.Hash != validHash)
                 {

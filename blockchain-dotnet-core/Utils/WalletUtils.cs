@@ -38,7 +38,7 @@ namespace blockchain_dotnet_core.API.Utils
 
                 foreach (var transaction in block.Transactions)
                 {
-                    if (transaction.TransactionInput != null && transaction.TransactionInput.Address.Equals(address))
+                    if (transaction.TransactionInput?.Address != null && transaction.TransactionInput.Address.Equals(address))
                     {
                         hasConductedTransaction = true;
                     }
@@ -52,11 +52,10 @@ namespace blockchain_dotnet_core.API.Utils
                             outputsTotal += addressOutput;
                         }
                     }
-
-                    if (hasConductedTransaction)
-                    {
-                        break;
-                    }
+                }
+                if (hasConductedTransaction)
+                {
+                    break;
                 }
             }
             return hasConductedTransaction ? outputsTotal : Constants.StartBalance + outputsTotal;
