@@ -5,5 +5,9 @@ namespace blockchain_dotnet_core.Tests.Utils
     [TestClass]
     public class TransactionUtilsTests
     {
+        //TODO
+        //GenerateTransactionOutput
+        //GenerateTransactionInput
+        //GetMinerRewardTransaction
     }
 }

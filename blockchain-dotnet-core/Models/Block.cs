@@ -13,7 +13,7 @@ namespace blockchain_dotnet_core.API.Models
 
         public string Hash { get; set; }
 
-        public List<Transaction> Transactions { get; set; }
+        public List<Transaction> Transactions { get; set; } = new List<Transaction>();
 
         public int Nonce { get; set; }
 

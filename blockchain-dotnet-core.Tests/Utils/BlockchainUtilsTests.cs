@@ -15,7 +15,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         private readonly List<Block> _replacementBlockchain = new List<Block>();
 
         [TestInitialize]
-        public void BlockchainServiceTestsSetup()
+        public void BlockchainUtilsTestsSetup()
         {
             _blockchain.Add(BlockUtils.GetGenesisBlock());
             _replacementBlockchain.Add(BlockUtils.GetGenesisBlock());

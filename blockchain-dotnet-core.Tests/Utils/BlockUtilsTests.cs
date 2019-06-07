@@ -22,7 +22,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         private Block _block;
 
         [TestInitialize]
-        public void BlockServiceTestsSetup()
+        public void BlockUtilsTestsSetup()
         {
             _block = new Block()
             {

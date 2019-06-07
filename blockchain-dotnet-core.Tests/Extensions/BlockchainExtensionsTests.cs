@@ -12,7 +12,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
         private readonly List<Block> _blockchain = new List<Block>();
 
         [TestInitialize]
-        public void BlockchainServiceTestsSetup()
+        public void BlockchainExtensionsTestsSetup()
         {
             _blockchain.Add(BlockUtils.GetGenesisBlock());
 
