@@ -26,7 +26,7 @@ namespace blockchain_dotnet_core.API.Utils
                 difficulty = AdjustDifficulty(lastBlock, timestamp);
 
                 hash = HashUtils.ComputeSHA256(timestamp, lastHash, transactions, nonce, difficulty);
-            } while (hash.Substring(0, difficulty) != GetLeadingZeros(difficulty));
+            } while (hash.Substring(0, difficulty) != new string('0', difficulty));
 
             return new Block
             {
@@ -64,7 +64,5 @@ namespace blockchain_dotnet_core.API.Utils
 
             return difficulty + 1;
         }
-
-        private static string GetLeadingZeros(int difficulty) => new string('0', difficulty);
     }
 }
