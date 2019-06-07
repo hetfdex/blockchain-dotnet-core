@@ -7,13 +7,13 @@ namespace blockchain_dotnet_core.API.Utils
     {
         public static Block MineBlock(Block lastBlock, List<Transaction> transactions)
         {
-            long timestamp;
-
             var lastHash = lastBlock.Hash;
 
-            string hash;
-
             var nonce = 0;
+
+            long timestamp;
+
+            string hash;
 
             int difficulty;
 
@@ -41,14 +41,7 @@ namespace blockchain_dotnet_core.API.Utils
 
         public static Block GetGenesisBlock()
         {
-            var genesisBlock = new Block
-            {
-                Timestamp = 0L,
-                LastHash = HashUtils.ComputeSHA256("genesis-lastHash"),
-                Transactions = new List<Transaction>(),
-                Nonce = 0,
-                Difficulty = Constants.InitialDifficulty
-            };
+            var genesisBlock = Constants.GenesisBlock;
 
             genesisBlock.Hash = HashUtils.ComputeSHA256(genesisBlock);
 

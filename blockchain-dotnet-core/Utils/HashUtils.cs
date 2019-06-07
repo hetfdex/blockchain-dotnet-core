@@ -9,16 +9,12 @@ namespace blockchain_dotnet_core.API.Utils
     {
         public static string ComputeSHA256(Block block)
         {
-            var toHash = block.Timestamp + block.LastHash + block.Transactions + block.Nonce + block.Difficulty;
-
-            return ComputeSHA256(toHash);
+            return ComputeSHA256(block.Timestamp, block.LastHash, block.Transactions, block.Nonce, block.Difficulty);
         }
 
         public static string ComputeSHA256(long timestamp, string lastHash, List<Transaction> transactions, int nonce, int difficulty)
         {
-            var toHash = timestamp + lastHash + transactions + nonce + difficulty;
-
-            return ComputeSHA256(toHash);
+            return ComputeSHA256(timestamp + lastHash + transactions + nonce + difficulty);
         }
 
         public static string ComputeSHA256(string toHash)

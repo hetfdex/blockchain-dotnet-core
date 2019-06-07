@@ -62,8 +62,8 @@ namespace blockchain_dotnet_core.Tests.Models
             var differentBlock = new Block
             {
                 Timestamp = 0L,
-                LastHash = "fake-lasHash",
-                Hash = "fake-Hash",
+                LastHash = "fake-lastHash",
+                Hash = "fake-hash",
                 Transactions = new List<Transaction>(),
                 Nonce = -1,
                 Difficulty = -1
@@ -105,8 +105,8 @@ namespace blockchain_dotnet_core.Tests.Models
             var differentBlock = new Block
             {
                 Timestamp = 0L,
-                LastHash = "fake-lasHash",
-                Hash = "fake-Hash",
+                LastHash = "fake-lastHash",
+                Hash = "fake-hash",
                 Transactions = new List<Transaction>(),
                 Nonce = -1,
                 Difficulty = -1
