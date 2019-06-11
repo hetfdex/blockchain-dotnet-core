@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace blockchain_dotnet_core.API.Services
+namespace blockchain_dotnet_core.API.Utils
 {
     public static class TransactionPoolUtils
     {

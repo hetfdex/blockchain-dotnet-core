@@ -18,7 +18,7 @@ namespace blockchain_dotnet_core.API.Utils
                 return;
             }
 
-            if (validateTransactionData && !otherBlockchain.IsValidTransactionData())
+            if (validateTransactionData && !otherBlockchain.AreValidTransactions())
             {
                 return;
             }

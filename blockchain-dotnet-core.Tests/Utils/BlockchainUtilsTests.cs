@@ -141,6 +141,45 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void ReplacesBlockchainWithValidTransactionData()
         {
+            var lastBlock = _replacementBlockchain[_replacementBlockchain.Count - 1];
+
+            var blockOne = new Block
+            {
+                Timestamp = TimestampUtils.GenerateTimestamp(),
+                LastHash = lastBlock.Hash,
+                Transactions = new List<Transaction>(),
+                Nonce = 0,
+                Difficulty = lastBlock.Difficulty
+            };
+
+            blockOne.Hash = HashUtils.ComputeSHA256(blockOne);
+
+            var blockTwo = new Block
+            {
+                Timestamp = TimestampUtils.GenerateTimestamp(),
+                LastHash = blockOne.Hash,
+                Transactions = new List<Transaction>(),
+                Nonce = 0,
+                Difficulty = blockOne.Difficulty
+            };
+
+            blockTwo.Hash = HashUtils.ComputeSHA256(blockTwo);
+
+            var blockThree = new Block
+            {
+                Timestamp = TimestampUtils.GenerateTimestamp(),
+                LastHash = blockTwo.Hash,
+                Transactions = new List<Transaction>(),
+                Nonce = 0,
+                Difficulty = blockTwo.Difficulty
+            };
+
+            blockThree.Hash = HashUtils.ComputeSHA256(blockThree);
+
+            _replacementBlockchain.Add(blockOne);
+            _replacementBlockchain.Add(blockTwo);
+            _replacementBlockchain.Add(blockThree);
+
             var senderKeyPair = KeyPairUtils.GenerateKeyPair();
 
             var senderWallet = new Wallet
@@ -152,23 +191,18 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             var recipientKeyPair = KeyPairUtils.GenerateKeyPair();
 
-            var recipientPublicKey = recipientKeyPair.Public as ECPublicKeyParameters;
-
-           /* var transactionOutputs = TransactionUtils.GenerateTransactionOutput(senderWallet, recipientPublicKey, 100);
-
-            var transactionInput = TransactionUtils.GenerateTransactionInput(senderWallet, transactionOutputs);
-
-            var transaction = new Transaction
+            var recipientWallet = new Wallet
             {
-                TransactionInput = transactionInput,
-                TransactionOutputs = transactionOutputs
-            };*/
+                Balance = Constants.StartBalance,
+                PrivateKey = recipientKeyPair.Private as ECPrivateKeyParameters,
+                PublicKey = recipientKeyPair.Public as ECPublicKeyParameters
+            };
 
-            var transaction = WalletUtils.GenerateTransaction(senderWallet, recipientPublicKey, 100, _replacementBlockchain);
+            var transaction = WalletUtils.GenerateTransaction(senderWallet, recipientWallet.PublicKey, 100, _replacementBlockchain);
 
             var minerRewardTransaction = TransactionUtils.GetMinerRewardTransaction(senderWallet);
 
-            var transactions = new List<Transaction>()
+            var transactions = new List<Transaction>
              {
                  transaction,
                  minerRewardTransaction
@@ -176,7 +210,10 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             _replacementBlockchain.AddBlock(transactions);
 
-            Assert.IsTrue(_replacementBlockchain.IsValidTransactionData());
+            BlockchainUtils.ReplaceChain(ref _blockchain, _replacementBlockchain, true);
+
+            Assert.IsTrue(_replacementBlockchain.AreValidTransactions());
+            Assert.AreEqual(_replacementBlockchain, _blockchain);
         }
 
         [TestMethod]
@@ -208,7 +245,10 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             _replacementBlockchain.AddBlock(transactions);
 
-            Assert.IsFalse(_replacementBlockchain.IsValidTransactionData());
+            BlockchainUtils.ReplaceChain(ref _blockchain, _replacementBlockchain, true);
+
+            Assert.IsFalse(_replacementBlockchain.AreValidTransactions());
+            Assert.AreNotEqual(_replacementBlockchain, _blockchain);
         }
 
         [TestMethod]
@@ -240,7 +280,10 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             _replacementBlockchain.AddBlock(transactions);
 
-            Assert.IsFalse(_replacementBlockchain.IsValidTransactionData());
+            BlockchainUtils.ReplaceChain(ref _blockchain, _replacementBlockchain, true);
+
+            Assert.IsFalse(_replacementBlockchain.AreValidTransactions());
+            Assert.AreNotEqual(_replacementBlockchain, _blockchain);
         }
 
         [TestMethod]
@@ -273,7 +316,10 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             _replacementBlockchain.AddBlock(transactions);
 
-            Assert.IsFalse(_replacementBlockchain.IsValidTransactionData());
+            BlockchainUtils.ReplaceChain(ref _blockchain, _replacementBlockchain, true);
+
+            Assert.IsFalse(_replacementBlockchain.AreValidTransactions());
+            Assert.AreNotEqual(_replacementBlockchain, _blockchain);
         }
 
         [TestMethod]
@@ -306,7 +352,10 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             _replacementBlockchain.AddBlock(transactions);
 
-            Assert.IsFalse(_replacementBlockchain.IsValidTransactionData());
+            BlockchainUtils.ReplaceChain(ref _blockchain, _replacementBlockchain, true);
+
+            Assert.IsFalse(_replacementBlockchain.AreValidTransactions());
+            Assert.AreNotEqual(_replacementBlockchain, _blockchain);
         }
 
         [TestMethod]
@@ -359,7 +408,10 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             _replacementBlockchain.AddBlock(transactions);
 
-            Assert.IsFalse(_replacementBlockchain.IsValidTransactionData());
+            BlockchainUtils.ReplaceChain(ref _blockchain, _replacementBlockchain, true);
+
+            Assert.IsFalse(_replacementBlockchain.AreValidTransactions());
+            Assert.AreNotEqual(_replacementBlockchain, _blockchain);
         }
     }
 }

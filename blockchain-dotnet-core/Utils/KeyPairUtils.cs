@@ -1,11 +1,10 @@
-﻿using Org.BouncyCastle.Asn1.X9;
+﻿using blockchain_dotnet_core.API.Extensions;
+using Org.BouncyCastle.Asn1.X9;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
 using System.Collections.Generic;
-using System.Text;
-using blockchain_dotnet_core.API.Extensions;
 
 namespace blockchain_dotnet_core.API.Utils
 {

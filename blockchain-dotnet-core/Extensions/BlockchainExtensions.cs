@@ -54,7 +54,7 @@ namespace blockchain_dotnet_core.API.Extensions
             return true;
         }
 
-        public static bool IsValidTransactionData(this List<Block> blockchain)
+        public static bool AreValidTransactions(this List<Block> blockchain)
         {
             foreach (var block in blockchain)
             {

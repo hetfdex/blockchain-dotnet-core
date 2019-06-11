@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Reflection.PortableExecutable;
-using blockchain_dotnet_core.API.Extensions;
+﻿using blockchain_dotnet_core.API.Extensions;
 using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Org.BouncyCastle.Crypto.Parameters;
+using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.Tests.Utils
 {
@@ -70,9 +69,10 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void GeneratesValidTransaction()
         {
-            var blockchain = new List<Block>();
-
-            blockchain.Add(BlockUtils.GetGenesisBlock());
+            var blockchain = new List<Block>
+            {
+                BlockUtils.GetGenesisBlock()
+            };
 
             var keyPair = KeyPairUtils.GenerateKeyPair();
 
@@ -91,9 +91,10 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void DoesNotGenerateInvalidTransaction()
         {
-            var blockchain = new List<Block>();
-
-            blockchain.Add(BlockUtils.GetGenesisBlock());
+            var blockchain = new List<Block>
+            {
+                BlockUtils.GetGenesisBlock()
+            };
 
             var keyPair = KeyPairUtils.GenerateKeyPair();
 
@@ -109,9 +110,10 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void CalculatesBalanceWithoutOutputs()
         {
-            var blockchain = new List<Block>();
-
-            blockchain.Add(BlockUtils.GetGenesisBlock());
+            var blockchain = new List<Block>
+            {
+                BlockUtils.GetGenesisBlock()
+            };
 
             var balance = WalletUtils.CalculateBalance(blockchain, _wallet.PublicKey);
 
@@ -121,9 +123,10 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void CalculatesBalanceWithOutputs()
         {
-            var blockchain = new List<Block>();
-
-            blockchain.Add(BlockUtils.GetGenesisBlock());
+            var blockchain = new List<Block>
+            {
+                BlockUtils.GetGenesisBlock()
+            };
 
             var keyPair = KeyPairUtils.GenerateKeyPair();
 
@@ -152,9 +155,10 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void CalculatesBalanceWithPreviousTransactions()
         {
-            var blockchain = new List<Block>();
-
-            blockchain.Add(BlockUtils.GetGenesisBlock());
+            var blockchain = new List<Block>
+            {
+                BlockUtils.GetGenesisBlock()
+            };
 
             var keyPair = KeyPairUtils.GenerateKeyPair();
 
