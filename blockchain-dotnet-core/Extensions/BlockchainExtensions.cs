@@ -8,31 +8,31 @@ namespace blockchain_dotnet_core.API.Extensions
 {
     public static class BlockchainExtensions
     {
-        public static void AddBlock(this List<Block> blockchain, List<Transaction> transactions)
+        public static void AddBlock(this Blockchain blockchain, List<Transaction> transactions)
         {
-            var lastBlock = blockchain[blockchain.Count - 1];
+            var lastBlock = blockchain.Chain[blockchain.Chain.Count - 1];
 
             var block = BlockUtils.MineBlock(lastBlock, transactions);
 
-            blockchain.Add(block);
+            blockchain.Chain.Add(block);
         }
 
-        public static bool IsValidChain(this List<Block> blockchain)
+        public static bool IsValidChain(this Blockchain blockchain)
         {
             var genesisBlock = BlockUtils.GetGenesisBlock();
 
-            if (!blockchain[0].Equals(genesisBlock))
+            if (!blockchain.Chain[0].Equals(genesisBlock))
             {
                 return false;
             }
 
-            for (int i = 1; i < blockchain.Count; i++)
+            for (int i = 1; i < blockchain.Chain.Count; i++)
             {
-                var block = blockchain[i];
+                var block = blockchain.Chain[i];
 
-                var realLastHash = blockchain[i - 1].Hash;
+                var realLastHash = blockchain.Chain[i - 1].Hash;
 
-                var lastDifficulty = blockchain[i - 1].Difficulty;
+                var lastDifficulty = blockchain.Chain[i - 1].Difficulty;
 
                 if (block.LastHash != realLastHash)
                 {
@@ -54,15 +54,15 @@ namespace blockchain_dotnet_core.API.Extensions
             return true;
         }
 
-        public static bool AreValidTransactions(this List<Block> blockchain)
+        public static bool AreValidTransactions(this Blockchain blockchain)
         {
-            foreach (var block in blockchain)
+            foreach (var block in blockchain.Chain)
             {
                 var minerRewardCount = 0;
 
                 foreach (var transaction in block.Transactions)
                 {
-                    if (transaction.TransactionInput.Signature == Constants.MinerTransactionInput.Signature)
+                    if (transaction.TransactionInput.Signature == TransactionInputUtils.GetMinerTransactionInput().Signature)
                     {
                         minerRewardCount++;
 
@@ -73,7 +73,7 @@ namespace blockchain_dotnet_core.API.Extensions
 
                         var firstTransactionOutput = transaction.TransactionOutputs.First();
 
-                        if (firstTransactionOutput.Value != Constants.MinerRewardAmount)
+                        if (firstTransactionOutput.Value != Constants.MinerReward)
                         {
                             return false;
                         }

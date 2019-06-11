@@ -5,6 +5,12 @@ namespace blockchain_dotnet_core.API.Utils
 {
     public static class BlockUtils
     {
+        public static Block GetGenesisBlock()
+        {
+            return new Block(0, HashUtils.ComputeSHA256("genesis-lastHash"), new List<Transaction>(), 0,
+                Constants.InitialDifficulty);
+        }
+
         public static Block MineBlock(Block lastBlock, List<Transaction> transactions)
         {
             var lastHash = lastBlock.Hash;
@@ -28,24 +34,7 @@ namespace blockchain_dotnet_core.API.Utils
                 hash = HashUtils.ComputeSHA256(timestamp, lastHash, transactions, nonce, difficulty);
             } while (hash.Substring(0, difficulty) != new string('0', difficulty));
 
-            return new Block
-            {
-                Timestamp = timestamp,
-                LastHash = lastHash,
-                Hash = hash,
-                Transactions = transactions,
-                Nonce = nonce,
-                Difficulty = difficulty
-            };
-        }
-
-        public static Block GetGenesisBlock()
-        {
-            var genesisBlock = Constants.GenesisBlock;
-
-            genesisBlock.Hash = HashUtils.ComputeSHA256(genesisBlock);
-
-            return genesisBlock;
+            return new Block(timestamp, lastHash, hash, transactions, nonce, difficulty);
         }
 
         public static int AdjustDifficulty(Block lastBlock, long timestamp)
@@ -57,7 +46,7 @@ namespace blockchain_dotnet_core.API.Utils
                 return 1;
             }
 
-            if (timestamp - lastBlock.Timestamp > Constants.MineRate)
+            if (timestamp - lastBlock.Timestamp > Constants.MiningRate)
             {
                 return difficulty - 1;
             }

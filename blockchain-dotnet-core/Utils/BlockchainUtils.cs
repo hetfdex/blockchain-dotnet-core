@@ -6,9 +6,9 @@ namespace blockchain_dotnet_core.API.Utils
 {
     public static class BlockchainUtils
     {
-        public static void ReplaceChain(ref List<Block> blockchain, List<Block> otherBlockchain, bool validateTransactionData)
+        public static void ReplaceChain(ref Blockchain blockchain, Blockchain otherBlockchain, bool validateTransactionData)
         {
-            if (otherBlockchain.Count <= blockchain.Count)
+            if (otherBlockchain.Chain.Count <= blockchain.Chain.Count)
             {
                 return;
             }

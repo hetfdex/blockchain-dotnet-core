@@ -19,6 +19,27 @@ namespace blockchain_dotnet_core.API.Models
 
         public int Difficulty { get; set; }
 
+        public Block(long timestamp, string lastHash, List<Transaction> transactions, int nonce, int difficulty)
+        {
+            Timestamp = timestamp;
+            LastHash = lastHash;
+            Transactions = transactions;
+            Nonce = nonce;
+            Difficulty = difficulty;
+
+            Hash = HashUtils.ComputeSHA256(this);
+        }
+
+        public Block(long timestamp, string lastHash, string hash, List<Transaction> transactions, int nonce, int difficulty)
+        {
+            Timestamp = timestamp;
+            LastHash = lastHash;
+            Hash = hash;
+            Transactions = transactions;
+            Nonce = nonce;
+            Difficulty = difficulty;
+        }
+
         public override string ToString()
         {
             return string.IsNullOrEmpty(Hash) ? HashUtils.ComputeSHA256(this) : Hash;

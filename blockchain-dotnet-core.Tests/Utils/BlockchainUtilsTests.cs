@@ -10,17 +10,13 @@ namespace blockchain_dotnet_core.Tests.Utils
     [TestClass]
     public class BlockchainUtilsTests
     {
-        private List<Block> _blockchain = new List<Block>();
+        private Blockchain _blockchain = new Blockchain();
 
-        private readonly List<Block> _replacementBlockchain = new List<Block>();
+        private readonly Blockchain _replacementBlockchain = new Blockchain();
 
         [TestInitialize]
         public void BlockchainUtilsTestsSetup()
         {
-            _blockchain.Add(BlockUtils.GetGenesisBlock());
-
-            _replacementBlockchain.Add(BlockUtils.GetGenesisBlock());
-
             var transactionsOne = new List<Transaction>
             {
                 new Transaction()
@@ -39,7 +35,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void ReplacesBlockchainWithLongerValidBlockchain()
         {
-            var lastBlock = _replacementBlockchain[_replacementBlockchain.Count - 1];
+            var lastBlock = _replacementBlockchain.Chain[_replacementBlockchain.Chain.Count - 1];
 
             var blockOne = new Block
             {
@@ -74,9 +70,9 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             blockThree.Hash = HashUtils.ComputeSHA256(blockThree);
 
-            _replacementBlockchain.Add(blockOne);
-            _replacementBlockchain.Add(blockTwo);
-            _replacementBlockchain.Add(blockThree);
+            _replacementBlockchain.Chain.Add(blockOne);
+            _replacementBlockchain.Chain.Add(blockTwo);
+            _replacementBlockchain.Chain.Add(blockThree);
 
             BlockchainUtils.ReplaceChain(ref _blockchain, _replacementBlockchain, false);
 
@@ -86,7 +82,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void DoesNotReplaceBlockchainWithLongerInvalidBlockchain()
         {
-            var lastBlock = _replacementBlockchain[_replacementBlockchain.Count - 1];
+            var lastBlock = _replacementBlockchain.Chain[_replacementBlockchain.Chain.Count - 1];
 
             var blockOne = new Block
             {

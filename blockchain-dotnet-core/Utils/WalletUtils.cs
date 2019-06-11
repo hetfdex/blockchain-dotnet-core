@@ -6,7 +6,7 @@ namespace blockchain_dotnet_core.API.Utils
 {
     public static class WalletUtils
     {
-        public static Transaction GenerateTransaction(Wallet wallet, ECPublicKeyParameters recipient, decimal amount, List<Block> blockchain)
+        public static Transaction GenerateTransaction(Wallet wallet, ECPublicKeyParameters recipient, decimal amount, Blockchain blockchain)
         {
             var result = new Transaction();
 
@@ -26,15 +26,15 @@ namespace blockchain_dotnet_core.API.Utils
             return result;
         }
 
-        public static decimal CalculateBalance(List<Block> blockchain, ECPublicKeyParameters address)
+        public static decimal CalculateBalance(Blockchain blockchain, ECPublicKeyParameters address)
         {
             var hasConductedTransaction = false;
 
             decimal outputsTotal = 0;
 
-            for (int i = blockchain.Count - 1; i > 0; i--)
+            for (int i = blockchain.Chain.Count - 1; i > 0; i--)
             {
-                var block = blockchain[i];
+                var block = blockchain.Chain[i];
 
                 foreach (var transaction in block.Transactions)
                 {

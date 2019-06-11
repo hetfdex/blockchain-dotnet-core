@@ -23,14 +23,7 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestInitialize]
         public void BlockTestsSetup()
         {
-            _block = new Block
-            {
-                Timestamp = _timestamp,
-                LastHash = _lastHash,
-                Transactions = _transactions,
-                Nonce = _nonce,
-                Difficulty = _difficulty
-            };
+            _block = new Block(_timestamp, _lastHash, _transactions, _nonce, _difficulty);
 
             _block.Hash = HashUtils.ComputeSHA256(_block);
         }
@@ -83,15 +76,7 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void BlocksAreNotEqualDifferentProperties()
         {
-            var differentBlock = new Block
-            {
-                Timestamp = 0L,
-                LastHash = "fake-lastHash",
-                Hash = "fake-hash",
-                Transactions = new List<Transaction>(),
-                Nonce = -1,
-                Difficulty = -1
-            };
+            var differentBlock = new Block(0, "fake-lashHash", "fake-hash", new List<Transaction>(), -1, -1);
 
             var differentObject = (object)differentBlock;
 
@@ -126,15 +111,7 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void BlocksDoNotHaveSameHashCode()
         {
-            var differentBlock = new Block
-            {
-                Timestamp = 0L,
-                LastHash = "fake-lastHash",
-                Hash = "fake-hash",
-                Transactions = new List<Transaction>(),
-                Nonce = -1,
-                Difficulty = -1
-            };
+            var differentBlock = new Block(0, "fake-lashHash", "fake-hash", new List<Transaction>(), -1, -1);
 
             Assert.IsNotNull(differentBlock);
             Assert.IsFalse(_block.GetHashCode() == differentBlock.GetHashCode());

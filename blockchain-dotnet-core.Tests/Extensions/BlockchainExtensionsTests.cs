@@ -1,4 +1,5 @@
-﻿using blockchain_dotnet_core.API.Extensions;
+﻿using System;
+using blockchain_dotnet_core.API.Extensions;
 using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,13 +10,11 @@ namespace blockchain_dotnet_core.Tests.Extensions
     [TestClass]
     public class BlockchainExtensionsTests
     {
-        private readonly List<Block> _blockchain = new List<Block>();
+        private readonly Blockchain _blockchain = new Blockchain();
 
         [TestInitialize]
         public void BlockchainExtensionsTestsSetup()
         {
-            _blockchain.Add(BlockUtils.GetGenesisBlock());
-
             var transactionsOne = new List<Transaction>
              {
                  new Transaction()
@@ -36,7 +35,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
         {
             Assert.IsNotNull(_blockchain);
             Assert.IsInstanceOfType(_blockchain, typeof(List<Block>));
-            Assert.AreEqual(BlockUtils.GetGenesisBlock(), _blockchain[0]);
+            Assert.AreEqual(BlockUtils.GetGenesisBlock(), _blockchain.Chain[0]);
         }
 
         [TestMethod]
@@ -46,7 +45,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
 
             _blockchain.AddBlock(transactions);
 
-            Assert.AreEqual(transactions, _blockchain[_blockchain.Count - 1].Transactions);
+            Assert.AreEqual(transactions, _blockchain.Chain[_blockchain.Chain.Count - 1].Transactions);
         }
 
         [TestMethod]
@@ -58,7 +57,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
         [TestMethod]
         public void BlockchainIsNotValidNoGenesisBlock()
         {
-            _blockchain[0] = new Block();
+            _blockchain.Chain[0] = new Block(0, string.Empty, String.Empty, null, -1, -1);
 
             Assert.IsFalse(_blockchain.IsValidChain());
         }
@@ -66,7 +65,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
         [TestMethod]
         public void BlockchainIsNotValidFakeLastHash()
         {
-            _blockchain[_blockchain.Count - 1].LastHash = "fake-lastHash";
+            _blockchain.Chain[_blockchain.Chain.Count - 1].LastHash = "fake-lastHash";
 
             Assert.IsFalse(_blockchain.IsValidChain());
         }
@@ -74,7 +73,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
         [TestMethod]
         public void BlockchainIsNotValidFakeTransactions()
         {
-            _blockchain[_blockchain.Count - 1].Transactions = null;
+            _blockchain.Chain[_blockchain.Chain.Count - 1].Transactions = null;
 
             Assert.IsFalse(_blockchain.IsValidChain());
         }
@@ -82,20 +81,13 @@ namespace blockchain_dotnet_core.Tests.Extensions
         [TestMethod]
         public void BlockchainIsNotValidFakeDifficulty()
         {
-            var lastBlock = _blockchain[_blockchain.Count - 1];
+            var lastBlock = _blockchain.Chain[_blockchain.Chain.Count - 1];
 
-            var fakeBlock = new Block
-            {
-                Timestamp = TimestampUtils.GenerateTimestamp(),
-                LastHash = lastBlock.Hash,
-                Transactions = new List<Transaction>(),
-                Nonce = 0,
-                Difficulty = lastBlock.Difficulty - 2
-            };
+            var fakeBlock = new Block(TimestampUtils.GenerateTimestamp(), lastBlock.LastHash, new List<Transaction>(), 0, -2);
 
             fakeBlock.Hash = HashUtils.ComputeSHA256(fakeBlock);
 
-            _blockchain.Add(fakeBlock);
+            _blockchain.Chain.Add(fakeBlock);
 
             Assert.IsFalse(_blockchain.IsValidChain());
         }
