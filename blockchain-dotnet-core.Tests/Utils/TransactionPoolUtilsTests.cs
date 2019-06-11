@@ -4,17 +4,17 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Org.BouncyCastle.Crypto.Parameters;
 using System.Collections.Generic;
 
-namespace blockchain_dotnet_core.Tests.Services
+namespace blockchain_dotnet_core.Tests.Utils
 {
     [TestClass]
-    public class TransactionPoolServicesTests
+    public class TransactionPoolUtilsTests
     {
         private Wallet _wallet;
 
         private Transaction _transaction;
 
         [TestInitialize]
-        public void TransactionPoolServiceTestsSetup()
+        public void TransactionPoolUtilsTestsSetup()
         {
             var keyPair = KeyPairUtils.GenerateKeyPair();
 
