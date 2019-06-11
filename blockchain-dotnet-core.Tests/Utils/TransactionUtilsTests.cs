@@ -1,4 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using blockchain_dotnet_core.API.Models;
+using blockchain_dotnet_core.API.Utils;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Org.BouncyCastle.Crypto.Parameters;
 
 namespace blockchain_dotnet_core.Tests.Utils
 {
@@ -11,13 +14,21 @@ namespace blockchain_dotnet_core.Tests.Utils
         }
 
         [TestMethod]
-        public void X()
+        public void GetsMinerRewardTransaction()
         {
-        }
+            var minerKeyPair = KeyPairUtils.GenerateKeyPair();
 
-        //TODO
-        //GenerateTransactionOutput
-        //GenerateTransactionInput
-        //GetMinerRewardTransaction
+            var minerWallet = new Wallet
+            {
+                Balance = Constants.StartBalance,
+                PrivateKey = minerKeyPair.Private as ECPrivateKeyParameters,
+                PublicKey = minerKeyPair.Public as ECPublicKeyParameters
+            };
+
+            var rewardTransaction = TransactionUtils.GetMinerRewardTransaction(minerWallet);
+
+            Assert.AreEqual(Constants.MinerTransactionInput, rewardTransaction.TransactionInput);
+            Assert.AreEqual(Constants.MinerTransactionInput.Amount, rewardTransaction.TransactionOutputs[minerWallet.PublicKey]);
+        }
     }
 }

@@ -19,7 +19,7 @@ namespace blockchain_dotnet_core.API.Utils
         {
             Timestamp = TimestampUtils.GenerateTimestamp(),
             Address = null,
-            Amount = 0,
+            Amount = 50,
             Signature = "miner-reward"
         };
 

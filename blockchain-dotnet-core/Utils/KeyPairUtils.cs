@@ -5,6 +5,7 @@ using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
 using System.Collections.Generic;
 using System.Text;
+using blockchain_dotnet_core.API.Extensions;
 
 namespace blockchain_dotnet_core.API.Utils
 {
@@ -33,7 +34,9 @@ namespace blockchain_dotnet_core.API.Utils
 
             signer.Init(true, ecPrivateKeyParameters);
 
-            signer.BlockUpdate(Encoding.Default.GetBytes(transactionOutputs.ToString()), 0, transactionOutputs.ToString().Length);
+            var bytes = transactionOutputs.ToBytes();
+
+            signer.BlockUpdate(bytes, 0, bytes.Length);
 
             var result = signer.GenerateSignature();
 
@@ -46,7 +49,9 @@ namespace blockchain_dotnet_core.API.Utils
 
             signer.Init(false, publicKey);
 
-            signer.BlockUpdate(Encoding.Default.GetBytes(transactionOutputs.ToString()), 0, transactionOutputs.ToString().Length);
+            var bytes = transactionOutputs.ToBytes();
+
+            signer.BlockUpdate(bytes, 0, bytes.Length);
 
             var signatureBytes = HexUtils.StringToBytes(signature);
 

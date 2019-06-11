@@ -154,6 +154,16 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             var recipientPublicKey = recipientKeyPair.Public as ECPublicKeyParameters;
 
+           /* var transactionOutputs = TransactionUtils.GenerateTransactionOutput(senderWallet, recipientPublicKey, 100);
+
+            var transactionInput = TransactionUtils.GenerateTransactionInput(senderWallet, transactionOutputs);
+
+            var transaction = new Transaction
+            {
+                TransactionInput = transactionInput,
+                TransactionOutputs = transactionOutputs
+            };*/
+
             var transaction = WalletUtils.GenerateTransaction(senderWallet, recipientPublicKey, 100, _replacementBlockchain);
 
             var minerRewardTransaction = TransactionUtils.GetMinerRewardTransaction(senderWallet);

@@ -1,4 +1,7 @@
-﻿using blockchain_dotnet_core.API.Models;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
 using Org.BouncyCastle.Crypto.Parameters;
 
@@ -39,7 +42,7 @@ namespace blockchain_dotnet_core.API.Extensions
                 return;
             }
 
-            if (transaction.TransactionOutputs[recipient] == 0)
+            if (!transaction.TransactionOutputs.ContainsKey(recipient))
             {
                 transaction.TransactionOutputs[recipient] = amount;
             }
@@ -51,6 +54,26 @@ namespace blockchain_dotnet_core.API.Extensions
             transaction.TransactionOutputs[senderWallet.PublicKey] -= amount;
 
             transaction.TransactionInput = TransactionUtils.GenerateTransactionInput(senderWallet, transaction.TransactionOutputs);
+        }
+
+        public static byte[] ToBytes(this Dictionary<ECPublicKeyParameters, decimal> transactionOutputs)
+        {
+            var serializable = new Dictionary<string, decimal>();
+
+            if (transactionOutputs != null && transactionOutputs.Count > 0)
+            {
+                foreach (var transactionOutput in transactionOutputs)
+                {
+                    serializable[transactionOutput.Key.ToString()] = transactionOutput.Value;
+                }
+            }
+            var binaryFormatter = new BinaryFormatter();
+
+            var memoryStream = new MemoryStream();
+
+            binaryFormatter.Serialize(memoryStream, serializable);
+
+            return memoryStream.ToArray();
         }
     }
 }

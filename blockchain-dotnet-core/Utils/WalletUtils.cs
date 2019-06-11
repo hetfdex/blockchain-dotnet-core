@@ -1,6 +1,7 @@
 ﻿using blockchain_dotnet_core.API.Models;
 using Org.BouncyCastle.Crypto.Parameters;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace blockchain_dotnet_core.API.Utils
 {
@@ -43,7 +44,7 @@ namespace blockchain_dotnet_core.API.Utils
                         hasConductedTransaction = true;
                     }
 
-                    if (transaction.TransactionOutputs != null)
+                    if (transaction.TransactionOutputs != null && transaction.TransactionOutputs.ContainsKey(address))
                     {
                         var addressOutput = transaction.TransactionOutputs[address];
 
