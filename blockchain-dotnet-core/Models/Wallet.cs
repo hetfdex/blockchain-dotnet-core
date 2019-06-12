@@ -1,15 +1,22 @@
-﻿/*using Org.BouncyCastle.Crypto.Parameters;
+﻿using Org.BouncyCastle.Crypto.Parameters;
 using System;
 
 namespace blockchain_dotnet_core.API.Models
 {
     public class Wallet
     {
-        public decimal Balance { get; set; }
-
         public ECPrivateKeyParameters PrivateKey { get; set; }
 
         public ECPublicKeyParameters PublicKey { get; set; }
+
+        public decimal Balance { get; set; }
+
+        public Wallet(ECPrivateKeyParameters privateKey, ECPublicKeyParameters publicKey, decimal balance)
+        {
+            PrivateKey = privateKey;
+            PublicKey = publicKey;
+            Balance = balance;
+        }
 
         public override string ToString()
         {
@@ -36,4 +43,4 @@ namespace blockchain_dotnet_core.API.Models
             return Balance.Equals(other.Balance) && PrivateKey.Equals(other.PrivateKey) && PublicKey.Equals(other.PublicKey);
         }
     }
-}*/
+}

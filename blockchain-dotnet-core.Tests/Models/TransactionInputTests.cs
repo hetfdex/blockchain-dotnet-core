@@ -8,6 +8,14 @@ namespace blockchain_dotnet_core.Tests.Models
     [TestClass]
     public class TransactionInputTests
     {
+        private readonly long _timestamp = TimestampUtils.GenerateTimestamp();
+
+        private readonly decimal _amount = 0;
+
+        private readonly string _signature = "test-signature";
+
+        private ECPublicKeyParameters _address;
+
         private TransactionInput _transactionInput;
 
         [TestInitialize]
@@ -15,13 +23,20 @@ namespace blockchain_dotnet_core.Tests.Models
         {
             var keyPair = KeyPairUtils.GenerateKeyPair();
 
-            _transactionInput = new TransactionInput
-            {
-                Timestamp = TimestampUtils.GenerateTimestamp(),
-                Address = keyPair.Public as ECPublicKeyParameters,
-                Amount = 0,
-                Signature = "test-signature"
-            };
+            _address = keyPair.Public as ECPublicKeyParameters;
+
+            _transactionInput = new TransactionInput(_timestamp, _address, _amount, _signature);
+        }
+
+        [TestMethod]
+        public void ConstructsTransactionInput()
+        {
+            Assert.IsNotNull(_transactionInput);
+            Assert.IsInstanceOfType(_transactionInput, typeof(TransactionInput));
+            Assert.AreEqual(_timestamp, _transactionInput.Timestamp);
+            Assert.AreEqual(_address, _transactionInput.Address);
+            Assert.AreEqual(_amount, _transactionInput.Amount);
+            Assert.AreEqual(_signature, _transactionInput.Signature);
         }
 
         [TestMethod]
@@ -45,17 +60,11 @@ namespace blockchain_dotnet_core.Tests.Models
         }
 
         [TestMethod]
-        public void TransactionInputsAreNotEqualDifferentProperties()
+        public void TransactionInputsAreNotEqual()
         {
             var keyPair = KeyPairUtils.GenerateKeyPair();
 
-            var differentTransactionInput = new TransactionInput
-            {
-                Timestamp = 0L,
-                Address = keyPair.Public as ECPublicKeyParameters,
-                Amount = 9.9m,
-                Signature = "fake-signature"
-            };
+            var differentTransactionInput = new TransactionInput(0, keyPair.Public as ECPublicKeyParameters, 10, string.Empty);
 
             var differentObject = (object)differentTransactionInput;
 
@@ -92,13 +101,7 @@ namespace blockchain_dotnet_core.Tests.Models
         {
             var keyPair = KeyPairUtils.GenerateKeyPair();
 
-            var differentTransactionInput = new TransactionInput
-            {
-                Timestamp = 0L,
-                Address = keyPair.Public as ECPublicKeyParameters,
-                Amount = 9.9m,
-                Signature = "fake-signature"
-            };
+            var differentTransactionInput = new TransactionInput(0, keyPair.Public as ECPublicKeyParameters, 10, string.Empty);
 
             Assert.IsNotNull(differentTransactionInput);
             Assert.IsFalse(_transactionInput.GetHashCode() == differentTransactionInput.GetHashCode());

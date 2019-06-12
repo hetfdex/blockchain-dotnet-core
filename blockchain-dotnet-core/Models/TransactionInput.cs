@@ -13,6 +13,14 @@ namespace blockchain_dotnet_core.API.Models
 
         public string Signature { get; set; }
 
+        public TransactionInput(long timestamp, ECPublicKeyParameters address, decimal amount, string signature)
+        {
+            Timestamp = timestamp;
+            Address = address;
+            Amount = amount;
+            Signature = signature;
+        }
+
         public override string ToString()
         {
             return Timestamp + Address.ToString() + Amount + Signature;

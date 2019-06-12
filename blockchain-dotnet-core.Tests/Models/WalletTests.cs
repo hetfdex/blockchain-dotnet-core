@@ -1,4 +1,4 @@
-﻿/*using blockchain_dotnet_core.API.Models;
+﻿using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Org.BouncyCastle.Crypto.Parameters;
@@ -8,6 +8,12 @@ namespace blockchain_dotnet_core.Tests.Models
     [TestClass]
     public class WalletTests
     {
+        private readonly decimal _balance = 0;
+
+        private ECPrivateKeyParameters _privateKey;
+
+        private ECPublicKeyParameters _publicKey;
+
         private Wallet _wallet;
 
         [TestInitialize]
@@ -15,12 +21,21 @@ namespace blockchain_dotnet_core.Tests.Models
         {
             var keyPair = KeyPairUtils.GenerateKeyPair();
 
-            _wallet = new Wallet
-            {
-                Balance = 0,
-                PrivateKey = keyPair.Private as ECPrivateKeyParameters,
-                PublicKey = keyPair.Public as ECPublicKeyParameters
-            };
+            _privateKey = keyPair.Private as ECPrivateKeyParameters;
+
+            _publicKey = keyPair.Public as ECPublicKeyParameters;
+
+            _wallet = new Wallet(_privateKey, _publicKey, _balance);
+        }
+
+        [TestMethod]
+        public void ConstructsWallet()
+        {
+            Assert.IsNotNull(_wallet);
+            Assert.IsInstanceOfType(_wallet, typeof(Wallet));
+            Assert.AreEqual(_privateKey, _wallet.PrivateKey);
+            Assert.AreEqual(_publicKey, _wallet.PublicKey);
+            Assert.AreEqual(_balance, _wallet.Balance);
         }
 
         [TestMethod]
@@ -48,12 +63,7 @@ namespace blockchain_dotnet_core.Tests.Models
         {
             var keyPair = KeyPairUtils.GenerateKeyPair();
 
-            var differentWallet = new Wallet
-            {
-                Balance = 0,
-                PrivateKey = keyPair.Private as ECPrivateKeyParameters,
-                PublicKey = keyPair.Public as ECPublicKeyParameters
-            };
+            var differentWallet = new Wallet(keyPair.Private as ECPrivateKeyParameters, keyPair.Public as ECPublicKeyParameters, 10);
 
             var differentObject = (object)differentWallet;
 
@@ -90,15 +100,10 @@ namespace blockchain_dotnet_core.Tests.Models
         {
             var keyPair = KeyPairUtils.GenerateKeyPair();
 
-            var differentWallet = new Wallet
-            {
-                Balance = 0,
-                PrivateKey = keyPair.Private as ECPrivateKeyParameters,
-                PublicKey = keyPair.Public as ECPublicKeyParameters
-            };
+            var differentWallet = new Wallet(keyPair.Private as ECPrivateKeyParameters, keyPair.Public as ECPublicKeyParameters, 10);
 
             Assert.IsNotNull(differentWallet);
             Assert.IsFalse(_wallet.GetHashCode() == differentWallet.GetHashCode());
         }
     }
-}*/
+}

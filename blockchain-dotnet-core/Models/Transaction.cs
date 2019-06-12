@@ -8,9 +8,15 @@ namespace blockchain_dotnet_core.API.Models
     {
         public Guid Id { get; } = Guid.NewGuid();
 
-        public Dictionary<ECPublicKeyParameters, decimal> TransactionOutputs { get; set; } = new Dictionary<ECPublicKeyParameters, decimal>();
+        public Dictionary<ECPublicKeyParameters, decimal> TransactionOutputs { get; set; }
 
-        public TransactionInput TransactionInput { get; set; } = new TransactionInput();
+        public TransactionInput TransactionInput { get; set; }
+
+        public Transaction(Dictionary<ECPublicKeyParameters, decimal> transactionOutputs, TransactionInput transactionInput)
+        {
+            TransactionOutputs = transactionOutputs;
+            TransactionInput = transactionInput;
+        }
 
         public override string ToString()
         {
