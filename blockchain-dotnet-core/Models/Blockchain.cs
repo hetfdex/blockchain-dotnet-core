@@ -1,12 +1,44 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace blockchain_dotnet_core.API.Models
 {
     public class Blockchain
     {
-        public List<Block> Chain { get; set; } = new List<Block>
+        public List<Block> Chain { get; set; }
+
+        public Blockchain()
         {
-            //BlockUtils.GetGenesisBlock()
-        };
+            Chain = new List<Block>
+            {
+                //todo: readd gensis block
+                //BlockUtils.GetGenesisBlock()
+            };
+        }
+
+        public override string ToString()
+        {
+            return Chain.ToString();
+        }
+
+        public override int GetHashCode() => HashCode.Combine(Chain);
+
+        public override bool Equals(object obj)
+        {
+            var blockchain = obj as Blockchain;
+
+            if (blockchain == null)
+            {
+                return false;
+            }
+
+            return Equals(blockchain);
+        }
+
+        public bool Equals(Blockchain other)
+        {
+            return Chain.SequenceEqual(other.Chain);
+        }
     }
 }
