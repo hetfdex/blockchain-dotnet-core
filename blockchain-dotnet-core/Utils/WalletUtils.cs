@@ -58,7 +58,7 @@ namespace blockchain_dotnet_core.API.Utils
                     break;
                 }
             }
-            return hasConductedTransaction ? outputsTotal : Constants.StartBalance + outputsTotal;
+            return hasConductedTransaction ? outputsTotal : ConfigurationOptions.StartBalance + outputsTotal;
         }
     }
 }

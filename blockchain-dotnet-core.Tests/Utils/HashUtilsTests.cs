@@ -1,4 +1,6 @@
-﻿using blockchain_dotnet_core.API.Models;
+﻿using System;
+using System.Collections.Generic;
+using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -21,7 +23,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void GeneratesUniqueHashWhenArgumentsChange()
         {
-            var block = new Block();
+            var block = new Block(0, string.Empty, string.Empty, new List<Transaction>(), -1, -1);
 
             var blockHash = HashUtils.ComputeSHA256(block);
 

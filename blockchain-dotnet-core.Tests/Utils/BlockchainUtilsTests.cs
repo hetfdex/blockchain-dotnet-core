@@ -37,38 +37,11 @@ namespace blockchain_dotnet_core.Tests.Utils
         {
             var lastBlock = _replacementBlockchain.Chain[_replacementBlockchain.Chain.Count - 1];
 
-            var blockOne = new Block
-            {
-                Timestamp = TimestampUtils.GenerateTimestamp(),
-                LastHash = lastBlock.Hash,
-                Transactions = new List<Transaction>(),
-                Nonce = 0,
-                Difficulty = lastBlock.Difficulty
-            };
+            var blockOne = new Block(TimestampUtils.GenerateTimestamp(), lastBlock.Hash, new List<Transaction>(), 0, lastBlock.Difficulty);
 
-            blockOne.Hash = HashUtils.ComputeSHA256(blockOne);
+            var blockTwo = new Block(TimestampUtils.GenerateTimestamp(), blockOne.Hash, new List<Transaction>(), 0, blockOne.Difficulty);
 
-            var blockTwo = new Block
-            {
-                Timestamp = TimestampUtils.GenerateTimestamp(),
-                LastHash = blockOne.Hash,
-                Transactions = new List<Transaction>(),
-                Nonce = 0,
-                Difficulty = blockOne.Difficulty
-            };
-
-            blockTwo.Hash = HashUtils.ComputeSHA256(blockTwo);
-
-            var blockThree = new Block
-            {
-                Timestamp = TimestampUtils.GenerateTimestamp(),
-                LastHash = blockTwo.Hash,
-                Transactions = new List<Transaction>(),
-                Nonce = 0,
-                Difficulty = blockTwo.Difficulty
-            };
-
-            blockThree.Hash = HashUtils.ComputeSHA256(blockThree);
+            var blockThree = new Block(TimestampUtils.GenerateTimestamp(), blockTwo.Hash, new List<Transaction>(), 0, blockTwo.Difficulty);
 
             _replacementBlockchain.Chain.Add(blockOne);
             _replacementBlockchain.Chain.Add(blockTwo);
@@ -84,42 +57,17 @@ namespace blockchain_dotnet_core.Tests.Utils
         {
             var lastBlock = _replacementBlockchain.Chain[_replacementBlockchain.Chain.Count - 1];
 
-            var blockOne = new Block
-            {
-                Timestamp = TimestampUtils.GenerateTimestamp(),
-                LastHash = lastBlock.Hash,
-                Transactions = new List<Transaction>(),
-                Nonce = 0,
-                Difficulty = lastBlock.Difficulty
-            };
+            var blockOne = new Block(TimestampUtils.GenerateTimestamp(), lastBlock.Hash, new List<Transaction>(), 0, lastBlock.Difficulty);
 
-            blockOne.Hash = HashUtils.ComputeSHA256(blockOne);
+            var blockTwo = new Block(TimestampUtils.GenerateTimestamp(), blockOne.Hash, new List<Transaction>(), 0, blockOne.Difficulty);
 
-            var blockTwo = new Block
-            {
-                Timestamp = TimestampUtils.GenerateTimestamp(),
-                LastHash = blockOne.Hash,
-                Transactions = new List<Transaction>(),
-                Nonce = 0,
-                Difficulty = blockOne.Difficulty
-            };
+            var blockThree = new Block(TimestampUtils.GenerateTimestamp(), blockTwo.Hash, new List<Transaction>(), 0, blockTwo.Difficulty);
 
-            blockTwo.Hash = HashUtils.ComputeSHA256(blockTwo);
+            _replacementBlockchain.Chain.Add(blockOne);
+            _replacementBlockchain.Chain.Add(blockTwo);
+            _replacementBlockchain.Chain.Add(blockThree);
 
-            var blockThree = new Block
-            {
-                Timestamp = TimestampUtils.GenerateTimestamp(),
-                LastHash = blockTwo.Hash,
-                Transactions = new List<Transaction>(),
-                Nonce = 0,
-                Difficulty = blockTwo.Difficulty
-            };
-
-            _replacementBlockchain.Add(blockOne);
-            _replacementBlockchain.Add(blockTwo);
-            _replacementBlockchain.Add(blockThree);
-
-            _replacementBlockchain[_replacementBlockchain.Count - 1].LastHash = "fake-lastHash";
+            _replacementBlockchain.Chain[_replacementBlockchain.Chain.Count - 1].LastHash = "fake-lastHash";
 
             BlockchainUtils.ReplaceChain(ref _blockchain, _replacementBlockchain, false);
 
@@ -137,50 +85,23 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void ReplacesBlockchainWithValidTransactionData()
         {
-            var lastBlock = _replacementBlockchain[_replacementBlockchain.Count - 1];
+            var lastBlock = _replacementBlockchain.Chain[_replacementBlockchain.Chain.Count - 1];
 
-            var blockOne = new Block
-            {
-                Timestamp = TimestampUtils.GenerateTimestamp(),
-                LastHash = lastBlock.Hash,
-                Transactions = new List<Transaction>(),
-                Nonce = 0,
-                Difficulty = lastBlock.Difficulty
-            };
+            var blockOne = new Block(TimestampUtils.GenerateTimestamp(), lastBlock.Hash, new List<Transaction>(), 0, lastBlock.Difficulty);
 
-            blockOne.Hash = HashUtils.ComputeSHA256(blockOne);
+            var blockTwo = new Block(TimestampUtils.GenerateTimestamp(), blockOne.Hash, new List<Transaction>(), 0, blockOne.Difficulty);
 
-            var blockTwo = new Block
-            {
-                Timestamp = TimestampUtils.GenerateTimestamp(),
-                LastHash = blockOne.Hash,
-                Transactions = new List<Transaction>(),
-                Nonce = 0,
-                Difficulty = blockOne.Difficulty
-            };
+            var blockThree = new Block(TimestampUtils.GenerateTimestamp(), blockTwo.Hash, new List<Transaction>(), 0, blockTwo.Difficulty);
 
-            blockTwo.Hash = HashUtils.ComputeSHA256(blockTwo);
-
-            var blockThree = new Block
-            {
-                Timestamp = TimestampUtils.GenerateTimestamp(),
-                LastHash = blockTwo.Hash,
-                Transactions = new List<Transaction>(),
-                Nonce = 0,
-                Difficulty = blockTwo.Difficulty
-            };
-
-            blockThree.Hash = HashUtils.ComputeSHA256(blockThree);
-
-            _replacementBlockchain.Add(blockOne);
-            _replacementBlockchain.Add(blockTwo);
-            _replacementBlockchain.Add(blockThree);
+            _replacementBlockchain.Chain.Add(blockOne);
+            _replacementBlockchain.Chain.Add(blockTwo);
+            _replacementBlockchain.Chain.Add(blockThree);
 
             var senderKeyPair = KeyPairUtils.GenerateKeyPair();
 
             var senderWallet = new Wallet
             {
-                Balance = Constants.StartBalance,
+                Balance = ConfigurationOptions.StartBalance,
                 PrivateKey = senderKeyPair.Private as ECPrivateKeyParameters,
                 PublicKey = senderKeyPair.Public as ECPublicKeyParameters
             };
@@ -189,7 +110,7 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             var recipientWallet = new Wallet
             {
-                Balance = Constants.StartBalance,
+                Balance = ConfigurationOptions.StartBalance,
                 PrivateKey = recipientKeyPair.Private as ECPrivateKeyParameters,
                 PublicKey = recipientKeyPair.Public as ECPublicKeyParameters
             };
@@ -219,7 +140,7 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             var senderWallet = new Wallet
             {
-                Balance = Constants.StartBalance,
+                Balance = ConfigurationOptions.StartBalance,
                 PrivateKey = senderKeyPair.Private as ECPrivateKeyParameters,
                 PublicKey = senderKeyPair.Public as ECPublicKeyParameters
             };
@@ -254,7 +175,7 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             var senderWallet = new Wallet
             {
-                Balance = Constants.StartBalance,
+                Balance = ConfigurationOptions.StartBalance,
                 PrivateKey = senderKeyPair.Private as ECPrivateKeyParameters,
                 PublicKey = senderKeyPair.Public as ECPublicKeyParameters
             };
@@ -289,7 +210,7 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             var senderWallet = new Wallet
             {
-                Balance = Constants.StartBalance,
+                Balance = ConfigurationOptions.StartBalance,
                 PrivateKey = senderKeyPair.Private as ECPrivateKeyParameters,
                 PublicKey = senderKeyPair.Public as ECPublicKeyParameters
             };
@@ -325,7 +246,7 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             var senderWallet = new Wallet
             {
-                Balance = Constants.StartBalance,
+                Balance = ConfigurationOptions.StartBalance,
                 PrivateKey = senderKeyPair.Private as ECPrivateKeyParameters,
                 PublicKey = senderKeyPair.Public as ECPublicKeyParameters
             };

@@ -9,8 +9,8 @@ namespace blockchain_dotnet_core.API.Utils
             return new TransactionInput
             {
                 Timestamp = TimestampUtils.GenerateTimestamp(),
-                Address = Constants.MinerAddress,
-                Amount = Constants.MinerReward,
+                Address = ConfigurationOptions.MinerAddress,
+                Amount = ConfigurationOptions.MinerReward,
                 Signature = "miner-reward"
             };
         }

@@ -19,7 +19,7 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             _wallet = new Wallet
             {
-                Balance = Constants.StartBalance,
+                Balance = ConfigurationOptions.StartBalance,
                 PrivateKey = keyPair.Private as ECPrivateKeyParameters,
                 PublicKey = keyPair.Public as ECPublicKeyParameters
             };
@@ -30,7 +30,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         {
             Assert.IsNotNull(_wallet.Balance);
             Assert.IsInstanceOfType(_wallet.Balance, typeof(decimal));
-            Assert.AreEqual(Constants.StartBalance, _wallet.Balance);
+            Assert.AreEqual(ConfigurationOptions.StartBalance, _wallet.Balance);
             Assert.IsNotNull(_wallet.PrivateKey);
             Assert.IsInstanceOfType(_wallet.PrivateKey, typeof(ECPrivateKeyParameters));
             Assert.IsNotNull(_wallet.PublicKey);
@@ -54,7 +54,7 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             var wallet = new Wallet
             {
-                Balance = Constants.StartBalance,
+                Balance = ConfigurationOptions.StartBalance,
                 PrivateKey = keyPair.Private as ECPrivateKeyParameters,
                 PublicKey = keyPair.Public as ECPublicKeyParameters
             };
@@ -69,10 +69,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void GeneratesValidTransaction()
         {
-            var blockchain = new List<Block>
-            {
-                BlockUtils.GetGenesisBlock()
-            };
+            var blockchain = new Blockchain();
 
             var keyPair = KeyPairUtils.GenerateKeyPair();
 
@@ -91,10 +88,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void DoesNotGenerateInvalidTransaction()
         {
-            var blockchain = new List<Block>
-            {
-                BlockUtils.GetGenesisBlock()
-            };
+            var blockchain = new Blockchain();
 
             var keyPair = KeyPairUtils.GenerateKeyPair();
 
@@ -110,23 +104,17 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void CalculatesBalanceWithoutOutputs()
         {
-            var blockchain = new List<Block>
-            {
-                BlockUtils.GetGenesisBlock()
-            };
+            var blockchain = new Blockchain();
 
             var balance = WalletUtils.CalculateBalance(blockchain, _wallet.PublicKey);
 
-            Assert.AreEqual(Constants.StartBalance, balance);
+            Assert.AreEqual(ConfigurationOptions.StartBalance, balance);
         }
 
         [TestMethod]
         public void CalculatesBalanceWithOutputs()
         {
-            var blockchain = new List<Block>
-            {
-                BlockUtils.GetGenesisBlock()
-            };
+            var blockchain = new Blockchain();
 
             var keyPair = KeyPairUtils.GenerateKeyPair();
 
@@ -146,7 +134,7 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             var balance = WalletUtils.CalculateBalance(blockchain, publicKey);
 
-            var expectedBalance = Constants.StartBalance + transactionOne.TransactionOutputs[publicKey] +
+            var expectedBalance = ConfigurationOptions.StartBalance + transactionOne.TransactionOutputs[publicKey] +
                                   transactionTwo.TransactionOutputs[publicKey];
 
             Assert.AreEqual(expectedBalance, balance);
@@ -155,16 +143,13 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void CalculatesBalanceWithPreviousTransactions()
         {
-            var blockchain = new List<Block>
-            {
-                BlockUtils.GetGenesisBlock()
-            };
+            var blockchain = new Blockchain();
 
             var keyPair = KeyPairUtils.GenerateKeyPair();
 
             var wallet = new Wallet
             {
-                Balance = Constants.StartBalance,
+                Balance = ConfigurationOptions.StartBalance,
                 PrivateKey = keyPair.Private as ECPrivateKeyParameters,
                 PublicKey = keyPair.Public as ECPublicKeyParameters
             };
@@ -214,7 +199,7 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             wallet = new Wallet
             {
-                Balance = Constants.StartBalance,
+                Balance = ConfigurationOptions.StartBalance,
                 PrivateKey = keyPair.Private as ECPrivateKeyParameters,
                 PublicKey = keyPair.Public as ECPublicKeyParameters
             };

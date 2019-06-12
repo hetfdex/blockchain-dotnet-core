@@ -14,16 +14,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestInitialize]
         public void BlockTestsSetup()
         {
-            _block = new Block
-            {
-                Timestamp = TimestampUtils.GenerateTimestamp(),
-                LastHash = HashUtils.ComputeSHA256("test-lastHash"),
-                Transactions = new List<Transaction>(),
-                Nonce = 0,
-                Difficulty = Constants.InitialDifficulty
-            };
-
-            _block.Hash = HashUtils.ComputeSHA256(_block);
+            _block = new Block(TimestampUtils.GenerateTimestamp(), HashUtils.ComputeSHA256("test-lastHash"), new List<Transaction>(), 0, ConfigurationOptions.InitialDifficulty);
         }
 
         [TestMethod]
@@ -37,7 +28,7 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             var expectedNonce = 0;
 
-            var expectedDifficulty = Constants.InitialDifficulty;
+            var expectedDifficulty = ConfigurationOptions.InitialDifficulty;
 
             var expectedHash = HashUtils.ComputeSHA256(expectedTimestamp, expectedLastHash, expectedTransactions,
                 expectedNonce, expectedDifficulty);
@@ -81,7 +72,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         {
             var expectedRaisedDifficulty = _block.Difficulty + 1;
 
-            var result = BlockUtils.AdjustDifficulty(_block, _block.Timestamp + Constants.MineRate - 100);
+            var result = BlockUtils.AdjustDifficulty(_block, _block.Timestamp + ConfigurationOptions.MiningRate - 100);
 
             Assert.AreEqual(expectedRaisedDifficulty, result);
         }
@@ -91,7 +82,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         {
             var expectedLoweredDifficulty = _block.Difficulty - 1;
 
-            var result = BlockUtils.AdjustDifficulty(_block, _block.Timestamp + Constants.MineRate + 100);
+            var result = BlockUtils.AdjustDifficulty(_block, _block.Timestamp + ConfigurationOptions.MiningRate + 100);
 
             Assert.AreEqual(expectedLoweredDifficulty, result);
         }

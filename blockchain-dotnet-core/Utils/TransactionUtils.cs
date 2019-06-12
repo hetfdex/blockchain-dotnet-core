@@ -30,7 +30,7 @@ namespace blockchain_dotnet_core.API.Utils
         {
             var transactionOutputs = new Dictionary<ECPublicKeyParameters, decimal>
             {
-                { minerWallet.PublicKey, Constants.MinerReward }
+                { minerWallet.PublicKey, ConfigurationOptions.MinerReward }
             };
 
             return new Transaction

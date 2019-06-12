@@ -8,7 +8,7 @@ namespace blockchain_dotnet_core.API.Utils
         public static Block GetGenesisBlock()
         {
             return new Block(0, HashUtils.ComputeSHA256("genesis-lastHash"), new List<Transaction>(), 0,
-                Constants.InitialDifficulty);
+                ConfigurationOptions.InitialDifficulty);
         }
 
         public static Block MineBlock(Block lastBlock, List<Transaction> transactions)
@@ -46,7 +46,7 @@ namespace blockchain_dotnet_core.API.Utils
                 return 1;
             }
 
-            if (timestamp - lastBlock.Timestamp > Constants.MiningRate)
+            if (timestamp - lastBlock.Timestamp > ConfigurationOptions.MiningRate)
             {
                 return difficulty - 1;
             }

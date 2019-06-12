@@ -26,7 +26,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
 
             _senderWallet = new Wallet
             {
-                Balance = Constants.StartBalance,
+                Balance = ConfigurationOptions.StartBalance,
                 PrivateKey = senderKeyPair.Private as ECPrivateKeyParameters,
                 PublicKey = senderKeyPair.Public as ECPublicKeyParameters
             };

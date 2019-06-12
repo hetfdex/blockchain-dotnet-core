@@ -20,15 +20,15 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             var minerWallet = new Wallet
             {
-                Balance = Constants.StartBalance,
+                Balance = ConfigurationOptions.StartBalance,
                 PrivateKey = minerKeyPair.Private as ECPrivateKeyParameters,
                 PublicKey = minerKeyPair.Public as ECPublicKeyParameters
             };
 
             var rewardTransaction = TransactionUtils.GetMinerRewardTransaction(minerWallet);
 
-            Assert.AreEqual(Constants.MinerTransactionInput, rewardTransaction.TransactionInput);
-            Assert.AreEqual(Constants.MinerTransactionInput.Amount, rewardTransaction.TransactionOutputs[minerWallet.PublicKey]);
+            Assert.AreEqual(TransactionInputUtils.GetMinerTransactionInput(), rewardTransaction.TransactionInput);
+            Assert.AreEqual(TransactionInputUtils.GetMinerTransactionInput().Amount, rewardTransaction.TransactionOutputs[minerWallet.PublicKey]);
         }
     }
 }
