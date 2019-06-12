@@ -1,6 +1,6 @@
 ﻿using Org.BouncyCastle.Crypto.Parameters;
 
-namespace blockchain_dotnet_core.API.Utils
+namespace blockchain_dotnet_core.API.Options
 {
     public static class ConfigurationOptions
     {

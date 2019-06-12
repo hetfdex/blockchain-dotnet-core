@@ -1,4 +1,5 @@
 ﻿using blockchain_dotnet_core.API.Models;
+using blockchain_dotnet_core.API.Options;
 using Org.BouncyCastle.Crypto.Parameters;
 using System.Collections.Generic;
 

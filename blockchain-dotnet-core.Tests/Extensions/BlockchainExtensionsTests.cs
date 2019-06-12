@@ -1,8 +1,8 @@
-﻿using System;
-using blockchain_dotnet_core.API.Extensions;
+﻿using blockchain_dotnet_core.API.Extensions;
 using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.Tests.Extensions

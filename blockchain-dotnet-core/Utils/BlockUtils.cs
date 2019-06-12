@@ -1,4 +1,5 @@
 ﻿using blockchain_dotnet_core.API.Models;
+using blockchain_dotnet_core.API.Options;
 using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.API.Utils

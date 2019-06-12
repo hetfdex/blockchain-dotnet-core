@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using blockchain_dotnet_core.API.Models;
+﻿using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.Tests.Utils
 {
