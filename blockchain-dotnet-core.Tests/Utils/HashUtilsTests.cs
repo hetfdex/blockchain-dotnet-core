@@ -9,30 +9,33 @@ namespace blockchain_dotnet_core.Tests.Utils
     public class HashUtilsTests
     {
         [TestMethod]
-        public void GeneratesSHA256Output()
+        public void ComputesValidHash()
         {
             var expectedResult = "5aa9f91f2c781d70f4201aff39ea9026a5566a28515825d5164979d46831c5e0";
 
-            var result = HashUtils.ComputeSHA256("hetfdex");
+            var result = HashUtils.ComputeHash("hetfdex");
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(expectedResult, result);
+            //todo: test bytes
+            var resultAsString = HexUtils.BytesToString(result);
+
+            Assert.IsNotNull(resultAsString);
+            Assert.AreEqual(expectedResult, resultAsString);
         }
 
         [TestMethod]
-        public void GeneratesUniqueHashWhenArgumentsChange()
+        public void ComputesUniqueHashes()
         {
             var block = new Block(0, string.Empty, string.Empty, new List<Transaction>(), -1, -1);
 
-            var blockHash = HashUtils.ComputeSHA256(block);
+            var hash = HashUtils.ComputeHash(block);
 
-            block.LastHash = "fake-lastHash";
+            block.LastHash = "test-lastHash";
 
-            var modifiedBlockHash = HashUtils.ComputeSHA256(block);
+            var modifiedHash = HashUtils.ComputeHash(block);
 
-            Assert.IsNotNull(blockHash);
-            Assert.IsNotNull(modifiedBlockHash);
-            Assert.AreNotEqual(blockHash, modifiedBlockHash);
+            Assert.IsNotNull(hash);
+            Assert.IsNotNull(modifiedHash);
+            Assert.AreNotEqual(hash, modifiedHash);
         }
     }
 }

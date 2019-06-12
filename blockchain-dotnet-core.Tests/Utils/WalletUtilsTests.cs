@@ -1,4 +1,4 @@
-﻿using blockchain_dotnet_core.API.Extensions;
+﻿/*using blockchain_dotnet_core.API.Extensions;
 using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Options;
 using blockchain_dotnet_core.API.Utils;
@@ -43,9 +43,9 @@ namespace blockchain_dotnet_core.Tests.Utils
         {
             var transactionOutputs = new Dictionary<ECPublicKeyParameters, decimal>();
 
-            var signature = KeyPairUtils.GenerateSignature(_wallet.PrivateKey, transactionOutputs);
+            var signature = KeyPairUtils.GenerateSignature(_wallet.PrivateKey, transactionOutputs.ToBytes());
 
-            Assert.IsTrue(KeyPairUtils.VerifySignature(_wallet.PublicKey, transactionOutputs, signature));
+            Assert.IsTrue(KeyPairUtils.VerifySignature(_wallet.PublicKey, transactionOutputs.ToBytes(), signature));
         }
 
         [TestMethod]
@@ -62,9 +62,9 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             var transactionOutputs = new Dictionary<ECPublicKeyParameters, decimal>();
 
-            var signature = KeyPairUtils.GenerateSignature(wallet.PrivateKey, transactionOutputs);
+            var signature = KeyPairUtils.GenerateSignature(wallet.PrivateKey, transactionOutputs.ToBytes());
 
-            Assert.IsFalse(KeyPairUtils.VerifySignature(_wallet.PublicKey, transactionOutputs, signature));
+            Assert.IsFalse(KeyPairUtils.VerifySignature(_wallet.PublicKey, transactionOutputs.ToBytes(), signature));
         }
 
         [TestMethod]
@@ -221,4 +221,4 @@ namespace blockchain_dotnet_core.Tests.Utils
             Assert.AreEqual(expectedBalance, balance);
         }
     }
-}
+}*/

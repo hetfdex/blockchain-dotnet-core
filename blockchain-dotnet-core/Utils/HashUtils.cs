@@ -7,23 +7,21 @@ namespace blockchain_dotnet_core.API.Utils
 {
     public static class HashUtils
     {
-        public static string ComputeSHA256(Block block)
+        public static byte[] ComputeHash(Block block)
         {
-            return ComputeSHA256(block.Timestamp, block.LastHash, block.Transactions, block.Nonce, block.Difficulty);
+            return ComputeHash(block.Timestamp, block.LastHash, block.Transactions, block.Nonce, block.Difficulty);
         }
 
-        public static string ComputeSHA256(long timestamp, string lastHash, List<Transaction> transactions, int nonce, int difficulty)
+        public static byte[] ComputeHash(long timestamp, string lastHash, List<Transaction> transactions, int nonce, int difficulty)
         {
-            return ComputeSHA256(timestamp + lastHash + transactions + nonce + difficulty);
+            return ComputeHash(timestamp + lastHash + transactions + nonce + difficulty);
         }
 
-        public static string ComputeSHA256(string toHash)
+        public static byte[] ComputeHash(string toHash)
         {
             using (var sha256 = SHA256.Create())
             {
-                var hash = sha256.ComputeHash(Encoding.Default.GetBytes(toHash));
-
-                return HexUtils.BytesToString(hash);
+                return sha256.ComputeHash(Encoding.Default.GetBytes(toHash));
             }
         }
     }

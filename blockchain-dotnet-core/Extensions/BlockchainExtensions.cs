@@ -1,4 +1,4 @@
-﻿using blockchain_dotnet_core.API.Models;
+﻿/*using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Options;
 using blockchain_dotnet_core.API.Utils;
 using System;
@@ -40,7 +40,7 @@ namespace blockchain_dotnet_core.API.Extensions
                     return false;
                 }
 
-                var validHash = HashUtils.ComputeSHA256(block);
+                var validHash = HexUtils.BytesToString(HashUtils.ComputeHash(block));
 
                 if (block.Hash != validHash)
                 {
@@ -105,4 +105,4 @@ namespace blockchain_dotnet_core.API.Extensions
             return true;
         }
     }
-}
+}*/

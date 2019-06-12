@@ -1,4 +1,4 @@
-﻿using blockchain_dotnet_core.API.Models;
+﻿/*using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Org.BouncyCastle.Crypto.Parameters;
@@ -101,4 +101,4 @@ namespace blockchain_dotnet_core.Tests.Models
             Assert.IsFalse(_wallet.GetHashCode() == differentWallet.GetHashCode());
         }
     }
-}
+}*/

@@ -1,4 +1,4 @@
-﻿using blockchain_dotnet_core.API.Models;
+﻿/*using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
 using Org.BouncyCastle.Crypto.Parameters;
 using System.Collections.Generic;
@@ -27,7 +27,7 @@ namespace blockchain_dotnet_core.API.Extensions
                 return false;
             }
 
-            if (!KeyPairUtils.VerifySignature(transactionInput.Address, transaction.TransactionOutputs, transactionInput.Signature))
+            if (!KeyPairUtils.VerifySignature(transactionInput.Address, transaction.TransactionOutputs.ToBytes(), transactionInput.Signature))
             {
                 return false;
             }
@@ -76,4 +76,4 @@ namespace blockchain_dotnet_core.API.Extensions
             return memoryStream.ToArray();
         }
     }
-}
+}*/

@@ -1,7 +1,8 @@
-﻿using blockchain_dotnet_core.API.Models;
+﻿/*using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Options;
 using Org.BouncyCastle.Crypto.Parameters;
 using System.Collections.Generic;
+using blockchain_dotnet_core.API.Extensions;
 
 namespace blockchain_dotnet_core.API.Utils
 {
@@ -23,7 +24,7 @@ namespace blockchain_dotnet_core.API.Utils
                 Timestamp = TimestampUtils.GenerateTimestamp(),
                 Address = senderWallet.PublicKey,
                 Amount = senderWallet.Balance,
-                Signature = KeyPairUtils.GenerateSignature(senderWallet.PrivateKey, transactionOutputs)
+                Signature = KeyPairUtils.GenerateSignature(senderWallet.PrivateKey, transactionOutputs.ToBytes())
             };
         }
 
@@ -41,4 +42,4 @@ namespace blockchain_dotnet_core.API.Utils
             };
         }
     }
-}
+}*/

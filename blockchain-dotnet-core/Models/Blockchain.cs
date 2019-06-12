@@ -1,5 +1,4 @@
-﻿using blockchain_dotnet_core.API.Utils;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.API.Models
 {
@@ -7,7 +6,7 @@ namespace blockchain_dotnet_core.API.Models
     {
         public List<Block> Chain { get; set; } = new List<Block>
         {
-            BlockUtils.GetGenesisBlock()
+            //BlockUtils.GetGenesisBlock()
         };
     }
 }

@@ -1,4 +1,4 @@
-﻿using blockchain_dotnet_core.API.Extensions;
+﻿/*using blockchain_dotnet_core.API.Extensions;
 using blockchain_dotnet_core.API.Models;
 
 namespace blockchain_dotnet_core.API.Utils
@@ -25,4 +25,4 @@ namespace blockchain_dotnet_core.API.Utils
             blockchain = otherBlockchain;
         }
     }
-}
+}*/

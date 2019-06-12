@@ -1,4 +1,4 @@
-﻿using blockchain_dotnet_core.API.Extensions;
+﻿/*using blockchain_dotnet_core.API.Extensions;
 using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Options;
 using blockchain_dotnet_core.API.Utils;
@@ -305,7 +305,7 @@ namespace blockchain_dotnet_core.Tests.Utils
                 Timestamp = TimestampUtils.GenerateTimestamp(),
                 Amount = senderWallet.Balance,
                 Address = senderWallet.PublicKey,
-                Signature = KeyPairUtils.GenerateSignature(senderPrivateKey, transactionOutputs)
+                Signature = KeyPairUtils.GenerateSignature(senderPrivateKey, transactionOutputs.ToBytes())
             };
 
             var transaction = new Transaction
@@ -332,4 +332,4 @@ namespace blockchain_dotnet_core.Tests.Utils
             Assert.AreNotEqual(_replacementBlockchain, _blockchain);
         }
     }
-}
+}*/

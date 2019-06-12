@@ -1,8 +1,9 @@
-﻿using blockchain_dotnet_core.API.Models;
+﻿/*using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Org.BouncyCastle.Crypto.Parameters;
 using System.Collections.Generic;
+using blockchain_dotnet_core.API.Extensions;
 
 namespace blockchain_dotnet_core.Tests.Utils
 {
@@ -32,7 +33,7 @@ namespace blockchain_dotnet_core.Tests.Utils
                 Timestamp = TimestampUtils.GenerateTimestamp(),
                 Address = keyPair.Public as ECPublicKeyParameters,
                 Amount = 100,
-                Signature = KeyPairUtils.GenerateSignature(keyPair.Private as ECPrivateKeyParameters, transactionOutput)
+                Signature = KeyPairUtils.GenerateSignature(keyPair.Private as ECPrivateKeyParameters, transactionOutput.ToBytes())
             };
 
             _transaction = new Transaction
@@ -90,4 +91,4 @@ namespace blockchain_dotnet_core.Tests.Utils
             //TODO
         }
     }
-}
+}*/

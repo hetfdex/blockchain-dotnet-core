@@ -27,7 +27,7 @@ namespace blockchain_dotnet_core.API.Models
             Nonce = nonce;
             Difficulty = difficulty;
 
-            Hash = HashUtils.ComputeSHA256(this);
+            Hash = HexUtils.BytesToString(HashUtils.ComputeHash(this));
         }
 
         public Block(long timestamp, string lastHash, string hash, List<Transaction> transactions, int nonce, int difficulty)
@@ -42,7 +42,7 @@ namespace blockchain_dotnet_core.API.Models
 
         public override string ToString()
         {
-            return string.IsNullOrEmpty(Hash) ? HashUtils.ComputeSHA256(this) : Hash;
+            return string.IsNullOrEmpty(Hash) ? HexUtils.BytesToString(HashUtils.ComputeHash(this)) : Hash;
         }
 
         public override int GetHashCode() => HashCode.Combine(Timestamp, LastHash, Hash, Transactions, Nonce, Difficulty);

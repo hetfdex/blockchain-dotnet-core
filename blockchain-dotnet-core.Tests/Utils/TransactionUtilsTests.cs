@@ -1,4 +1,4 @@
-﻿using blockchain_dotnet_core.API.Models;
+﻿/*using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Options;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -32,4 +32,4 @@ namespace blockchain_dotnet_core.Tests.Utils
             Assert.AreEqual(TransactionInputUtils.GetMinerTransactionInput().Amount, rewardTransaction.TransactionOutputs[minerWallet.PublicKey]);
         }
     }
-}
+}*/

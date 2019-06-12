@@ -1,4 +1,4 @@
-﻿using blockchain_dotnet_core.API.Extensions;
+﻿/*using blockchain_dotnet_core.API.Extensions;
 using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Options;
 using blockchain_dotnet_core.API.Utils;
@@ -78,7 +78,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
             Assert.IsInstanceOfType(_transaction.TransactionInput.Signature, typeof(string));
             Assert.AreEqual(_senderWallet.PublicKey, _transaction.TransactionInput.Address);
             Assert.AreEqual(_senderWallet.Balance, _transaction.TransactionInput.Amount);
-            Assert.IsTrue(KeyPairUtils.VerifySignature(_senderWallet.PublicKey, _transaction.TransactionOutputs, _transaction.TransactionInput.Signature));
+            Assert.IsTrue(KeyPairUtils.VerifySignature(_senderWallet.PublicKey, _transaction.TransactionOutputs.ToBytes(), _transaction.TransactionInput.Signature));
         }
 
         [TestMethod]
@@ -108,7 +108,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
             };
 
             _transaction.TransactionInput.Signature = KeyPairUtils.GenerateSignature(_senderWallet.PrivateKey,
-                transactionOutputs);
+                transactionOutputs.ToBytes());
 
             Assert.IsFalse(_transaction.IsValidTransaction());
         }
@@ -161,4 +161,4 @@ namespace blockchain_dotnet_core.Tests.Extensions
             Assert.AreEqual(originalSignature, _transaction.TransactionInput.Signature);
         }
     }
-}
+}*/

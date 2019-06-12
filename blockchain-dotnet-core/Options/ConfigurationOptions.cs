@@ -10,6 +10,7 @@ namespace blockchain_dotnet_core.API.Options
 
         public static decimal StartBalance = 1000;
 
+        //todo: add real miner address
         public static ECPublicKeyParameters MinerAddress = null;
 
         public static decimal MinerReward = 50;

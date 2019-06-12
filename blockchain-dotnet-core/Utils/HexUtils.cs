@@ -19,6 +19,6 @@ namespace blockchain_dotnet_core.API.Utils
         }
 
         public static string BytesToString(byte[] bytes) =>
-            String.Join(string.Empty, Array.ConvertAll(bytes, b => b.ToString("x2")));
+            string.Join(string.Empty, Array.ConvertAll(bytes, b => b.ToString("x2")));
     }
 }

@@ -2,7 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
-using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.Tests.Utils
 {
@@ -39,15 +38,9 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void GeneratesSignature()
         {
-            var keyPair = KeyPairUtils.GenerateKeyPair();
+            var bytes = new byte[1];
 
-            var transactionOutputs = new Dictionary<ECPublicKeyParameters, decimal>();
-
-            var publicKey = keyPair.Public as ECPublicKeyParameters;
-
-            transactionOutputs.Add(publicKey, 10);
-
-            var signature = KeyPairUtils.GenerateSignature(_privateKey, transactionOutputs);
+            var signature = KeyPairUtils.GenerateSignature(_privateKey, bytes);
 
             Assert.IsNotNull(signature);
             Assert.IsInstanceOfType(signature, typeof(string));
@@ -56,17 +49,11 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void VerifiesSignature()
         {
-            var keyPair = KeyPairUtils.GenerateKeyPair();
+            var bytes = new byte[1];
 
-            var transactionOutputs = new Dictionary<ECPublicKeyParameters, decimal>();
+            var signature = KeyPairUtils.GenerateSignature(_privateKey, bytes);
 
-            var publicKey = keyPair.Public as ECPublicKeyParameters;
-
-            transactionOutputs.Add(publicKey, 10);
-
-            var signature = KeyPairUtils.GenerateSignature(_privateKey, transactionOutputs);
-
-            Assert.IsTrue(KeyPairUtils.VerifySignature(_publicKey, transactionOutputs, signature));
+            Assert.IsTrue(KeyPairUtils.VerifySignature(_publicKey, bytes, signature));
         }
     }
 }

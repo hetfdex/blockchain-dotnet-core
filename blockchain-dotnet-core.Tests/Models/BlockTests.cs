@@ -10,7 +10,7 @@ namespace blockchain_dotnet_core.Tests.Models
     {
         private readonly long _timestamp = TimestampUtils.GenerateTimestamp();
 
-        private readonly string _lastHash = HashUtils.ComputeSHA256("test-lastHash");
+        private readonly string _lastHash = HexUtils.BytesToString(HashUtils.ComputeHash("test-lastHash"));
 
         private readonly List<Transaction> _transactions = new List<Transaction>();
 
@@ -25,13 +25,13 @@ namespace blockchain_dotnet_core.Tests.Models
         {
             _block = new Block(_timestamp, _lastHash, _transactions, _nonce, _difficulty);
 
-            _block.Hash = HashUtils.ComputeSHA256(_block);
+            _block.Hash = HexUtils.BytesToString(HashUtils.ComputeHash(_block));
         }
 
         [TestMethod]
         public void ConstructBlock()
         {
-            var expectedHash = HashUtils.ComputeSHA256(_block);
+            var expectedHash = HexUtils.BytesToString(HashUtils.ComputeHash(_block));
 
             Assert.IsNotNull(_block);
             Assert.AreEqual(_timestamp, _block.Timestamp);
@@ -54,7 +54,7 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void BlockWithoutHashToStringReturnsHash()
         {
-            var expectedResult = HashUtils.ComputeSHA256(_block);
+            var expectedResult = HexUtils.BytesToString(HashUtils.ComputeHash(_block));
 
             _block.Hash = null;
 

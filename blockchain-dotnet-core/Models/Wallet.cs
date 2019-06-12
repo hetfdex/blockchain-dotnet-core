@@ -1,4 +1,4 @@
-﻿using Org.BouncyCastle.Crypto.Parameters;
+﻿/*using Org.BouncyCastle.Crypto.Parameters;
 using System;
 
 namespace blockchain_dotnet_core.API.Models
@@ -36,4 +36,4 @@ namespace blockchain_dotnet_core.API.Models
             return Balance.Equals(other.Balance) && PrivateKey.Equals(other.PrivateKey) && PublicKey.Equals(other.PublicKey);
         }
     }
-}
+}*/
