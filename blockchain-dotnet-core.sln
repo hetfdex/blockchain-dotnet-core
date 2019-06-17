@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.645
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "blockchain-dotnet-core.API", "blockchain-dotnet-core\blockchain-dotnet-core.API.csproj", "{142CFD38-1E75-43E3-95E0-EDC693704C33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "blockchain-dotnet-core.Tests", "blockchain-dotnet-core.Tests\blockchain-dotnet-core.Tests.csproj", "{A77C02AD-1096-4477-8C98-F77257FBD9A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "blockchain-dotnet-core.Tests", "blockchain-dotnet-core.Tests\blockchain-dotnet-core.Tests.csproj", "{A77C02AD-1096-4477-8C98-F77257FBD9A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

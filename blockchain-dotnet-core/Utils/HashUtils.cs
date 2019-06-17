@@ -12,7 +12,8 @@ namespace blockchain_dotnet_core.API.Utils
             return ComputeHash(block.Timestamp, block.LastHash, block.Transactions, block.Nonce, block.Difficulty);
         }
 
-        public static byte[] ComputeHash(long timestamp, string lastHash, List<Transaction> transactions, int nonce, int difficulty)
+        public static byte[] ComputeHash(long timestamp, string lastHash, List<Transaction> transactions, int nonce,
+            int difficulty)
         {
             return ComputeHash(timestamp + lastHash + transactions + nonce + difficulty);
         }

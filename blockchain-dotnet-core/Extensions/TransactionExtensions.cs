@@ -63,12 +63,9 @@ namespace blockchain_dotnet_core.API.Extensions
         {
             var serializable = new Dictionary<string, decimal>();
 
-            if (transactionOutputs != null && transactionOutputs.Count > 0)
+            foreach (var transactionOutput in transactionOutputs)
             {
-                foreach (var transactionOutput in transactionOutputs)
-                {
-                    serializable[transactionOutput.Key.ToString()] = transactionOutput.Value;
-                }
+                serializable[transactionOutput.Key.ToString()] = transactionOutput.Value;
             }
 
             var binaryFormatter = new BinaryFormatter();

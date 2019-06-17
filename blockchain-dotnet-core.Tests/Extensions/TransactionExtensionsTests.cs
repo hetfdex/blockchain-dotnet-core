@@ -4,7 +4,6 @@ using blockchain_dotnet_core.API.Options;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Org.BouncyCastle.Crypto.Parameters;
-using System;
 using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.Tests.Extensions
@@ -38,42 +37,6 @@ namespace blockchain_dotnet_core.Tests.Extensions
             var transactionInput = TransactionUtils.GenerateTransactionInput(_senderWallet, transactionOutputs);
 
             _transaction = new Transaction(transactionOutputs, transactionInput);
-        }
-
-        [TestMethod]
-        public void ConstructsTransaction()
-        {
-            Assert.IsNotNull(_transaction.Id);
-            Assert.IsInstanceOfType(_transaction.Id, typeof(Guid));
-            Assert.IsNotNull(_transaction.TransactionOutputs);
-            Assert.IsInstanceOfType(_transaction.TransactionOutputs,
-                typeof(Dictionary<ECPublicKeyParameters, decimal>));
-            Assert.IsNotNull(_transaction.TransactionInput);
-            Assert.IsInstanceOfType(_transaction.TransactionInput, typeof(TransactionInput));
-        }
-
-        [TestMethod]
-        public void HasValidTransactionOutputs()
-        {
-            Assert.AreEqual(_amount, _transaction.TransactionOutputs[_recipientPublicKey]);
-            Assert.AreEqual(_senderWallet.Balance - _amount, _transaction.TransactionOutputs[_senderWallet.PublicKey]);
-        }
-
-        [TestMethod]
-        public void HasValidTransactionInput()
-        {
-            Assert.IsNotNull(_transaction.TransactionInput.Timestamp);
-            Assert.IsInstanceOfType(_transaction.TransactionInput.Timestamp, typeof(long));
-            Assert.IsNotNull(_transaction.TransactionInput.Address);
-            Assert.IsInstanceOfType(_transaction.TransactionInput.Address, typeof(ECPublicKeyParameters));
-            Assert.IsNotNull(_transaction.TransactionInput.Amount);
-            Assert.IsInstanceOfType(_transaction.TransactionInput.Amount, typeof(decimal));
-            Assert.IsNotNull(_transaction.TransactionInput.Signature);
-            Assert.IsInstanceOfType(_transaction.TransactionInput.Signature, typeof(string));
-            Assert.AreEqual(_senderWallet.PublicKey, _transaction.TransactionInput.Address);
-            Assert.AreEqual(_senderWallet.Balance, _transaction.TransactionInput.Amount);
-            Assert.IsTrue(KeyPairUtils.VerifySignature(_senderWallet.PublicKey,
-                _transaction.TransactionOutputs.ToBytes(), _transaction.TransactionInput.Signature));
         }
 
         [TestMethod]
@@ -157,6 +120,12 @@ namespace blockchain_dotnet_core.Tests.Extensions
             Assert.AreNotEqual(originalSenderOutput - nextAmount,
                 _transaction.TransactionOutputs[_senderWallet.PublicKey]);
             Assert.AreEqual(originalSignature, _transaction.TransactionInput.Signature);
+        }
+
+        [TestMethod]
+        public void ConvertsTransactionOutputsToBytes()
+        {
+            //todo
         }
     }
 }
