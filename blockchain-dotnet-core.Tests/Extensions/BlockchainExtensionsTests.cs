@@ -16,15 +16,15 @@ namespace blockchain_dotnet_core.Tests.Extensions
         public void BlockchainExtensionsTestsSetup()
         {
             var transactionsOne = new List<Transaction>
-             {
-                 new Transaction(null, null)
-             };
+            {
+                new Transaction(null, null)
+            };
 
             var transactionsTwo = new List<Transaction>
-             {
-                 new Transaction(null, null),
-                 new Transaction(null, null)
-             };
+            {
+                new Transaction(null, null),
+                new Transaction(null, null)
+            };
 
             _blockchain.AddBlock(transactionsOne);
             _blockchain.AddBlock(transactionsTwo);
@@ -75,7 +75,8 @@ namespace blockchain_dotnet_core.Tests.Extensions
         {
             var lastBlock = _blockchain.Chain[_blockchain.Chain.Count - 1];
 
-            var fakeBlock = new Block(TimestampUtils.GenerateTimestamp(), lastBlock.LastHash, new List<Transaction>(), 0, -2);
+            var fakeBlock = new Block(TimestampUtils.GenerateTimestamp(), lastBlock.LastHash, new List<Transaction>(),
+                0, -2);
 
             fakeBlock.Hash = HexUtils.BytesToString(HashUtils.ComputeHash(fakeBlock));
 
