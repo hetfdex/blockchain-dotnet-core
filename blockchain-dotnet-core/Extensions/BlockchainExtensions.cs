@@ -64,8 +64,7 @@ namespace blockchain_dotnet_core.API.Extensions
 
                 foreach (var transaction in block.Transactions)
                 {
-                    if (transaction.TransactionInput.Signature ==
-                        TransactionInputUtils.GetMinerTransactionInput().Signature)
+                    if (transaction.TransactionInput.Equals(TransactionInputUtils.GetMinerTransactionInput()))
                     {
                         minerRewardCount++;
 
