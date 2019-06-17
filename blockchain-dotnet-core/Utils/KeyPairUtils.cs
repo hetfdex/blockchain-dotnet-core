@@ -3,6 +3,7 @@ using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
+using System;
 
 namespace blockchain_dotnet_core.API.Utils
 {
@@ -23,6 +24,13 @@ namespace blockchain_dotnet_core.API.Utils
             ecKeyPairGenerator.Init(ecKeyGenerationParameters);
 
             return ecKeyPairGenerator.GenerateKeyPair();
+        }
+
+        public static ECPublicKeyParameters LoadPublicKey(string publicKey)
+        {
+            var bytes = Convert.FromBase64String(publicKey);
+
+            return PublicKeyFactory.CreateKey(bytes) as ECPublicKeyParameters;
         }
 
         public static string GenerateSignature(ECPrivateKeyParameters ecPrivateKeyParameters, byte[] transactionOutputs)

@@ -1,4 +1,4 @@
-﻿/*using blockchain_dotnet_core.API.Models;
+﻿using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
 using Org.BouncyCastle.Crypto.Parameters;
 using System.Collections.Generic;
@@ -27,7 +27,8 @@ namespace blockchain_dotnet_core.API.Extensions
                 return false;
             }
 
-            if (!KeyPairUtils.VerifySignature(transactionInput.Address, transaction.TransactionOutputs.ToBytes(), transactionInput.Signature))
+            if (!KeyPairUtils.VerifySignature(transactionInput.Address, transaction.TransactionOutputs.ToBytes(),
+                transactionInput.Signature))
             {
                 return false;
             }
@@ -35,7 +36,8 @@ namespace blockchain_dotnet_core.API.Extensions
             return true;
         }
 
-        public static void UpdateTransaction(this Transaction transaction, Wallet senderWallet, ECPublicKeyParameters recipient, decimal amount)
+        public static void UpdateTransaction(this Transaction transaction, Wallet senderWallet,
+            ECPublicKeyParameters recipient, decimal amount)
         {
             if (amount > transaction.TransactionOutputs[senderWallet.PublicKey])
             {
@@ -53,7 +55,8 @@ namespace blockchain_dotnet_core.API.Extensions
 
             transaction.TransactionOutputs[senderWallet.PublicKey] -= amount;
 
-            transaction.TransactionInput = TransactionUtils.GenerateTransactionInput(senderWallet, transaction.TransactionOutputs);
+            transaction.TransactionInput =
+                TransactionUtils.GenerateTransactionInput(senderWallet, transaction.TransactionOutputs);
         }
 
         public static byte[] ToBytes(this Dictionary<ECPublicKeyParameters, decimal> transactionOutputs)
@@ -67,6 +70,7 @@ namespace blockchain_dotnet_core.API.Extensions
                     serializable[transactionOutput.Key.ToString()] = transactionOutput.Value;
                 }
             }
+
             var binaryFormatter = new BinaryFormatter();
 
             var memoryStream = new MemoryStream();
@@ -76,4 +80,4 @@ namespace blockchain_dotnet_core.API.Extensions
             return memoryStream.ToArray();
         }
     }
-}*/
+}

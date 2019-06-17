@@ -1,4 +1,4 @@
-﻿/*using blockchain_dotnet_core.API.Models;
+﻿using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Options;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -19,17 +19,14 @@ namespace blockchain_dotnet_core.Tests.Utils
         {
             var minerKeyPair = KeyPairUtils.GenerateKeyPair();
 
-            var minerWallet = new Wallet
-            {
-                Balance = ConfigurationOptions.StartBalance,
-                PrivateKey = minerKeyPair.Private as ECPrivateKeyParameters,
-                PublicKey = minerKeyPair.Public as ECPublicKeyParameters
-            };
+            var minerWallet = new Wallet(minerKeyPair.Private as ECPrivateKeyParameters,
+                minerKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
 
             var rewardTransaction = TransactionUtils.GetMinerRewardTransaction(minerWallet);
 
             Assert.AreEqual(TransactionInputUtils.GetMinerTransactionInput(), rewardTransaction.TransactionInput);
-            Assert.AreEqual(TransactionInputUtils.GetMinerTransactionInput().Amount, rewardTransaction.TransactionOutputs[minerWallet.PublicKey]);
+            Assert.AreEqual(TransactionInputUtils.GetMinerTransactionInput().Amount,
+                rewardTransaction.TransactionOutputs[minerWallet.PublicKey]);
         }
     }
-}*/
+}

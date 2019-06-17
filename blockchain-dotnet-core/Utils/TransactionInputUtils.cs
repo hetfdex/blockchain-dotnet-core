@@ -7,8 +7,8 @@ namespace blockchain_dotnet_core.API.Utils
     {
         public static TransactionInput GetMinerTransactionInput()
         {
-            return new TransactionInput(TimestampUtils.GenerateTimestamp(), ConfigurationOptions.MinerAddress, ConfigurationOptions.MinerReward, "miner-reward");
-
+            return new TransactionInput(TimestampUtils.GenerateTimestamp(), ConfigurationOptions.MinerAddress,
+                ConfigurationOptions.MinerReward, "miner-reward");
         }
     }
 }
