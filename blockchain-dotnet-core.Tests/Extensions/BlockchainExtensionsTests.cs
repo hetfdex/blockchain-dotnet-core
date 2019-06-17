@@ -1,4 +1,4 @@
-﻿/*using blockchain_dotnet_core.API.Extensions;
+﻿using blockchain_dotnet_core.API.Extensions;
 using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -17,25 +17,17 @@ namespace blockchain_dotnet_core.Tests.Extensions
         {
             var transactionsOne = new List<Transaction>
              {
-                 new Transaction()
+                 new Transaction(null, null)
              };
 
             var transactionsTwo = new List<Transaction>
              {
-                 new Transaction(),
-                 new Transaction()
+                 new Transaction(null, null),
+                 new Transaction(null, null)
              };
 
             _blockchain.AddBlock(transactionsOne);
             _blockchain.AddBlock(transactionsTwo);
-        }
-
-        [TestMethod]
-        public void ConstructBlockchain()
-        {
-            Assert.IsNotNull(_blockchain);
-            Assert.IsInstanceOfType(_blockchain, typeof(List<Block>));
-            Assert.AreEqual(BlockUtils.GetGenesisBlock(), _blockchain.Chain[0]);
         }
 
         [TestMethod]
@@ -92,4 +84,4 @@ namespace blockchain_dotnet_core.Tests.Extensions
             Assert.IsFalse(_blockchain.IsValidChain());
         }
     }
-}*/
+}

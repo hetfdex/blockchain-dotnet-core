@@ -1,4 +1,4 @@
-﻿/*using blockchain_dotnet_core.API.Models;
+﻿using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Options;
 using blockchain_dotnet_core.API.Utils;
 using System;
@@ -52,6 +52,7 @@ namespace blockchain_dotnet_core.API.Extensions
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -63,7 +64,8 @@ namespace blockchain_dotnet_core.API.Extensions
 
                 foreach (var transaction in block.Transactions)
                 {
-                    if (transaction.TransactionInput.Signature == TransactionInputUtils.GetMinerTransactionInput().Signature)
+                    if (transaction.TransactionInput.Signature ==
+                        TransactionInputUtils.GetMinerTransactionInput().Signature)
                     {
                         minerRewardCount++;
 
@@ -105,4 +107,4 @@ namespace blockchain_dotnet_core.API.Extensions
             return true;
         }
     }
-}*/
+}

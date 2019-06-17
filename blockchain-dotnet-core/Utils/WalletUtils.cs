@@ -1,4 +1,4 @@
-﻿/*using blockchain_dotnet_core.API.Models;
+﻿using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Options;
 using Org.BouncyCastle.Crypto.Parameters;
 
@@ -6,10 +6,9 @@ namespace blockchain_dotnet_core.API.Utils
 {
     public static class WalletUtils
     {
-        public static Transaction GenerateTransaction(Wallet wallet, ECPublicKeyParameters recipient, decimal amount, Blockchain blockchain)
+        public static Transaction GenerateTransaction(Wallet wallet, ECPublicKeyParameters recipient, decimal amount,
+            Blockchain blockchain)
         {
-            var result = new Transaction();
-
             if (blockchain != null)
             {
                 wallet.Balance = CalculateBalance(blockchain, wallet.PublicKey);
@@ -20,10 +19,10 @@ namespace blockchain_dotnet_core.API.Utils
                 return null;
             }
 
-            result.TransactionOutputs = TransactionUtils.GenerateTransactionOutput(wallet, recipient, amount);
-            result.TransactionInput = TransactionUtils.GenerateTransactionInput(wallet, result.TransactionOutputs);
+            var transactionOutputs = TransactionUtils.GenerateTransactionOutput(wallet, recipient, amount);
+            var transactionInput = TransactionUtils.GenerateTransactionInput(wallet, transactionOutputs);
 
-            return result;
+            return new Transaction(transactionOutputs, transactionInput);
         }
 
         public static decimal CalculateBalance(Blockchain blockchain, ECPublicKeyParameters address)
@@ -38,7 +37,8 @@ namespace blockchain_dotnet_core.API.Utils
 
                 foreach (var transaction in block.Transactions)
                 {
-                    if (transaction.TransactionInput?.Address != null && transaction.TransactionInput.Address.Equals(address))
+                    if (transaction.TransactionInput?.Address != null &&
+                        transaction.TransactionInput.Address.Equals(address))
                     {
                         hasConductedTransaction = true;
                     }
@@ -53,12 +53,14 @@ namespace blockchain_dotnet_core.API.Utils
                         }
                     }
                 }
+
                 if (hasConductedTransaction)
                 {
                     break;
                 }
             }
+
             return hasConductedTransaction ? outputsTotal : ConfigurationOptions.StartBalance + outputsTotal;
         }
     }
-}*/
+}
