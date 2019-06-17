@@ -50,7 +50,8 @@ namespace blockchain_dotnet_core.Tests.Models
         {
             var result = _transaction.ToString();
 
-            var expectedResult = _transaction.Id.ToString() + _transaction.TransactionOutputs + _transaction.TransactionInput;
+            var expectedResult = _transaction.Id.ToString() + _transaction.TransactionOutputs +
+                                 _transaction.TransactionInput;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(expectedResult, result);
@@ -68,7 +69,8 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void TransactionsAreNotEqualDifferentProperties()
         {
-            var differentTransaction = new Transaction(new Dictionary<ECPublicKeyParameters, decimal>(), _transactionInput);
+            var differentTransaction =
+                new Transaction(new Dictionary<ECPublicKeyParameters, decimal>(), _transactionInput);
 
             var differentObject = (object)differentTransaction;
 
@@ -103,7 +105,8 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void TransactionsDoNotHaveSameHashCode()
         {
-            var differentTransaction = new Transaction(new Dictionary<ECPublicKeyParameters, decimal>(), _transactionInput);
+            var differentTransaction =
+                new Transaction(new Dictionary<ECPublicKeyParameters, decimal>(), _transactionInput);
 
             Assert.IsNotNull(differentTransaction);
             Assert.IsFalse(_transaction.GetHashCode() == differentTransaction.GetHashCode());

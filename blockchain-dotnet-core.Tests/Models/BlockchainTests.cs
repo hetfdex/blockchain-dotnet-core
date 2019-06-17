@@ -1,4 +1,5 @@
 ﻿using blockchain_dotnet_core.API.Models;
+using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
@@ -26,7 +27,11 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void ChainHasGenesisBlock()
         {
-            //todo: add genesis block testing
+            var genesisBlock = BlockUtils.GetGenesisBlock();
+
+            Assert.IsTrue(_blockchain.Chain.Count > 0);
+            Assert.IsNotNull(_blockchain.Chain[0]);
+            Assert.AreEqual(genesisBlock, _blockchain.Chain[0]);
         }
 
         [TestMethod]

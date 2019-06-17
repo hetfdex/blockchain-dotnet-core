@@ -1,4 +1,4 @@
-﻿/*using blockchain_dotnet_core.API.Models;
+﻿using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Options;
 using System.Collections.Generic;
 
@@ -8,7 +8,8 @@ namespace blockchain_dotnet_core.API.Utils
     {
         public static Block GetGenesisBlock()
         {
-            return new Block(0, HexUtils.BytesToString(HashUtils.ComputeHash("genesis-lastHash")), new List<Transaction>(), 0,
+            return new Block(0, HexUtils.BytesToString(HashUtils.ComputeHash("genesis-lastHash")),
+                new List<Transaction>(), 0,
                 ConfigurationOptions.InitialDifficulty);
         }
 
@@ -32,7 +33,8 @@ namespace blockchain_dotnet_core.API.Utils
 
                 difficulty = AdjustDifficulty(lastBlock, timestamp);
 
-                hash = HexUtils.BytesToString(HashUtils.ComputeHash(timestamp, lastHash, transactions, nonce, difficulty));
+                hash = HexUtils.BytesToString(HashUtils.ComputeHash(timestamp, lastHash, transactions, nonce,
+                    difficulty));
             } while (hash.Substring(0, difficulty) != new string('0', difficulty));
 
             return new Block(timestamp, lastHash, hash, transactions, nonce, difficulty);
@@ -55,4 +57,4 @@ namespace blockchain_dotnet_core.API.Utils
             return difficulty + 1;
         }
     }
-}*/
+}

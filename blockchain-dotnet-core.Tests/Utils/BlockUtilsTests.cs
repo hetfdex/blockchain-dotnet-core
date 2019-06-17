@@ -1,4 +1,4 @@
-﻿/*using blockchain_dotnet_core.API.Models;
+﻿using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Options;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,7 +15,9 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestInitialize]
         public void BlockTestsSetup()
         {
-            _block = new Block(TimestampUtils.GenerateTimestamp(), HexUtils.BytesToString(HashUtils.ComputeHash("test-lastHash")), new List<Transaction>(), 0, ConfigurationOptions.InitialDifficulty);
+            _block = new Block(TimestampUtils.GenerateTimestamp(),
+                HexUtils.BytesToString(HashUtils.ComputeHash("test-lastHash")), new List<Transaction>(), 0,
+                ConfigurationOptions.InitialDifficulty);
         }
 
         [TestMethod]
@@ -31,7 +33,8 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             var expectedDifficulty = ConfigurationOptions.InitialDifficulty;
 
-            var expectedHash = HexUtils.BytesToString(HashUtils.ComputeHash(expectedTimestamp, expectedLastHash, expectedTransactions,
+            var expectedHash = HexUtils.BytesToString(HashUtils.ComputeHash(expectedTimestamp, expectedLastHash,
+                expectedTransactions,
                 expectedNonce, expectedDifficulty));
 
             var genesisBlock = BlockUtils.GetGenesisBlock();
@@ -100,4 +103,4 @@ namespace blockchain_dotnet_core.Tests.Utils
             Assert.AreEqual(expectedLimitDifficulty, result);
         }
     }
-}*/
+}

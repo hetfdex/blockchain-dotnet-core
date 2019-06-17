@@ -12,7 +12,8 @@ namespace blockchain_dotnet_core.API.Models
 
         public TransactionInput TransactionInput { get; set; }
 
-        public Transaction(Dictionary<ECPublicKeyParameters, decimal> transactionOutputs, TransactionInput transactionInput)
+        public Transaction(Dictionary<ECPublicKeyParameters, decimal> transactionOutputs,
+            TransactionInput transactionInput)
         {
             TransactionOutputs = transactionOutputs;
             TransactionInput = transactionInput;

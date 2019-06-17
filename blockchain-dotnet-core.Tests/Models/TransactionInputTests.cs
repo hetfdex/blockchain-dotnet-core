@@ -44,7 +44,8 @@ namespace blockchain_dotnet_core.Tests.Models
         {
             var result = _transactionInput.ToString();
 
-            var expectedResult = _transactionInput.Timestamp + _transactionInput.Address.ToString() + _transactionInput.Amount + _transactionInput.Signature;
+            var expectedResult = _transactionInput.Timestamp + _transactionInput.Address.ToString() +
+                                 _transactionInput.Amount + _transactionInput.Signature;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(expectedResult, result);
@@ -64,7 +65,8 @@ namespace blockchain_dotnet_core.Tests.Models
         {
             var keyPair = KeyPairUtils.GenerateKeyPair();
 
-            var differentTransactionInput = new TransactionInput(0, keyPair.Public as ECPublicKeyParameters, 10, string.Empty);
+            var differentTransactionInput =
+                new TransactionInput(0, keyPair.Public as ECPublicKeyParameters, 10, string.Empty);
 
             var differentObject = (object)differentTransactionInput;
 
@@ -101,7 +103,8 @@ namespace blockchain_dotnet_core.Tests.Models
         {
             var keyPair = KeyPairUtils.GenerateKeyPair();
 
-            var differentTransactionInput = new TransactionInput(0, keyPair.Public as ECPublicKeyParameters, 10, string.Empty);
+            var differentTransactionInput =
+                new TransactionInput(0, keyPair.Public as ECPublicKeyParameters, 10, string.Empty);
 
             Assert.IsNotNull(differentTransactionInput);
             Assert.IsFalse(_transactionInput.GetHashCode() == differentTransactionInput.GetHashCode());

@@ -40,7 +40,8 @@ namespace blockchain_dotnet_core.API.Models
 
         public bool Equals(Wallet other)
         {
-            return Balance.Equals(other.Balance) && PrivateKey.Equals(other.PrivateKey) && PublicKey.Equals(other.PublicKey);
+            return Balance.Equals(other.Balance) && PrivateKey.Equals(other.PrivateKey) &&
+                   PublicKey.Equals(other.PublicKey);
         }
     }
 }

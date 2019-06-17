@@ -30,7 +30,8 @@ namespace blockchain_dotnet_core.API.Models
             Hash = HexUtils.BytesToString(HashUtils.ComputeHash(this));
         }
 
-        public Block(long timestamp, string lastHash, string hash, List<Transaction> transactions, int nonce, int difficulty)
+        public Block(long timestamp, string lastHash, string hash, List<Transaction> transactions, int nonce,
+            int difficulty)
         {
             Timestamp = timestamp;
             LastHash = lastHash;
@@ -45,7 +46,8 @@ namespace blockchain_dotnet_core.API.Models
             return string.IsNullOrEmpty(Hash) ? HexUtils.BytesToString(HashUtils.ComputeHash(this)) : Hash;
         }
 
-        public override int GetHashCode() => HashCode.Combine(Timestamp, LastHash, Hash, Transactions, Nonce, Difficulty);
+        public override int GetHashCode() =>
+            HashCode.Combine(Timestamp, LastHash, Hash, Transactions, Nonce, Difficulty);
 
         public override bool Equals(object obj)
         {
