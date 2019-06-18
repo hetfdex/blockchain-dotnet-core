@@ -66,7 +66,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
             };
 
             _transaction.TransactionInput.Signature = KeyPairUtils.GenerateSignature(_senderWallet.PrivateKey,
-                transactionOutputs.ToBytes());
+                transactionOutputs.ToHash());
 
             Assert.IsFalse(_transaction.IsValidTransaction());
         }

@@ -23,7 +23,7 @@ namespace blockchain_dotnet_core.API.Utils
         {
             return new TransactionInput(TimestampUtils.GenerateTimestamp(), senderWallet.PublicKey,
                 senderWallet.Balance,
-                KeyPairUtils.GenerateSignature(senderWallet.PrivateKey, transactionOutputs.ToBytes()));
+                KeyPairUtils.GenerateSignature(senderWallet.PrivateKey, transactionOutputs.ToHash()));
         }
 
         public static Transaction GetMinerRewardTransaction(Wallet minerWallet)

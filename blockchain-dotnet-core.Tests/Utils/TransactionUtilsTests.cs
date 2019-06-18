@@ -74,7 +74,7 @@ namespace blockchain_dotnet_core.Tests.Utils
             Assert.AreEqual(_senderWallet.PublicKey, _transaction.TransactionInput.Address);
             Assert.AreEqual(_senderWallet.Balance, _transaction.TransactionInput.Amount);
             Assert.IsTrue(KeyPairUtils.VerifySignature(_senderWallet.PublicKey,
-                _transaction.TransactionOutputs.ToBytes(), _transaction.TransactionInput.Signature));
+                _transaction.TransactionOutputs.ToHash(), _transaction.TransactionInput.Signature));
         }
     }
 }

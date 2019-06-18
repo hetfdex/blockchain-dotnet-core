@@ -20,9 +20,14 @@ namespace blockchain_dotnet_core.API.Utils
 
         public static byte[] ComputeHash(string toHash)
         {
+            return ComputeHash(Encoding.Default.GetBytes(toHash));
+        }
+
+        public static byte[] ComputeHash(byte[] bytes)
+        {
             using (var sha256 = SHA256.Create())
             {
-                return sha256.ComputeHash(Encoding.Default.GetBytes(toHash));
+                return sha256.ComputeHash(bytes);
             }
         }
     }

@@ -39,9 +39,9 @@ namespace blockchain_dotnet_core.Tests.Utils
         {
             var transactionOutputs = new Dictionary<ECPublicKeyParameters, decimal>();
 
-            var signature = KeyPairUtils.GenerateSignature(_wallet.PrivateKey, transactionOutputs.ToBytes());
+            var signature = KeyPairUtils.GenerateSignature(_wallet.PrivateKey, transactionOutputs.ToHash());
 
-            Assert.IsTrue(KeyPairUtils.VerifySignature(_wallet.PublicKey, transactionOutputs.ToBytes(), signature));
+            Assert.IsTrue(KeyPairUtils.VerifySignature(_wallet.PublicKey, transactionOutputs.ToHash(), signature));
         }
 
         [TestMethod]
@@ -54,9 +54,9 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             var transactionOutputs = new Dictionary<ECPublicKeyParameters, decimal>();
 
-            var signature = KeyPairUtils.GenerateSignature(wallet.PrivateKey, transactionOutputs.ToBytes());
+            var signature = KeyPairUtils.GenerateSignature(wallet.PrivateKey, transactionOutputs.ToHash());
 
-            Assert.IsFalse(KeyPairUtils.VerifySignature(_wallet.PublicKey, transactionOutputs.ToBytes(), signature));
+            Assert.IsFalse(KeyPairUtils.VerifySignature(_wallet.PublicKey, transactionOutputs.ToHash(), signature));
         }
 
         [TestMethod]

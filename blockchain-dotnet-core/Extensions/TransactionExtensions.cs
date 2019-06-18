@@ -27,7 +27,7 @@ namespace blockchain_dotnet_core.API.Extensions
                 return false;
             }
 
-            if (!KeyPairUtils.VerifySignature(transactionInput.Address, transaction.TransactionOutputs.ToBytes(),
+            if (!KeyPairUtils.VerifySignature(transactionInput.Address, transaction.TransactionOutputs.ToHash(),
                 transactionInput.Signature))
             {
                 return false;
@@ -59,7 +59,7 @@ namespace blockchain_dotnet_core.API.Extensions
                 TransactionUtils.GenerateTransactionInput(senderWallet, transaction.TransactionOutputs);
         }
 
-        public static byte[] ToBytes(this Dictionary<ECPublicKeyParameters, decimal> transactionOutputs)
+        public static byte[] ToHash(this Dictionary<ECPublicKeyParameters, decimal> transactionOutputs)
         {
             var serializable = new Dictionary<string, decimal>();
 
@@ -74,7 +74,9 @@ namespace blockchain_dotnet_core.API.Extensions
 
             binaryFormatter.Serialize(memoryStream, serializable);
 
-            return memoryStream.ToArray();
+            var bytes = memoryStream.ToArray();
+
+            return HashUtils.ComputeHash(bytes);
         }
     }
 }
