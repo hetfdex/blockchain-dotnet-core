@@ -12,24 +12,6 @@ namespace blockchain_dotnet_core.Tests.Extensions
     {
         private readonly Blockchain _blockchain = new Blockchain();
 
-        [TestInitialize]
-        public void BlockchainExtensionsTestsSetup()
-        {
-            var transactionsOne = new List<Transaction>
-            {
-                new Transaction(null, null)
-            };
-
-            var transactionsTwo = new List<Transaction>
-            {
-                new Transaction(null, null),
-                new Transaction(null, null)
-            };
-
-            _blockchain.AddBlock(transactionsOne);
-            _blockchain.AddBlock(transactionsTwo);
-        }
-
         [TestMethod]
         public void AddsToBlockchain()
         {
@@ -47,7 +29,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
         }
 
         [TestMethod]
-        public void BlockchainIsNotValidNoGenesisBlock()
+        public void BlockchainIsNotValidFakeGenesisBlock()
         {
             _blockchain.Chain[0] = new Block(0, string.Empty, String.Empty, null, -1, -1);
 
@@ -65,6 +47,13 @@ namespace blockchain_dotnet_core.Tests.Extensions
         [TestMethod]
         public void BlockchainIsNotValidFakeTransactions()
         {
+            var transactions = new List<Transaction>
+            {
+                new Transaction(null, null)
+            };
+
+            _blockchain.AddBlock(transactions);
+
             _blockchain.Chain[_blockchain.Chain.Count - 1].Transactions = null;
 
             Assert.IsFalse(_blockchain.IsValidChain());

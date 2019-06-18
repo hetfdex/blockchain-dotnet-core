@@ -1,7 +1,7 @@
-﻿using Org.BouncyCastle.Crypto.Parameters;
-using System;
-using blockchain_dotnet_core.API.Options;
+﻿using blockchain_dotnet_core.API.Options;
 using blockchain_dotnet_core.API.Utils;
+using Org.BouncyCastle.Crypto.Parameters;
+using System;
 
 namespace blockchain_dotnet_core.API.Models
 {

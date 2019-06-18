@@ -1,6 +1,5 @@
 ﻿using blockchain_dotnet_core.API.Extensions;
 using blockchain_dotnet_core.API.Models;
-using blockchain_dotnet_core.API.Options;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Org.BouncyCastle.Crypto.Parameters;
@@ -22,10 +21,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
         [TestInitialize]
         public void TransactionExtensionsTestsSetup()
         {
-            var senderKeyPair = KeyPairUtils.GenerateKeyPair();
-
-            _senderWallet = new Wallet(senderKeyPair.Private as ECPrivateKeyParameters,
-                senderKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
+            _senderWallet = new Wallet();
 
             var recipientKeyPair = KeyPairUtils.GenerateKeyPair();
 
@@ -60,7 +56,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
 
             var publicKey = keyPair.Public as ECPublicKeyParameters;
 
-            var transactionOutputs = new Dictionary<ECPublicKeyParameters, decimal>()
+            var transactionOutputs = new Dictionary<ECPublicKeyParameters, decimal>
             {
                 {publicKey, 9999}
             };
@@ -82,7 +78,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
 
             var nextRecipientPublicKey = nextRecipientKeyPair.Public as ECPublicKeyParameters;
 
-            var nextAmount = 50M;
+            var nextAmount = 50m;
 
             _transaction.UpdateTransaction(_senderWallet, nextRecipientPublicKey, nextAmount);
 
@@ -112,7 +108,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
 
             var nextRecipientPublicKey = nextRecipientKeyPair.Public as ECPublicKeyParameters;
 
-            var nextAmount = 9999M;
+            var nextAmount = 9999m;
 
             _transaction.UpdateTransaction(_senderWallet, nextRecipientPublicKey, nextAmount);
 
@@ -120,12 +116,6 @@ namespace blockchain_dotnet_core.Tests.Extensions
             Assert.AreNotEqual(originalSenderOutput - nextAmount,
                 _transaction.TransactionOutputs[_senderWallet.PublicKey]);
             Assert.AreEqual(originalSignature, _transaction.TransactionInput.Signature);
-        }
-
-        [TestMethod]
-        public void ConvertsTransactionOutputsToBytes()
-        {
-            //todo
         }
     }
 }

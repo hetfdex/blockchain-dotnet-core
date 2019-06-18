@@ -46,7 +46,7 @@ namespace blockchain_dotnet_core.API.Utils
                     {
                         var addressOutput = transaction.TransactionOutputs[address];
 
-                        if(addressOutput != 0)
+                        if (addressOutput != 0)
                         {
                             outputsTotal += addressOutput;
                         }
@@ -58,7 +58,8 @@ namespace blockchain_dotnet_core.API.Utils
                     break;
                 }
             }
-            return hasConductedTransaction? outputsTotal : ConfigurationOptions.StartBalance + outputsTotal;
+
+            return hasConductedTransaction ? outputsTotal : ConfigurationOptions.StartBalance + outputsTotal;
         }
     }
 }

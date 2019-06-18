@@ -186,8 +186,6 @@ namespace blockchain_dotnet_core.Tests.Utils
             var secondWallet = new Wallet(secondKeyPair.Private as ECPrivateKeyParameters,
                 secondKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
 
-            var minerRewardTransaction = TransactionUtils.GetMinerRewardTransaction(firstWallet);
-
             var firstTransactions = new List<Transaction>
             {
                 WalletUtils.GenerateTransaction(firstWallet, secondWallet.PublicKey, 100, _blockchain),
@@ -262,7 +260,7 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             minerRewardTransaction.TransactionOutputs[senderWallet.PublicKey] = 9999;
 
-            var transactions = new List<Transaction>()
+            var transactions = new List<Transaction>
             {
                 transaction,
                 minerRewardTransaction
