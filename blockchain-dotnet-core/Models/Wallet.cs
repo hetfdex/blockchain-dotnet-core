@@ -1,5 +1,7 @@
 ﻿using Org.BouncyCastle.Crypto.Parameters;
 using System;
+using blockchain_dotnet_core.API.Options;
+using blockchain_dotnet_core.API.Utils;
 
 namespace blockchain_dotnet_core.API.Models
 {
@@ -10,6 +12,17 @@ namespace blockchain_dotnet_core.API.Models
         public ECPublicKeyParameters PublicKey { get; set; }
 
         public decimal Balance { get; set; }
+
+        public Wallet()
+        {
+            var keyPair = KeyPairUtils.GenerateKeyPair();
+
+            PrivateKey = keyPair.Private as ECPrivateKeyParameters;
+
+            PublicKey = keyPair.Public as ECPublicKeyParameters;
+
+            Balance = ConfigurationOptions.StartBalance;
+        }
 
         public Wallet(ECPrivateKeyParameters privateKey, ECPublicKeyParameters publicKey, decimal balance)
         {

@@ -29,7 +29,7 @@ namespace blockchain_dotnet_core.API.Utils
         {
             var hasConductedTransaction = false;
 
-            decimal outputsTotal = 0;
+            var outputsTotal = 0m;
 
             for (int i = blockchain.Chain.Count - 1; i > 0; i--)
             {
@@ -37,17 +37,16 @@ namespace blockchain_dotnet_core.API.Utils
 
                 foreach (var transaction in block.Transactions)
                 {
-                    if (transaction.TransactionInput?.Address != null &&
-                        transaction.TransactionInput.Address.Equals(address))
+                    if (transaction.TransactionInput.Address.Equals(address))
                     {
                         hasConductedTransaction = true;
                     }
 
-                    if (transaction.TransactionOutputs != null && transaction.TransactionOutputs.ContainsKey(address))
+                    if (transaction.TransactionOutputs.ContainsKey(address))
                     {
                         var addressOutput = transaction.TransactionOutputs[address];
 
-                        if (addressOutput != 0)
+                        if(addressOutput != 0)
                         {
                             outputsTotal += addressOutput;
                         }
@@ -59,8 +58,7 @@ namespace blockchain_dotnet_core.API.Utils
                     break;
                 }
             }
-
-            return hasConductedTransaction ? outputsTotal : ConfigurationOptions.StartBalance + outputsTotal;
+            return hasConductedTransaction? outputsTotal : ConfigurationOptions.StartBalance + outputsTotal;
         }
     }
 }

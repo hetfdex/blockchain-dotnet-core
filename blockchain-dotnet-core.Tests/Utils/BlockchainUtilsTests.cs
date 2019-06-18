@@ -18,15 +18,9 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestInitialize]
         public void BlockchainUtilsTestsSetup()
         {
-            var firstKeyPair = KeyPairUtils.GenerateKeyPair();
+            var firstWallet = new Wallet();
 
-            var secondKeyPair = KeyPairUtils.GenerateKeyPair();
-
-            var firstWallet = new Wallet(firstKeyPair.Private as ECPrivateKeyParameters,
-                firstKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
-
-            var secondWallet = new Wallet(secondKeyPair.Private as ECPrivateKeyParameters,
-                secondKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
+            var secondWallet = new Wallet();
 
             var transactions = new List<Transaction>
             {
@@ -40,24 +34,18 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void ReplacesBlockchainWithLongerValidBlockchain()
         {
-            var firstKeyPair = KeyPairUtils.GenerateKeyPair();
+            var firstWallet = new Wallet();
 
-            var secondKeyPair = KeyPairUtils.GenerateKeyPair();
-
-            var firstWallet = new Wallet(firstKeyPair.Private as ECPrivateKeyParameters,
-                firstKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
-
-            var secondWallet = new Wallet(secondKeyPair.Private as ECPrivateKeyParameters,
-                secondKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
+            var secondWallet = new Wallet();
 
             var firstTransactions = new List<Transaction>
             {
-                WalletUtils.GenerateTransaction(firstWallet, secondWallet.PublicKey, 100, _blockchain),
+                WalletUtils.GenerateTransaction(firstWallet, secondWallet.PublicKey, 100, _replacementBlockchain),
             };
 
             var secondTransactions = new List<Transaction>
             {
-                WalletUtils.GenerateTransaction(secondWallet, firstWallet.PublicKey, 200, _blockchain)
+                WalletUtils.GenerateTransaction(secondWallet, firstWallet.PublicKey, 200, _replacementBlockchain)
             };
 
             _replacementBlockchain.AddBlock(firstTransactions);

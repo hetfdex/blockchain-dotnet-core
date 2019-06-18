@@ -73,7 +73,7 @@ namespace blockchain_dotnet_core.API.Extensions
                             return false;
                         }
 
-                        var firstTransactionOutput = transaction.TransactionOutputs.First();
+                        var firstTransactionOutput = transaction.TransactionOutputs.FirstOrDefault();
 
                         if (firstTransactionOutput.Value != ConfigurationOptions.MinerReward)
                         {
