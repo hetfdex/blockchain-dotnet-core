@@ -21,7 +21,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
         {
             _wallet = new Wallet();
 
-            var keyPair = KeyPairUtils.GenerateKeyPair();
+            var keyPair = CryptoUtils.GenerateKeyPair();
 
             var recipient = keyPair.Public as ECPublicKeyParameters;
 
@@ -74,7 +74,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
         [TestMethod]
         public void GetsValidTransactions()
         {
-            var keyPair = KeyPairUtils.GenerateKeyPair();
+            var keyPair = CryptoUtils.GenerateKeyPair();
 
             var recipient = keyPair.Public as ECPublicKeyParameters;
 
@@ -84,7 +84,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
 
             var transaction = new Transaction(transactionOutputs, transactionInput)
             {
-                TransactionOutputs = { [recipient] = 9999 }
+                TransactionOutputs = {[recipient] = 9999}
             };
 
             _transactionPool.AddTransaction(_transaction);
@@ -117,7 +117,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
                 _transaction
             };
 
-            var keyPair = KeyPairUtils.GenerateKeyPair();
+            var keyPair = CryptoUtils.GenerateKeyPair();
 
             var recipient = keyPair.Public as ECPublicKeyParameters;
 

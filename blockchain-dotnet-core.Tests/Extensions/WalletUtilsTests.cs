@@ -16,7 +16,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestInitialize]
         public void WalletUtilsTestsSetup()
         {
-            var keyPair = KeyPairUtils.GenerateKeyPair();
+            var keyPair = CryptoUtils.GenerateKeyPair();
 
             _wallet = new Wallet(keyPair.Private as ECPrivateKeyParameters, keyPair.Public as ECPublicKeyParameters,
                 ConfigurationOptions.StartBalance);
@@ -39,24 +39,24 @@ namespace blockchain_dotnet_core.Tests.Utils
         {
             var transactionOutputs = new Dictionary<ECPublicKeyParameters, decimal>();
 
-            var signature = KeyPairUtils.GenerateSignature(_wallet.PrivateKey, transactionOutputs.ToHash());
+            var signature = CryptoUtils.GenerateSignature(_wallet.PrivateKey, transactionOutputs.ToHash());
 
-            Assert.IsTrue(KeyPairUtils.VerifySignature(_wallet.PublicKey, transactionOutputs.ToHash(), signature));
+            Assert.IsTrue(CryptoUtils.VerifySignature(_wallet.PublicKey, transactionOutputs.ToHash(), signature));
         }
 
         [TestMethod]
         public void DoesNotVerifyInvalidSignature()
         {
-            var keyPair = KeyPairUtils.GenerateKeyPair();
+            var keyPair = CryptoUtils.GenerateKeyPair();
 
             var wallet = new Wallet(keyPair.Private as ECPrivateKeyParameters, keyPair.Public as ECPublicKeyParameters,
                 ConfigurationOptions.StartBalance);
 
             var transactionOutputs = new Dictionary<ECPublicKeyParameters, decimal>();
 
-            var signature = KeyPairUtils.GenerateSignature(wallet.PrivateKey, transactionOutputs.ToHash());
+            var signature = CryptoUtils.GenerateSignature(wallet.PrivateKey, transactionOutputs.ToHash());
 
-            Assert.IsFalse(KeyPairUtils.VerifySignature(_wallet.PublicKey, transactionOutputs.ToHash(), signature));
+            Assert.IsFalse(CryptoUtils.VerifySignature(_wallet.PublicKey, transactionOutputs.ToHash(), signature));
         }
 
         [TestMethod]
@@ -64,7 +64,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         {
             var blockchain = new Blockchain();
 
-            var keyPair = KeyPairUtils.GenerateKeyPair();
+            var keyPair = CryptoUtils.GenerateKeyPair();
 
             var publicKey = keyPair.Public as ECPublicKeyParameters;
 
@@ -83,7 +83,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         {
             var blockchain = new Blockchain();
 
-            var keyPair = KeyPairUtils.GenerateKeyPair();
+            var keyPair = CryptoUtils.GenerateKeyPair();
 
             var publicKey = keyPair.Public as ECPublicKeyParameters;
 
@@ -109,7 +109,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         {
             var blockchain = new Blockchain();
 
-            var keyPair = KeyPairUtils.GenerateKeyPair();
+            var keyPair = CryptoUtils.GenerateKeyPair();
 
             var publicKey = keyPair.Public as ECPublicKeyParameters;
 
@@ -138,7 +138,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         {
             var blockchain = new Blockchain();
 
-            var keyPair = KeyPairUtils.GenerateKeyPair();
+            var keyPair = CryptoUtils.GenerateKeyPair();
 
             var wallet = new Wallet(keyPair.Private as ECPrivateKeyParameters, keyPair.Public as ECPublicKeyParameters,
                 ConfigurationOptions.StartBalance);
@@ -185,7 +185,7 @@ namespace blockchain_dotnet_core.Tests.Utils
 
             blockchain.AddBlock(transactions);
 
-            keyPair = KeyPairUtils.GenerateKeyPair();
+            keyPair = CryptoUtils.GenerateKeyPair();
 
             wallet = new Wallet(keyPair.Private as ECPrivateKeyParameters, keyPair.Public as ECPublicKeyParameters,
                 ConfigurationOptions.StartBalance);

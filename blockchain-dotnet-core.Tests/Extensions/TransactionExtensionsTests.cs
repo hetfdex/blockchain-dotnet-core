@@ -23,7 +23,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
         {
             _senderWallet = new Wallet();
 
-            var recipientKeyPair = KeyPairUtils.GenerateKeyPair();
+            var recipientKeyPair = CryptoUtils.GenerateKeyPair();
 
             _recipientPublicKey = recipientKeyPair.Public as ECPublicKeyParameters;
 
@@ -52,7 +52,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
         [TestMethod]
         public void TransactionHasInvalidInput()
         {
-            var keyPair = KeyPairUtils.GenerateKeyPair();
+            var keyPair = CryptoUtils.GenerateKeyPair();
 
             var publicKey = keyPair.Public as ECPublicKeyParameters;
 
@@ -61,7 +61,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
                 {publicKey, 9999}
             };
 
-            _transaction.TransactionInput.Signature = KeyPairUtils.GenerateSignature(_senderWallet.PrivateKey,
+            _transaction.TransactionInput.Signature = CryptoUtils.GenerateSignature(_senderWallet.PrivateKey,
                 transactionOutputs.ToHash());
 
             Assert.IsFalse(_transaction.IsValidTransaction());
@@ -74,7 +74,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
 
             var originalSenderOutput = _transaction.TransactionOutputs[_senderWallet.PublicKey];
 
-            var nextRecipientKeyPair = KeyPairUtils.GenerateKeyPair();
+            var nextRecipientKeyPair = CryptoUtils.GenerateKeyPair();
 
             var nextRecipientPublicKey = nextRecipientKeyPair.Public as ECPublicKeyParameters;
 
@@ -104,7 +104,7 @@ namespace blockchain_dotnet_core.Tests.Extensions
 
             var originalSenderOutput = _transaction.TransactionOutputs[_senderWallet.PublicKey];
 
-            var nextRecipientKeyPair = KeyPairUtils.GenerateKeyPair();
+            var nextRecipientKeyPair = CryptoUtils.GenerateKeyPair();
 
             var nextRecipientPublicKey = nextRecipientKeyPair.Public as ECPublicKeyParameters;
 

@@ -6,7 +6,7 @@ using Org.BouncyCastle.Crypto.Parameters;
 namespace blockchain_dotnet_core.Tests.Utils
 {
     [TestClass]
-    public class KeyPairUtilsTests
+    public class CryptoUtilsTests
     {
         private AsymmetricCipherKeyPair _keyPair;
 
@@ -17,7 +17,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestInitialize]
         public void KeyPairUtilsTestsSetup()
         {
-            _keyPair = KeyPairUtils.GenerateKeyPair();
+            _keyPair = CryptoUtils.GenerateKeyPair();
 
             _privateKey = _keyPair.Private as ECPrivateKeyParameters;
 
@@ -30,30 +30,26 @@ namespace blockchain_dotnet_core.Tests.Utils
             Assert.IsNotNull(_keyPair);
             Assert.IsNotNull(_privateKey);
             Assert.IsNotNull(_publicKey);
-            Assert.IsInstanceOfType(_keyPair, typeof(AsymmetricCipherKeyPair));
-            Assert.IsInstanceOfType(_privateKey, typeof(ECPrivateKeyParameters));
-            Assert.IsInstanceOfType(_publicKey, typeof(ECPublicKeyParameters));
         }
 
         [TestMethod]
         public void GeneratesSignature()
         {
-            var bytes = new byte[1];
+            var bytes = HashUtils.ComputeHash("hetfdex");
 
-            var signature = KeyPairUtils.GenerateSignature(_privateKey, bytes);
+            var signature = CryptoUtils.GenerateSignature(_privateKey, bytes);
 
             Assert.IsNotNull(signature);
-            Assert.IsInstanceOfType(signature, typeof(string));
         }
 
         [TestMethod]
         public void VerifiesSignature()
         {
-            var bytes = new byte[1];
+            var bytes = HashUtils.ComputeHash("hetfdex");
 
-            var signature = KeyPairUtils.GenerateSignature(_privateKey, bytes);
+            var signature = CryptoUtils.GenerateSignature(_privateKey, bytes);
 
-            Assert.IsTrue(KeyPairUtils.VerifySignature(_publicKey, bytes, signature));
+            Assert.IsTrue(CryptoUtils.VerifySignature(_publicKey, bytes, signature));
         }
     }
 }

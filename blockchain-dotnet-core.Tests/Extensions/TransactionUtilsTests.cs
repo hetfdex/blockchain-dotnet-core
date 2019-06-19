@@ -21,12 +21,12 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestInitialize]
         public void TransactionUtilsTestsSetup()
         {
-            var senderKeyPair = KeyPairUtils.GenerateKeyPair();
+            var senderKeyPair = CryptoUtils.GenerateKeyPair();
 
             _senderWallet = new Wallet(senderKeyPair.Private as ECPrivateKeyParameters,
                 senderKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
 
-            var recipientKeyPair = KeyPairUtils.GenerateKeyPair();
+            var recipientKeyPair = CryptoUtils.GenerateKeyPair();
 
             _recipientPublicKey = recipientKeyPair.Public as ECPublicKeyParameters;
 
@@ -41,7 +41,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void GetsMinerRewardTransaction()
         {
-            var minerKeyPair = KeyPairUtils.GenerateKeyPair();
+            var minerKeyPair = CryptoUtils.GenerateKeyPair();
 
             var minerWallet = new Wallet(minerKeyPair.Private as ECPrivateKeyParameters,
                 minerKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
@@ -73,7 +73,7 @@ namespace blockchain_dotnet_core.Tests.Utils
             Assert.IsInstanceOfType(_transaction.TransactionInput.Signature, typeof(string));
             Assert.AreEqual(_senderWallet.PublicKey, _transaction.TransactionInput.Address);
             Assert.AreEqual(_senderWallet.Balance, _transaction.TransactionInput.Amount);
-            Assert.IsTrue(KeyPairUtils.VerifySignature(_senderWallet.PublicKey,
+            Assert.IsTrue(CryptoUtils.VerifySignature(_senderWallet.PublicKey,
                 _transaction.TransactionOutputs.ToHash(), _transaction.TransactionInput.Signature));
         }
     }

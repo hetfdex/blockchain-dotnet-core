@@ -21,7 +21,7 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestInitialize]
         public void TransactionInputTestsSetup()
         {
-            var keyPair = KeyPairUtils.GenerateKeyPair();
+            var keyPair = CryptoUtils.GenerateKeyPair();
 
             _address = keyPair.Public as ECPublicKeyParameters;
 
@@ -32,29 +32,16 @@ namespace blockchain_dotnet_core.Tests.Models
         public void ConstructsTransactionInput()
         {
             Assert.IsNotNull(_transactionInput);
-            Assert.IsInstanceOfType(_transactionInput, typeof(TransactionInput));
             Assert.AreEqual(_timestamp, _transactionInput.Timestamp);
             Assert.AreEqual(_address, _transactionInput.Address);
             Assert.AreEqual(_amount, _transactionInput.Amount);
             Assert.AreEqual(_signature, _transactionInput.Signature);
         }
 
-        [TestMethod]
-        public void TransactionInputToStringReturnsValid()
-        {
-            var result = _transactionInput.ToString();
-
-            var expectedResult = _transactionInput.Timestamp + _transactionInput.Address.ToString() +
-                                 _transactionInput.Amount + _transactionInput.Signature;
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(expectedResult, result);
-        }
-
-        [TestMethod]
+        /*[TestMethod]
         public void TransactionInputsAreEqual()
         {
-            var sameObject = (object)_transactionInput;
+            var sameObject = (object) _transactionInput;
 
             Assert.IsNotNull(sameObject);
             Assert.IsTrue(_transactionInput.Equals(sameObject));
@@ -63,12 +50,12 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void TransactionInputsAreNotEqual()
         {
-            var keyPair = KeyPairUtils.GenerateKeyPair();
+            var keyPair = CryptoUtils.GenerateKeyPair();
 
             var differentTransactionInput =
                 new TransactionInput(0, keyPair.Public as ECPublicKeyParameters, 10, string.Empty);
 
-            var differentObject = (object)differentTransactionInput;
+            var differentObject = (object) differentTransactionInput;
 
             Assert.IsNotNull(differentObject);
             Assert.IsFalse(_transactionInput.Equals(differentObject));
@@ -86,28 +73,7 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void TransactionInputAndNullAreNotEqual()
         {
-            Assert.IsFalse(_transactionInput.Equals((object)null));
-        }
-
-        [TestMethod]
-        public void TransactionInputsHaveSameHashCode()
-        {
-            var sameTransactionInput = _transactionInput;
-
-            Assert.IsNotNull(sameTransactionInput);
-            Assert.IsTrue(_transactionInput.GetHashCode() == sameTransactionInput.GetHashCode());
-        }
-
-        [TestMethod]
-        public void TransactionInputsDoNotHaveSameHashCode()
-        {
-            var keyPair = KeyPairUtils.GenerateKeyPair();
-
-            var differentTransactionInput =
-                new TransactionInput(0, keyPair.Public as ECPublicKeyParameters, 10, string.Empty);
-
-            Assert.IsNotNull(differentTransactionInput);
-            Assert.IsFalse(_transactionInput.GetHashCode() == differentTransactionInput.GetHashCode());
-        }
+            Assert.IsFalse(_transactionInput.Equals((object) null));
+        }*/
     }
 }

@@ -14,6 +14,7 @@ namespace blockchain_dotnet_core.Tests.Models
         public void ConstructsNewTransactionPool()
         {
             Assert.IsNotNull(_transactionPool);
+            Assert.IsNotNull(_transactionPool.Pool);
             Assert.IsInstanceOfType(_transactionPool, typeof(TransactionPool));
         }
 
@@ -28,32 +29,20 @@ namespace blockchain_dotnet_core.Tests.Models
             _transactionPool = new TransactionPool(pool);
 
             Assert.IsNotNull(_transactionPool);
-            Assert.IsInstanceOfType(_transactionPool, typeof(TransactionPool));
+            Assert.IsNotNull(_transactionPool.Pool);
             Assert.AreEqual(pool, _transactionPool.Pool);
         }
 
         [TestMethod]
         public void TransactionPoolHasPool()
         {
-            Assert.IsNotNull(_transactionPool.Pool);
             Assert.IsInstanceOfType(_transactionPool.Pool, typeof(Dictionary<Guid, Transaction>));
         }
 
-        [TestMethod]
-        public void TransactionPoolToStringReturnsValid()
-        {
-            var result = _transactionPool.ToString();
-
-            var expectedResult = _transactionPool.Pool.ToString();
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(expectedResult, result);
-        }
-
-        [TestMethod]
+        /*[TestMethod]
         public void TransactionPoolsAreEqual()
         {
-            var sameObject = (object)_transactionPool;
+            var sameObject = (object) _transactionPool;
 
             Assert.IsNotNull(sameObject);
             Assert.IsTrue(_transactionPool.Equals(sameObject));
@@ -66,7 +55,7 @@ namespace blockchain_dotnet_core.Tests.Models
 
             differenTransactionPool.Pool.Add(Guid.NewGuid(), new Transaction(null, null));
 
-            var differentObject = (object)differenTransactionPool;
+            var differentObject = (object) differenTransactionPool;
 
             Assert.IsNotNull(differentObject);
             Assert.IsFalse(_transactionPool.Equals(differentObject));
@@ -84,25 +73,7 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void TransactionPoolAndNullAreNotEqual()
         {
-            Assert.IsFalse(_transactionPool.Equals((object)null));
-        }
-
-        [TestMethod]
-        public void TransactionPoolsHaveSameHashCode()
-        {
-            var sameTransactionPool = _transactionPool;
-
-            Assert.IsNotNull(sameTransactionPool);
-            Assert.IsTrue(_transactionPool.GetHashCode() == sameTransactionPool.GetHashCode());
-        }
-
-        [TestMethod]
-        public void TransactionPoolsDoNotHaveSameHashCode()
-        {
-            var differentTransactionPool = new TransactionPool();
-
-            Assert.IsNotNull(differentTransactionPool);
-            Assert.IsFalse(_transactionPool.GetHashCode() == differentTransactionPool.GetHashCode());
-        }
+            Assert.IsFalse(_transactionPool.Equals((object) null));
+        }*/
     }
 }

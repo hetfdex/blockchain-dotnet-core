@@ -1,7 +1,5 @@
 ﻿using blockchain_dotnet_core.API.Models;
-using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.Tests.Models
 {
@@ -14,41 +12,23 @@ namespace blockchain_dotnet_core.Tests.Models
         public void ConstructsBlockchain()
         {
             Assert.IsNotNull(_blockchain);
-            Assert.IsInstanceOfType(_blockchain, typeof(Blockchain));
-        }
-
-        [TestMethod]
-        public void BlockchainHasChain()
-        {
             Assert.IsNotNull(_blockchain.Chain);
-            Assert.IsInstanceOfType(_blockchain.Chain, typeof(List<Block>));
         }
 
         [TestMethod]
         public void ChainHasGenesisBlock()
         {
-            var genesisBlock = BlockUtils.GetGenesisBlock();
+            var genesisBlock = Block.GetGenesisBlock();
 
-            Assert.IsTrue(_blockchain.Chain.Count > 0);
+            Assert.IsTrue(_blockchain.Chain.Count == 1);
             Assert.IsNotNull(_blockchain.Chain[0]);
             Assert.AreEqual(genesisBlock, _blockchain.Chain[0]);
         }
 
-        [TestMethod]
-        public void BlockchainToStringReturnsValid()
-        {
-            var result = _blockchain.ToString();
-
-            var expectedResult = _blockchain.Chain.ToString();
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(expectedResult, result);
-        }
-
-        [TestMethod]
+        /*[TestMethod]
         public void BlockchainsAreEqual()
         {
-            var sameObject = (object)_blockchain;
+            var sameObject = (object) _blockchain;
 
             Assert.IsNotNull(sameObject);
             Assert.IsTrue(_blockchain.Equals(sameObject));
@@ -63,7 +43,7 @@ namespace blockchain_dotnet_core.Tests.Models
 
             differentBlockchain.Chain.Add(block);
 
-            var differentObject = (object)differentBlockchain;
+            var differentObject = (object) differentBlockchain;
 
             Assert.IsNotNull(differentObject);
             Assert.IsFalse(_blockchain.Equals(differentObject));
@@ -81,25 +61,7 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void BlockchainAndNullAreNotEqual()
         {
-            Assert.IsFalse(_blockchain.Equals((object)null));
-        }
-
-        [TestMethod]
-        public void BlockchainsHaveSameHashCode()
-        {
-            var sameBlockchain = _blockchain;
-
-            Assert.IsNotNull(sameBlockchain);
-            Assert.IsTrue(_blockchain.GetHashCode() == sameBlockchain.GetHashCode());
-        }
-
-        [TestMethod]
-        public void BlockchainsDoNotHaveSameHashCode()
-        {
-            var differentBlockchain = new Blockchain();
-
-            Assert.IsNotNull(differentBlockchain);
-            Assert.IsFalse(_blockchain.GetHashCode() == differentBlockchain.GetHashCode());
-        }
+            Assert.IsFalse(_blockchain.Equals((object) null));
+        }*/
     }
 }

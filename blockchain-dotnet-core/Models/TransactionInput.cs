@@ -1,5 +1,7 @@
-﻿using Org.BouncyCastle.Crypto.Parameters;
+﻿using blockchain_dotnet_core.API.Utils;
+using Org.BouncyCastle.Crypto.Parameters;
 using System;
+using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.API.Models
 {
@@ -13,21 +15,28 @@ namespace blockchain_dotnet_core.API.Models
 
         public string Signature { get; set; }
 
+        public TransactionInput(long timestamp, ECPublicKeyParameters address, decimal amount,
+            ECPrivateKeyParameters privateKey, IDictionary<ECPublicKeyParameters, decimal> transactionOutputs)
+        {
+            Timestamp = timestamp;
+            Address = address ?? throw new ArgumentNullException(nameof(address));
+            Amount = amount;
+            Signature = CryptoUtils.GenerateSignature(privateKey, transactionOutputs.ToHash());
+        }
+
         public TransactionInput(long timestamp, ECPublicKeyParameters address, decimal amount, string signature)
         {
             Timestamp = timestamp;
-            Address = address;
+            Address = address ?? throw new ArgumentNullException(nameof(address));
             Amount = amount;
-            Signature = signature;
+            Signature = signature ?? throw new ArgumentNullException(nameof(signature));
         }
 
-        public override string ToString()
+        public static TransactionInput GetMinerTransactionInput()
         {
-            return Timestamp + Address.ToString() + Amount + Signature;
+            return new TransactionInput(TimestampUtils.GenerateTimestamp(), Constants.MinerAddress,
+                Constants.MinerReward, "miner-reward");
         }
-
-        public override int GetHashCode() =>
-            HashCode.Combine(Timestamp, Address, Amount, Signature);
 
         public override bool Equals(object obj)
         {

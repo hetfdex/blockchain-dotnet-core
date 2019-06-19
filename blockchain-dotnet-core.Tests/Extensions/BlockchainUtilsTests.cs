@@ -59,9 +59,9 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void DoesNotReplaceBlockchainWithLongerInvalidBlockchain()
         {
-            var firstKeyPair = KeyPairUtils.GenerateKeyPair();
+            var firstKeyPair = CryptoUtils.GenerateKeyPair();
 
-            var secondKeyPair = KeyPairUtils.GenerateKeyPair();
+            var secondKeyPair = CryptoUtils.GenerateKeyPair();
 
             var firstWallet = new Wallet(firstKeyPair.Private as ECPrivateKeyParameters,
                 firstKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
@@ -100,11 +100,11 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void ReplacesBlockchainWithValidTransactionData()
         {
-            var firstKeyPair = KeyPairUtils.GenerateKeyPair();
+            var firstKeyPair = CryptoUtils.GenerateKeyPair();
 
-            var secondKeyPair = KeyPairUtils.GenerateKeyPair();
+            var secondKeyPair = CryptoUtils.GenerateKeyPair();
 
-            var minerKeyPair = KeyPairUtils.GenerateKeyPair();
+            var minerKeyPair = CryptoUtils.GenerateKeyPair();
 
             var firstWallet = new Wallet(firstKeyPair.Private as ECPrivateKeyParameters,
                 firstKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
@@ -140,9 +140,9 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void DoesNotReplaceBlockchainWithMultipleMinerRewards()
         {
-            var firstKeyPair = KeyPairUtils.GenerateKeyPair();
+            var firstKeyPair = CryptoUtils.GenerateKeyPair();
 
-            var secondKeyPair = KeyPairUtils.GenerateKeyPair();
+            var secondKeyPair = CryptoUtils.GenerateKeyPair();
 
             var firstWallet = new Wallet(firstKeyPair.Private as ECPrivateKeyParameters,
                 firstKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
@@ -176,9 +176,9 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void DoesNotReplaceBlockchainWithDuplicateTransactions()
         {
-            var firstKeyPair = KeyPairUtils.GenerateKeyPair();
+            var firstKeyPair = CryptoUtils.GenerateKeyPair();
 
-            var secondKeyPair = KeyPairUtils.GenerateKeyPair();
+            var secondKeyPair = CryptoUtils.GenerateKeyPair();
 
             var firstWallet = new Wallet(firstKeyPair.Private as ECPrivateKeyParameters,
                 firstKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
@@ -209,9 +209,9 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void DoesNotReplaceBlockchainWithTransactionWithWrongOutput()
         {
-            var firstKeyPair = KeyPairUtils.GenerateKeyPair();
+            var firstKeyPair = CryptoUtils.GenerateKeyPair();
 
-            var secondKeyPair = KeyPairUtils.GenerateKeyPair();
+            var secondKeyPair = CryptoUtils.GenerateKeyPair();
 
             var firstWallet = new Wallet(firstKeyPair.Private as ECPrivateKeyParameters,
                 firstKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
@@ -243,13 +243,13 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void DoesNotReplaceBlockchainWithTransactionWithWrongOutputMiner()
         {
-            var senderKeyPair = KeyPairUtils.GenerateKeyPair();
+            var senderKeyPair = CryptoUtils.GenerateKeyPair();
 
             var senderWallet = new Wallet(senderKeyPair.Private as ECPrivateKeyParameters,
                 senderKeyPair.Public as ECPublicKeyParameters,
                 ConfigurationOptions.StartBalance);
 
-            var recipientKeyPair = KeyPairUtils.GenerateKeyPair();
+            var recipientKeyPair = CryptoUtils.GenerateKeyPair();
 
             var recipientPublicKey = recipientKeyPair.Public as ECPublicKeyParameters;
 
@@ -277,9 +277,9 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void DoesNotReplaceBlockchainWithTransactionWithWrongInput()
         {
-            var firstKeyPair = KeyPairUtils.GenerateKeyPair();
+            var firstKeyPair = CryptoUtils.GenerateKeyPair();
 
-            var secondKeyPair = KeyPairUtils.GenerateKeyPair();
+            var secondKeyPair = CryptoUtils.GenerateKeyPair();
 
             var firstWallet = new Wallet(firstKeyPair.Private as ECPrivateKeyParameters,
                 firstKeyPair.Public as ECPublicKeyParameters, 9999);

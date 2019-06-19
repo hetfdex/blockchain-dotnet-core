@@ -1,19 +1,19 @@
 ﻿using blockchain_dotnet_core.API.Utils;
 using Org.BouncyCastle.Crypto.Parameters;
 
-namespace blockchain_dotnet_core.API.Options
+namespace blockchain_dotnet_core.API
 {
-    public static class ConfigurationOptions
+    public static class Constants
     {
-        public static int InitialDifficulty = 1;
+        public const int InitialDifficulty = 1;
 
-        public static int MiningRate = 10;
+        public const int MiningRate = 10;
 
-        public static decimal StartBalance = 1000;
+        public const decimal StartBalance = 1000;
 
-        public static ECPublicKeyParameters MinerAddress = KeyPairUtils.LoadPublicKey(
+        public static ECPublicKeyParameters MinerAddress = CryptoUtils.LoadPublicKey(
             "MIIBMzCB7AYHKoZIzj0CATCB4AIBATAsBgcqhkjOPQEBAiEA/////////////////////////////////////v///C8wRAQgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHBEEEeb5mfvncu6xVoGKVzocLBwKb/NstzijZWfKBWxb4F5hIOtp3JqPEZV2k+/wOEQio/Re0SKaFVBmcR9CP+xDUuAIhAP////////////////////66rtzmr0igO7/SXozQNkFBAgEBA0IABG+Iu+O3FJGQhZHBUVn+4/EEw41r13myLyTRqZfeklWN/VIiUjE5WC574vIV9tYErJf/tE2h51rH/5KB246NRfg=");
 
-        public static decimal MinerReward = 50;
+        public const decimal MinerReward = 50;
     }
 }

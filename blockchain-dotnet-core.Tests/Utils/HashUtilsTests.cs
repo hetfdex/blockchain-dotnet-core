@@ -1,7 +1,8 @@
-﻿using blockchain_dotnet_core.API.Models;
+﻿using System;
+using System.Collections.Generic;
+using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.Tests.Utils
 {
@@ -11,31 +12,54 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void ComputesValidHash()
         {
-            var expectedResult = "5aa9f91f2c781d70f4201aff39ea9026a5566a28515825d5164979d46831c5e0";
+            var expectedResult = "Wqn5Hyx4HXD0IBr/OeqQJqVWaihRWCXVFkl51GgxxeA=";
 
-            var result = HashUtils.ComputeHash("hetfdex");
+            var result = HashUtils.ComputeHash("hetfdex").ToBase64();
 
-            //todo: test bytes
-            var resultAsString = HexUtils.BytesToString(result);
-
-            Assert.IsNotNull(resultAsString);
-            Assert.AreEqual(expectedResult, resultAsString);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedResult, result);
         }
 
         [TestMethod]
         public void ComputesUniqueHashes()
         {
-            var block = new Block(0, string.Empty, string.Empty, new List<Transaction>(), -1, -1);
+            var firstResult = HashUtils.ComputeHash("hetfdex");
 
-            var hash = HashUtils.ComputeHash(block);
+            var secondResult = HashUtils.ComputeHash("bla");
 
-            block.LastHash = "test-lastHash";
+            Assert.IsNotNull(firstResult);
+            Assert.IsNotNull(secondResult);
+            Assert.AreNotEqual(firstResult, secondResult);
+        }
 
-            var modifiedHash = HashUtils.ComputeHash(block);
+        [TestMethod]
+        public void NullBlockReturnsException()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => HashUtils.ComputeHash((Block)null));
+        }
 
-            Assert.IsNotNull(hash);
-            Assert.IsNotNull(modifiedHash);
-            Assert.AreNotEqual(hash, modifiedHash);
+        [TestMethod]
+        public void NullLastHashReturnsException()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => HashUtils.ComputeHash(0, 0, string.Empty, new List<Transaction>(), 0, 0));
+        }
+
+        [TestMethod]
+        public void NullTransactionsHashReturnsException()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => HashUtils.ComputeHash(0, 0, "test-lastHash", null, 0, 0));
+        }
+
+        [TestMethod]
+        public void NullStringReturnsException()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => HashUtils.ComputeHash(string.Empty));
+        }
+
+        [TestMethod]
+        public void NullBytesReturnsException()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => HashUtils.ComputeHash((byte[])null));
         }
     }
 }

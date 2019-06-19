@@ -7,7 +7,7 @@ using System;
 
 namespace blockchain_dotnet_core.API.Utils
 {
-    public static class KeyPairUtils
+    public static class CryptoUtils
     {
         public static AsymmetricCipherKeyPair GenerateKeyPair()
         {
@@ -28,33 +28,63 @@ namespace blockchain_dotnet_core.API.Utils
 
         public static ECPublicKeyParameters LoadPublicKey(string publicKey)
         {
+            if (string.IsNullOrEmpty(publicKey))
+            {
+                throw new ArgumentNullException(nameof(publicKey));
+            }
+
             var bytes = Convert.FromBase64String(publicKey);
 
             return PublicKeyFactory.CreateKey(bytes) as ECPublicKeyParameters;
         }
 
-        public static string GenerateSignature(ECPrivateKeyParameters ecPrivateKeyParameters, byte[] transactionOutputs)
+        public static string GenerateSignature(ECPrivateKeyParameters privateKey, byte[] bytes)
         {
+            if (privateKey == null)
+            {
+                throw new ArgumentNullException(nameof(privateKey));
+            }
+
+            if (bytes == null)
+            {
+                throw new ArgumentNullException(nameof(bytes));
+            }
+
             ISigner signer = SignerUtilities.GetSigner("SHA-256withECDSA");
 
-            signer.Init(true, ecPrivateKeyParameters);
+            signer.Init(true, privateKey);
 
-            signer.BlockUpdate(transactionOutputs, 0, transactionOutputs.Length);
+            signer.BlockUpdate(bytes, 0, bytes.Length);
 
             var result = signer.GenerateSignature();
 
-            return HexUtils.BytesToString(result);
+            return result.ToBase64();
         }
 
-        public static bool VerifySignature(ECPublicKeyParameters publicKey, byte[] transactionOutputs, string signature)
+        public static bool VerifySignature(ECPublicKeyParameters publicKey, byte[] bytes, string signature)
         {
+            if (publicKey == null)
+            {
+                throw new ArgumentNullException(nameof(publicKey));
+            }
+
+            if (bytes == null)
+            {
+                throw new ArgumentNullException(nameof(bytes));
+            }
+
+            if (string.IsNullOrEmpty(signature))
+            {
+                throw new ArgumentNullException(nameof(signature));
+            }
+
             ISigner signer = SignerUtilities.GetSigner("SHA-256withECDSA");
 
             signer.Init(false, publicKey);
 
-            signer.BlockUpdate(transactionOutputs, 0, transactionOutputs.Length);
+            signer.BlockUpdate(bytes, 0, bytes.Length);
 
-            var signatureBytes = HexUtils.StringToBytes(signature);
+            var signatureBytes = signature.FromBase64();
 
             return signer.VerifySignature(signatureBytes);
         }

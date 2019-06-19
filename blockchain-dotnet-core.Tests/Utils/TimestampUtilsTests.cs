@@ -13,7 +13,6 @@ namespace blockchain_dotnet_core.Tests.Utils
             var result = TimestampUtils.GenerateTimestamp();
 
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(long));
             Assert.IsTrue(result > 0);
         }
 
@@ -33,7 +32,6 @@ namespace blockchain_dotnet_core.Tests.Utils
             var variation = TimeSpan.FromMilliseconds(1);
 
             Assert.IsNotNull(currentTime);
-            Assert.IsInstanceOfType(currentTime, typeof(DateTime));
             Assert.IsTrue(totalDifference <= variation.Milliseconds);
         }
     }

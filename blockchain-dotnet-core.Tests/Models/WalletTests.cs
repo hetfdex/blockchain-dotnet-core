@@ -19,7 +19,7 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestInitialize]
         public void WalletTestsSetup()
         {
-            var keyPair = KeyPairUtils.GenerateKeyPair();
+            var keyPair = CryptoUtils.GenerateKeyPair();
 
             _privateKey = keyPair.Private as ECPrivateKeyParameters;
 
@@ -38,21 +38,10 @@ namespace blockchain_dotnet_core.Tests.Models
             Assert.AreEqual(_balance, _wallet.Balance);
         }
 
-        [TestMethod]
-        public void WalletToStringReturnsValid()
-        {
-            var result = _wallet.ToString();
-
-            var expectedResult = _wallet.Balance + _wallet.PrivateKey.ToString() + _wallet.PublicKey;
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(expectedResult, result);
-        }
-
-        [TestMethod]
+        /*[TestMethod]
         public void WalletsAreEqual()
         {
-            var sameObject = (object)_wallet;
+            var sameObject = (object) _wallet;
 
             Assert.IsNotNull(sameObject);
             Assert.IsTrue(_wallet.Equals(sameObject));
@@ -61,12 +50,12 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void WalletsAreNotEqualDifferentProperties()
         {
-            var keyPair = KeyPairUtils.GenerateKeyPair();
+            var keyPair = CryptoUtils.GenerateKeyPair();
 
             var differentWallet = new Wallet(keyPair.Private as ECPrivateKeyParameters,
                 keyPair.Public as ECPublicKeyParameters, 10);
 
-            var differentObject = (object)differentWallet;
+            var differentObject = (object) differentWallet;
 
             Assert.IsNotNull(differentObject);
             Assert.IsFalse(_wallet.Equals(differentObject));
@@ -84,28 +73,7 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void WalletAndNullAreNotEqual()
         {
-            Assert.IsFalse(_wallet.Equals((object)null));
-        }
-
-        [TestMethod]
-        public void WalletsHaveSameHashCode()
-        {
-            var sameWallet = _wallet;
-
-            Assert.IsNotNull(sameWallet);
-            Assert.IsTrue(_wallet.GetHashCode() == sameWallet.GetHashCode());
-        }
-
-        [TestMethod]
-        public void WalletsDoNotHaveSameHashCode()
-        {
-            var keyPair = KeyPairUtils.GenerateKeyPair();
-
-            var differentWallet = new Wallet(keyPair.Private as ECPrivateKeyParameters,
-                keyPair.Public as ECPublicKeyParameters, 10);
-
-            Assert.IsNotNull(differentWallet);
-            Assert.IsFalse(_wallet.GetHashCode() == differentWallet.GetHashCode());
-        }
+            Assert.IsFalse(_wallet.Equals((object) null));
+        }*/
     }
 }
