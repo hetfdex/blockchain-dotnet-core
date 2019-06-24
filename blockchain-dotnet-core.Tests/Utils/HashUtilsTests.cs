@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using blockchain_dotnet_core.API.Models;
+﻿using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.Tests.Utils
 {
@@ -41,13 +41,15 @@ namespace blockchain_dotnet_core.Tests.Utils
         [TestMethod]
         public void NullLastHashReturnsException()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => HashUtils.ComputeHash(0, 0, string.Empty, new List<Transaction>(), 0, 0));
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                HashUtils.ComputeHash(0, 0, string.Empty, new List<Transaction>(), 0, 0));
         }
 
         [TestMethod]
         public void NullTransactionsHashReturnsException()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => HashUtils.ComputeHash(0, 0, "test-lastHash", null, 0, 0));
+            Assert.ThrowsException<ArgumentNullException>(
+                () => HashUtils.ComputeHash(0, 0, "test-lastHash", null, 0, 0));
         }
 
         [TestMethod]

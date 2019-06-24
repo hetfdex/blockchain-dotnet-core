@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
+using System;
 
 namespace blockchain_dotnet_core.Tests.Utils
 {
@@ -33,6 +34,16 @@ namespace blockchain_dotnet_core.Tests.Utils
         }
 
         [TestMethod]
+        public void LoadsPublicKey()
+        {
+            var result = CryptoUtils.LoadPublicKey(
+                "MIIBMzCB7AYHKoZIzj0CATCB4AIBATAsBgcqhkjOPQEBAiEA/////////////////////////////////////v///C8wRAQgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHBEEEeb5mfvncu6xVoGKVzocLBwKb/NstzijZWfKBWxb4F5hIOtp3JqPEZV2k+/wOEQio/Re0SKaFVBmcR9CP+xDUuAIhAP////////////////////66rtzmr0igO7/SXozQNkFBAgEBA0IABG+Iu+O3FJGQhZHBUVn+4/EEw41r13myLyTRqZfeklWN/VIiUjE5WC574vIV9tYErJf/tE2h51rH/5KB246NRfg=");
+
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(ECPublicKeyParameters));
+        }
+
+        [TestMethod]
         public void GeneratesSignature()
         {
             var bytes = HashUtils.ComputeHash("hetfdex");
@@ -50,6 +61,60 @@ namespace blockchain_dotnet_core.Tests.Utils
             var signature = CryptoUtils.GenerateSignature(_privateKey, bytes);
 
             Assert.IsTrue(CryptoUtils.VerifySignature(_publicKey, bytes, signature));
+        }
+
+        [TestMethod]
+        public void LoadPublicKeyNullReturnsException()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                CryptoUtils.LoadPublicKey(null));
+        }
+
+        [TestMethod]
+        public void GenerateSignatureNullPrivateKeyReturnsException()
+        {
+            var bytes = HashUtils.ComputeHash("hetfdex");
+
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                CryptoUtils.GenerateSignature(null, bytes));
+        }
+
+        [TestMethod]
+        public void GenerateSignatureNullBytesReturnsException()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                CryptoUtils.GenerateSignature(_privateKey, null));
+        }
+
+        [TestMethod]
+        public void VerifySignatureNullPublicKeyReturnsException()
+        {
+            var bytes = HashUtils.ComputeHash("hetfdex");
+
+            var signature = CryptoUtils.GenerateSignature(_privateKey, bytes);
+
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                CryptoUtils.VerifySignature(null, bytes, signature));
+        }
+
+        [TestMethod]
+        public void VerifySignatureNullBytesReturnsException()
+        {
+            var bytes = HashUtils.ComputeHash("hetfdex");
+
+            var signature = CryptoUtils.GenerateSignature(_privateKey, bytes);
+
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                CryptoUtils.VerifySignature(_publicKey, null, signature));
+        }
+
+        [TestMethod]
+        public void VerifySignatureNullSignatureReturnsException()
+        {
+            var bytes = HashUtils.ComputeHash("hetfdex");
+
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                CryptoUtils.VerifySignature(_publicKey, bytes, null));
         }
     }
 }

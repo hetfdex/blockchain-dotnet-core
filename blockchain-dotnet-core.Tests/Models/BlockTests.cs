@@ -64,7 +64,7 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void BlocksAreEqual()
         {
-            var sameObject = (object) _block;
+            var sameObject = (object)_block;
 
             Assert.IsNotNull(sameObject);
             Assert.IsTrue(_block.Equals(sameObject));
