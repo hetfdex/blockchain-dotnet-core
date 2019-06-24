@@ -8,7 +8,7 @@ namespace blockchain_dotnet_core.Tests.Utils
     public class TimestampUtilsTests
     {
         [TestMethod]
-        public void GeneratesValidTimestamp()
+        public void GenerateTimestamp()
         {
             var result = TimestampUtils.GenerateTimestamp();
 
@@ -17,7 +17,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         }
 
         [TestMethod]
-        public void GeneratesAccurateTimestamp()
+        public void GenerateTimestampIsAccurate()
         {
             var result = TimestampUtils.GenerateTimestamp();
 

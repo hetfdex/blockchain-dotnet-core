@@ -10,7 +10,7 @@ namespace blockchain_dotnet_core.Tests.Utils
     public class HashUtilsTests
     {
         [TestMethod]
-        public void ComputesValidHash()
+        public void ComputeHash()
         {
             var expectedResult = "Wqn5Hyx4HXD0IBr/OeqQJqVWaihRWCXVFkl51GgxxeA=";
 
@@ -21,7 +21,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         }
 
         [TestMethod]
-        public void ComputesUniqueHashes()
+        public void ComputeHashReturnsUniqueResult()
         {
             var firstResult = HashUtils.ComputeHash("hetfdex");
 
@@ -33,33 +33,33 @@ namespace blockchain_dotnet_core.Tests.Utils
         }
 
         [TestMethod]
-        public void NullBlockReturnsException()
+        public void ComputeHashNullBlockThrowsException()
         {
             Assert.ThrowsException<ArgumentNullException>(() => HashUtils.ComputeHash((Block)null));
         }
 
         [TestMethod]
-        public void NullLastHashReturnsException()
+        public void ComputeHashNullLastHashThrowsException()
         {
             Assert.ThrowsException<ArgumentNullException>(() =>
                 HashUtils.ComputeHash(0, 0, string.Empty, new List<Transaction>(), 0, 0));
         }
 
         [TestMethod]
-        public void NullTransactionsHashReturnsException()
+        public void ComputeHashNullTransactionsHashThrowsException()
         {
             Assert.ThrowsException<ArgumentNullException>(
                 () => HashUtils.ComputeHash(0, 0, "test-lastHash", null, 0, 0));
         }
 
         [TestMethod]
-        public void NullStringReturnsException()
+        public void ComputeHashNullStringThrowsException()
         {
             Assert.ThrowsException<ArgumentNullException>(() => HashUtils.ComputeHash(string.Empty));
         }
 
         [TestMethod]
-        public void NullBytesReturnsException()
+        public void ComputeHashNullBytesThrowsException()
         {
             Assert.ThrowsException<ArgumentNullException>(() => HashUtils.ComputeHash((byte[])null));
         }

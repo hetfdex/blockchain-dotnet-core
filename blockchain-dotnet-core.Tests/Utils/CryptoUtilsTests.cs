@@ -26,7 +26,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         }
 
         [TestMethod]
-        public void GeneratesKeyPair()
+        public void GenerateKeyPair()
         {
             Assert.IsNotNull(_keyPair);
             Assert.IsNotNull(_privateKey);
@@ -34,7 +34,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         }
 
         [TestMethod]
-        public void LoadsPublicKey()
+        public void LoadPublicKey()
         {
             var result = CryptoUtils.LoadPublicKey(
                 "MIIBMzCB7AYHKoZIzj0CATCB4AIBATAsBgcqhkjOPQEBAiEA/////////////////////////////////////v///C8wRAQgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHBEEEeb5mfvncu6xVoGKVzocLBwKb/NstzijZWfKBWxb4F5hIOtp3JqPEZV2k+/wOEQio/Re0SKaFVBmcR9CP+xDUuAIhAP////////////////////66rtzmr0igO7/SXozQNkFBAgEBA0IABG+Iu+O3FJGQhZHBUVn+4/EEw41r13myLyTRqZfeklWN/VIiUjE5WC574vIV9tYErJf/tE2h51rH/5KB246NRfg=");
@@ -44,7 +44,14 @@ namespace blockchain_dotnet_core.Tests.Utils
         }
 
         [TestMethod]
-        public void GeneratesSignature()
+        public void LoadPublicKeyNullThrowsException()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                CryptoUtils.LoadPublicKey(null));
+        }
+
+        [TestMethod]
+        public void GenerateSignature()
         {
             var bytes = HashUtils.ComputeHash("hetfdex");
 
@@ -54,7 +61,23 @@ namespace blockchain_dotnet_core.Tests.Utils
         }
 
         [TestMethod]
-        public void VerifiesSignature()
+        public void GenerateSignatureNullPrivateKeyThrowsException()
+        {
+            var bytes = HashUtils.ComputeHash("hetfdex");
+
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                CryptoUtils.GenerateSignature(null, bytes));
+        }
+
+        [TestMethod]
+        public void GenerateSignatureNullBytesThrowsException()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                CryptoUtils.GenerateSignature(_privateKey, null));
+        }
+
+        [TestMethod]
+        public void VerifiySignature()
         {
             var bytes = HashUtils.ComputeHash("hetfdex");
 
@@ -64,30 +87,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         }
 
         [TestMethod]
-        public void LoadPublicKeyNullReturnsException()
-        {
-            Assert.ThrowsException<ArgumentNullException>(() =>
-                CryptoUtils.LoadPublicKey(null));
-        }
-
-        [TestMethod]
-        public void GenerateSignatureNullPrivateKeyReturnsException()
-        {
-            var bytes = HashUtils.ComputeHash("hetfdex");
-
-            Assert.ThrowsException<ArgumentNullException>(() =>
-                CryptoUtils.GenerateSignature(null, bytes));
-        }
-
-        [TestMethod]
-        public void GenerateSignatureNullBytesReturnsException()
-        {
-            Assert.ThrowsException<ArgumentNullException>(() =>
-                CryptoUtils.GenerateSignature(_privateKey, null));
-        }
-
-        [TestMethod]
-        public void VerifySignatureNullPublicKeyReturnsException()
+        public void VerifySignatureNullPublicKeyThrowsException()
         {
             var bytes = HashUtils.ComputeHash("hetfdex");
 
@@ -98,7 +98,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         }
 
         [TestMethod]
-        public void VerifySignatureNullBytesReturnsException()
+        public void VerifySignatureNullBytesThrowsException()
         {
             var bytes = HashUtils.ComputeHash("hetfdex");
 
@@ -109,7 +109,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         }
 
         [TestMethod]
-        public void VerifySignatureNullSignatureReturnsException()
+        public void VerifySignatureNullSignatureThrowsException()
         {
             var bytes = HashUtils.ComputeHash("hetfdex");
 

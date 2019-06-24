@@ -70,9 +70,16 @@ namespace blockchain_dotnet_core.API.Models
             {
                 var block = Chain[i];
 
+                var realIndex = Chain[i - 1].Index + 1;
+
                 var realLastHash = Chain[i - 1].Hash;
 
                 var lastDifficulty = Chain[i - 1].Difficulty;
+
+                if (block.Index != realIndex)
+                {
+                    return false;
+                }
 
                 if (block.LastHash != realLastHash)
                 {

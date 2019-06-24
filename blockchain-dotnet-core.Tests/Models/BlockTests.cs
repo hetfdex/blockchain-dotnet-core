@@ -47,14 +47,14 @@ namespace blockchain_dotnet_core.Tests.Models
         }
 
         [TestMethod]
-        public void ConstructBlockWithoutHashNullLastHashReturnsException()
+        public void ConstructBlockWithoutHashNullLastHashThrowsException()
         {
             Assert.ThrowsException<ArgumentNullException>(() =>
                 new Block(_index, _timestamp, null, _transactions, _nonce, _difficulty));
         }
 
         [TestMethod]
-        public void ConstructBlockWithoutHashNullTransactionsReturnsException()
+        public void ConstructBlockWithoutHashNullTransactionsThrowsException()
         {
             Assert.ThrowsException<ArgumentNullException>(() =>
                 new Block(_index, _timestamp, _lastHash, null, _nonce, _difficulty));
@@ -80,7 +80,7 @@ namespace blockchain_dotnet_core.Tests.Models
         }
 
         [TestMethod]
-        public void ConstructBlockWithHashNullLastHashReturnsException()
+        public void ConstructBlockWithHashNullLastHashThrowsException()
         {
             var hash = HashUtils.ComputeHash(_index, _timestamp, _lastHash, _transactions, _nonce,
                 _difficulty).ToBase64();
@@ -90,7 +90,7 @@ namespace blockchain_dotnet_core.Tests.Models
         }
 
         [TestMethod]
-        public void ConstructBlockWithHashNullTransactionsReturnsException()
+        public void ConstructBlockWithHashNullTransactionsThrowsException()
         {
             var hash = HashUtils.ComputeHash(_index, _timestamp, _lastHash, _transactions, _nonce,
                 _difficulty).ToBase64();
@@ -100,68 +100,11 @@ namespace blockchain_dotnet_core.Tests.Models
         }
 
         [TestMethod]
-        public void ConstructBlockWithHashNullHashReturnsException()
+        public void ConstructBlockWithHashNullHashThrowsException()
         {
 
             Assert.ThrowsException<ArgumentNullException>(() =>
                 new Block(_index, _timestamp, _lastHash, null, _transactions, _nonce, _difficulty));
-        }
-
-        [TestMethod]
-        public void BlocksAreEqual()
-        {
-            var sameObject = (object)_block;
-
-            Assert.IsNotNull(sameObject);
-            Assert.IsTrue(_block.Equals(sameObject));
-        }
-
-        [TestMethod]
-        public void BlocksAreNotEqual()
-        {
-            var differentBlock = new Block(0, 0, "test-lashHash", "test-hash", new List<Transaction>(), -1, -1);
-
-            var differentObject = (object) differentBlock;
-
-            Assert.IsNotNull(differentObject);
-            Assert.IsFalse(_block.Equals(differentObject));
-        }
-
-        [TestMethod]
-        public void BlockAndNullAreNotEqual()
-        {
-            Assert.IsFalse(_block.Equals((object) null));
-        }
-
-        [TestMethod]
-        public void GetGenesisBlock()
-        {
-            var expectedIndex = 0;
-
-            var expectedTimestamp = 0L;
-
-            var expectedLastHash = HashUtils.ComputeHash("genesis-lastHash").ToBase64();
-
-            var expectedTransactions = new List<Transaction>();
-
-            var expectedNonce = 0;
-
-            var expectedDifficulty = Constants.InitialDifficulty;
-
-            var expectedHash = HashUtils.ComputeHash(expectedIndex, expectedTimestamp, expectedLastHash,
-                expectedTransactions,
-                expectedNonce, expectedDifficulty).ToBase64();
-
-            var genesisBlock = Block.GetGenesisBlock();
-
-            Assert.IsNotNull(genesisBlock);
-            Assert.AreEqual(expectedIndex, genesisBlock.Index);
-            Assert.AreEqual(expectedTimestamp, genesisBlock.Timestamp);
-            Assert.AreEqual(expectedLastHash, genesisBlock.LastHash);
-            Assert.AreEqual(expectedHash, genesisBlock.Hash);
-            Assert.IsTrue(expectedTransactions.SequenceEqual(genesisBlock.Transactions));
-            Assert.AreEqual(expectedNonce, genesisBlock.Nonce);
-            Assert.AreEqual(expectedDifficulty, genesisBlock.Difficulty);
         }
 
         [TestMethod]
@@ -187,7 +130,7 @@ namespace blockchain_dotnet_core.Tests.Models
         }
 
         [TestMethod]
-        public void MineBlockNullLastBlockReturnsException()
+        public void MineBlockNullLastBlockThrowsException()
         {
             var transactions = new List<Transaction>();
 
@@ -195,7 +138,7 @@ namespace blockchain_dotnet_core.Tests.Models
         }
 
         [TestMethod]
-        public void MineBlockNullTransactionsReturnsException()
+        public void MineBlockNullTransactionsThrowsException()
         {
             var lastBlock = Block.GetGenesisBlock();
 
@@ -235,9 +178,66 @@ namespace blockchain_dotnet_core.Tests.Models
         }
 
         [TestMethod]
-        public void AdjustDifficultyNullLastBlockReturnsException()
+        public void AdjustDifficultyNullLastBlockThrowsException()
         {
             Assert.ThrowsException<ArgumentNullException>(() => Block.AdjustDifficulty(null, 0));
+        }
+
+        [TestMethod]
+        public void GetGenesisBlock()
+        {
+            var expectedIndex = 0;
+
+            var expectedTimestamp = 0L;
+
+            var expectedLastHash = HashUtils.ComputeHash("genesis-lastHash").ToBase64();
+
+            var expectedTransactions = new List<Transaction>();
+
+            var expectedNonce = 0;
+
+            var expectedDifficulty = Constants.InitialDifficulty;
+
+            var expectedHash = HashUtils.ComputeHash(expectedIndex, expectedTimestamp, expectedLastHash,
+                expectedTransactions,
+                expectedNonce, expectedDifficulty).ToBase64();
+
+            var genesisBlock = Block.GetGenesisBlock();
+
+            Assert.IsNotNull(genesisBlock);
+            Assert.AreEqual(expectedIndex, genesisBlock.Index);
+            Assert.AreEqual(expectedTimestamp, genesisBlock.Timestamp);
+            Assert.AreEqual(expectedLastHash, genesisBlock.LastHash);
+            Assert.AreEqual(expectedHash, genesisBlock.Hash);
+            Assert.IsTrue(expectedTransactions.SequenceEqual(genesisBlock.Transactions));
+            Assert.AreEqual(expectedNonce, genesisBlock.Nonce);
+            Assert.AreEqual(expectedDifficulty, genesisBlock.Difficulty);
+        }
+
+        [TestMethod]
+        public void BlocksAreEqual()
+        {
+            var sameObject = (object)_block;
+
+            Assert.IsNotNull(sameObject);
+            Assert.IsTrue(_block.Equals(sameObject));
+        }
+
+        [TestMethod]
+        public void BlocksAreNotEqual()
+        {
+            var differentBlock = new Block(0, 0, "test-lashHash", "test-hash", new List<Transaction>(), -1, -1);
+
+            var differentObject = (object)differentBlock;
+
+            Assert.IsNotNull(differentObject);
+            Assert.IsFalse(_block.Equals(differentObject));
+        }
+
+        [TestMethod]
+        public void BlockAndNullAreNotEqual()
+        {
+            Assert.IsFalse(_block.Equals((object)null));
         }
     }
 }
