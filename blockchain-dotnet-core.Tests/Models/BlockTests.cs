@@ -1,10 +1,10 @@
-﻿using System;
+﻿using blockchain_dotnet_core.API;
 using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using blockchain_dotnet_core.API;
 
 namespace blockchain_dotnet_core.Tests.Models
 {
@@ -102,7 +102,6 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void ConstructBlockWithHashNullHashThrowsException()
         {
-
             Assert.ThrowsException<ArgumentNullException>(() =>
                 new Block(_index, _timestamp, _lastHash, null, _transactions, _nonce, _difficulty));
         }

@@ -1,11 +1,11 @@
-﻿using blockchain_dotnet_core.API.Utils;
+﻿using blockchain_dotnet_core.API.Models;
+using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Crypto.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using blockchain_dotnet_core.API.Models;
 
 namespace blockchain_dotnet_core.Tests.Utils
 {

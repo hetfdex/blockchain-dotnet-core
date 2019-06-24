@@ -17,6 +17,25 @@ namespace blockchain_dotnet_core.API.Models
             };
         }
 
+        public void AddBlock(IList<Transaction> transactions)
+        {
+            if (transactions == null)
+            {
+                throw new ArgumentNullException(nameof(transactions));
+            }
+
+            var lastBlock = Chain[Chain.Count - 1];
+
+            if (lastBlock == null)
+            {
+                throw new ArgumentNullException(nameof(lastBlock));
+            }
+
+            var block = Block.MineBlock(lastBlock, transactions);
+
+            Chain.Add(block);
+        }
+
         public void ReplaceChain(Blockchain otherBlockchain,
             bool validateTransactionData)
         {
@@ -36,25 +55,6 @@ namespace blockchain_dotnet_core.API.Models
             }
 
             Chain = otherBlockchain.Chain;
-        }
-
-        public void AddBlock(IList<Transaction> transactions)
-        {
-            if (transactions == null)
-            {
-                throw new ArgumentNullException(nameof(transactions));
-            }
-
-            var lastBlock = Chain[Chain.Count - 1];
-
-            if (lastBlock == null)
-            {
-                throw new ArgumentNullException(nameof(lastBlock));
-            }
-
-            var block = Block.MineBlock(lastBlock, transactions);
-
-            Chain.Add(block);
         }
 
         public bool IsValidChain()

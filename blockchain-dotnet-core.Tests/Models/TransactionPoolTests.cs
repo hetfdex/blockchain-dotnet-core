@@ -1,9 +1,9 @@
 ﻿using blockchain_dotnet_core.API.Models;
+using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Org.BouncyCastle.Crypto.Parameters;
 using System;
 using System.Collections.Generic;
-using blockchain_dotnet_core.API.Utils;
-using Org.BouncyCastle.Crypto.Parameters;
 
 namespace blockchain_dotnet_core.Tests.Models
 {
@@ -41,7 +41,7 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void TransactionPoolsAreEqual()
         {
-            var sameObject = (object) _transactionPool;
+            var sameObject = (object)_transactionPool;
 
             Assert.IsNotNull(sameObject);
             Assert.IsTrue(_transactionPool.Equals(sameObject));
@@ -62,7 +62,7 @@ namespace blockchain_dotnet_core.Tests.Models
 
             differentTransactionPool.Pool.Add(Guid.NewGuid(), new Transaction(transactionOutputs, transactionInput));
 
-            var differentObject = (object) differentTransactionPool;
+            var differentObject = (object)differentTransactionPool;
 
             Assert.IsNotNull(differentObject);
             Assert.IsFalse(_transactionPool.Equals(differentObject));
@@ -71,7 +71,7 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void TransactionPoolAndNullAreNotEqual()
         {
-            Assert.IsFalse(_transactionPool.Equals((object) null));
+            Assert.IsFalse(_transactionPool.Equals((object)null));
         }
     }
 }

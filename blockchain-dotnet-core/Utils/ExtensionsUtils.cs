@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using blockchain_dotnet_core.API.Models;
+using Newtonsoft.Json;
 using Org.BouncyCastle.Crypto.Parameters;
 using System;
 using System.Collections.Generic;
-using blockchain_dotnet_core.API.Models;
 
 namespace blockchain_dotnet_core.API.Utils
 {

@@ -34,7 +34,7 @@ namespace blockchain_dotnet_core.API.Models
 
         public static TransactionInput GetMinerTransactionInput()
         {
-            return new TransactionInput(TimestampUtils.GenerateTimestamp(), Constants.MinerAddress,
+            return new TransactionInput(0, Constants.MinerAddress,
                 Constants.MinerReward, "miner-reward");
         }
 

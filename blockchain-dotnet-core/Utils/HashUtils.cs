@@ -33,7 +33,7 @@ namespace blockchain_dotnet_core.API.Utils
                 throw new ArgumentNullException(nameof(transactions));
             }
 
-            return ComputeHash(index + timestamp + lastHash + transactions.ToHashableString()+ nonce + difficulty);
+            return ComputeHash(index + timestamp + lastHash + transactions.ToHashableString() + nonce + difficulty);
         }
 
         public static byte[] ComputeHash(string toHash)
