@@ -58,7 +58,7 @@ namespace blockchain_dotnet_core.API.Models
                 throw new ArgumentNullException(nameof(transactions));
             }
 
-            var index = lastBlock.Index++;
+            var index = lastBlock.Index + 1;
 
             var lastHash = lastBlock.Hash;
 
@@ -129,8 +129,8 @@ namespace blockchain_dotnet_core.API.Models
         public bool Equals(Block other)
         {
             return Index.Equals(other.Index) && Timestamp.Equals(other.Timestamp) &&
-                   String.Equals(LastHash, other.LastHash) &&
-                   String.Equals(Hash, other.Hash) && Transactions.SequenceEqual(other.Transactions) &&
+                   string.Equals(LastHash, other.LastHash) &&
+                   string.Equals(Hash, other.Hash) && Transactions.SequenceEqual(other.Transactions) &&
                    Nonce.Equals(other.Nonce) && Difficulty.Equals(other.Difficulty);
         }
     }

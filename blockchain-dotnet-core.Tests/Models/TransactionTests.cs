@@ -44,7 +44,7 @@ namespace blockchain_dotnet_core.Tests.Models
             Assert.AreEqual(_transactionInput, _transaction.TransactionInput);
         }
 
-        /*[TestMethod]
+        [TestMethod]
         public void TransactionsAreEqual()
         {
             var sameObject = (object) _transaction;
@@ -66,18 +66,9 @@ namespace blockchain_dotnet_core.Tests.Models
         }
 
         [TestMethod]
-        public void TransactionAndObjectAreNotEqual()
-        {
-            var differentObject = new object();
-
-            Assert.IsNotNull(differentObject);
-            Assert.IsFalse(_transaction.Equals(differentObject));
-        }
-
-        [TestMethod]
         public void TransactionAndNullAreNotEqual()
         {
             Assert.IsFalse(_transaction.Equals((object) null));
-        }*/
+        }
     }
 }

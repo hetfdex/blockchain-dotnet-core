@@ -1,4 +1,5 @@
-﻿using blockchain_dotnet_core.API.Models;
+﻿using System.Collections.Generic;
+using blockchain_dotnet_core.API.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace blockchain_dotnet_core.Tests.Models
@@ -25,7 +26,7 @@ namespace blockchain_dotnet_core.Tests.Models
             Assert.AreEqual(genesisBlock, _blockchain.Chain[0]);
         }
 
-        /*[TestMethod]
+        [TestMethod]
         public void BlockchainsAreEqual()
         {
             var sameObject = (object) _blockchain;
@@ -39,7 +40,7 @@ namespace blockchain_dotnet_core.Tests.Models
         {
             var differentBlockchain = new Blockchain();
 
-            var block = new Block(0, string.Empty, string.Empty, new List<Transaction>(), -1, -1);
+            var block = new Block(0, 0, "test-lastHash", new List<Transaction>(), 0, 1);
 
             differentBlockchain.Chain.Add(block);
 
@@ -50,18 +51,9 @@ namespace blockchain_dotnet_core.Tests.Models
         }
 
         [TestMethod]
-        public void BlockchainAndObjectAreNotEqual()
-        {
-            var differentObject = new object();
-
-            Assert.IsNotNull(differentObject);
-            Assert.IsFalse(_blockchain.Equals(differentObject));
-        }
-
-        [TestMethod]
         public void BlockchainAndNullAreNotEqual()
         {
             Assert.IsFalse(_blockchain.Equals((object) null));
-        }*/
+        }
     }
 }

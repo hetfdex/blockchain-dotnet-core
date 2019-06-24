@@ -38,7 +38,7 @@ namespace blockchain_dotnet_core.Tests.Models
             Assert.AreEqual(_balance, _wallet.Balance);
         }
 
-        /*[TestMethod]
+        [TestMethod]
         public void WalletsAreEqual()
         {
             var sameObject = (object) _wallet;
@@ -62,18 +62,9 @@ namespace blockchain_dotnet_core.Tests.Models
         }
 
         [TestMethod]
-        public void WalletAndObjectAreNotEqual()
-        {
-            var differentObject = new object();
-
-            Assert.IsNotNull(differentObject);
-            Assert.IsFalse(_wallet.Equals(differentObject));
-        }
-
-        [TestMethod]
         public void WalletAndNullAreNotEqual()
         {
             Assert.IsFalse(_wallet.Equals((object) null));
-        }*/
+        }
     }
 }

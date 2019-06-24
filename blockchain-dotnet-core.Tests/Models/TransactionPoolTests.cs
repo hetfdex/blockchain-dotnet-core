@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using blockchain_dotnet_core.API.Utils;
+using Org.BouncyCastle.Crypto.Parameters;
 
 namespace blockchain_dotnet_core.Tests.Models
 {
@@ -21,9 +23,17 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void ConstructsTransactionPoolFromPool()
         {
+            var keyPair = CryptoUtils.GenerateKeyPair();
+
+            var transactionOutputs = new Dictionary<ECPublicKeyParameters, decimal>();
+
+            var transactionInput = new TransactionInput(0,
+                keyPair.Public as ECPublicKeyParameters, 0, keyPair.Private as ECPrivateKeyParameters,
+                transactionOutputs);
+
             var pool = new Dictionary<Guid, Transaction>
             {
-                {Guid.NewGuid(), new Transaction(null, null)}
+                {Guid.NewGuid(), new Transaction(transactionOutputs, transactionInput)}
             };
 
             _transactionPool = new TransactionPool(pool);
@@ -39,7 +49,7 @@ namespace blockchain_dotnet_core.Tests.Models
             Assert.IsInstanceOfType(_transactionPool.Pool, typeof(Dictionary<Guid, Transaction>));
         }
 
-        /*[TestMethod]
+        [TestMethod]
         public void TransactionPoolsAreEqual()
         {
             var sameObject = (object) _transactionPool;
@@ -53,18 +63,17 @@ namespace blockchain_dotnet_core.Tests.Models
         {
             var differenTransactionPool = new TransactionPool();
 
-            differenTransactionPool.Pool.Add(Guid.NewGuid(), new Transaction(null, null));
+            var keyPair = CryptoUtils.GenerateKeyPair();
+
+            var transactionOutputs = new Dictionary<ECPublicKeyParameters, decimal>();
+
+            var transactionInput = new TransactionInput(0,
+                keyPair.Public as ECPublicKeyParameters, 0, keyPair.Private as ECPrivateKeyParameters,
+                transactionOutputs);
+
+            differenTransactionPool.Pool.Add(Guid.NewGuid(), new Transaction(transactionOutputs, transactionInput));
 
             var differentObject = (object) differenTransactionPool;
-
-            Assert.IsNotNull(differentObject);
-            Assert.IsFalse(_transactionPool.Equals(differentObject));
-        }
-
-        [TestMethod]
-        public void TransactionPoolAndObjectAreNotEqual()
-        {
-            var differentObject = new object();
 
             Assert.IsNotNull(differentObject);
             Assert.IsFalse(_transactionPool.Equals(differentObject));
@@ -74,6 +83,6 @@ namespace blockchain_dotnet_core.Tests.Models
         public void TransactionPoolAndNullAreNotEqual()
         {
             Assert.IsFalse(_transactionPool.Equals((object) null));
-        }*/
+        }
     }
 }
