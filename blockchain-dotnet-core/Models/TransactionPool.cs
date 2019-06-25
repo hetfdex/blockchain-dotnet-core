@@ -47,7 +47,7 @@ namespace blockchain_dotnet_core.API.Models
 
         public bool IsExistingTransaction(Guid id)
         {
-            if (id == null)
+            if (id == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(id));
             }

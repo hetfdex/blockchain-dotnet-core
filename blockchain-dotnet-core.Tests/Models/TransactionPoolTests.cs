@@ -12,6 +12,29 @@ namespace blockchain_dotnet_core.Tests.Models
     {
         private TransactionPool _transactionPool = new TransactionPool();
 
+        private Wallet _senderWallet;
+
+        private Wallet _recipientWallet;
+
+        private Transaction _transaction;
+
+        [TestInitialize]
+        public void TransactionPoolUtilsTestsSetup()
+        {
+            _senderWallet = new Wallet();
+
+            _recipientWallet = new Wallet();
+
+            var transactionOutputs =
+                Transaction.GenerateTransactionOutput(_senderWallet, _recipientWallet.PublicKey, 100);
+
+            var transactionInput = Transaction.GenerateTransactionInput(_senderWallet, transactionOutputs);
+
+            _transaction = new Transaction(transactionOutputs, transactionInput);
+
+            _transactionPool = new TransactionPool();
+        }
+
         [TestMethod]
         public void ConstructTransactionPoolNoParameters()
         {
@@ -45,16 +68,22 @@ namespace blockchain_dotnet_core.Tests.Models
         }
 
         [TestMethod]
-        public void SetsTransaction()
+        public void AddTransaction()
         {
             _transactionPool.AddTransaction(_transaction);
 
-            Assert.IsNotNull(_transactionPool.Pool);
+            Assert.IsTrue(_transactionPool.Pool.Count == 1);
             Assert.AreEqual(_transaction, _transactionPool.Pool[_transaction.Id]);
         }
 
         [TestMethod]
-        public void FindsExistingTransactionById()
+        public void AddTransactionPoolNullTransactionThrowsException()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => _transactionPool.AddTransaction(null));
+        }
+
+        [TestMethod]
+        public void IsExistingTransactionId()
         {
             _transactionPool.AddTransaction(_transaction);
 
@@ -62,11 +91,23 @@ namespace blockchain_dotnet_core.Tests.Models
         }
 
         [TestMethod]
-        public void FindsExistingTransactionByPublicKey()
+        public void IsExistingTransactionIdEmptyIdThrowsException()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => _transactionPool.IsExistingTransaction(Guid.Empty));
+        }
+
+        [TestMethod]
+        public void IsExistingTransactionPublicKey()
         {
             _transactionPool.AddTransaction(_transaction);
 
             Assert.IsTrue(_transactionPool.IsExistingTransaction(_transaction.TransactionInput.Address));
+        }
+
+        [TestMethod]
+        public void IsExistingTransactionPublicKeyNullPublicKeyThrowsException()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => _transactionPool.IsExistingTransaction(null));
         }
 
         [TestMethod]
@@ -84,17 +125,14 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void GetsValidTransactions()
         {
-            var keyPair = CryptoUtils.GenerateKeyPair();
+            var transactionOutputs =
+                Transaction.GenerateTransactionOutput(_senderWallet, _recipientWallet.PublicKey, 100);
 
-            var recipient = keyPair.Public as ECPublicKeyParameters;
-
-            var transactionOutputs = TransactionUtils.GenerateTransactionOutput(_wallet, recipient, 100);
-
-            var transactionInput = TransactionUtils.GenerateTransactionInput(_wallet, transactionOutputs);
+            var transactionInput = Transaction.GenerateTransactionInput(_senderWallet, transactionOutputs);
 
             var transaction = new Transaction(transactionOutputs, transactionInput)
             {
-                TransactionOutputs = {[recipient] = 9999}
+                TransactionOutputs = { [_recipientWallet.PublicKey] = 9999 }
             };
 
             _transactionPool.AddTransaction(_transaction);
@@ -114,6 +152,7 @@ namespace blockchain_dotnet_core.Tests.Models
 
             _transactionPool.ClearTransactions();
 
+            Assert.IsNotNull(_transactionPool.Pool);
             Assert.IsTrue(_transactionPool.Pool.Count == 0);
         }
 
@@ -127,13 +166,10 @@ namespace blockchain_dotnet_core.Tests.Models
                 _transaction
             };
 
-            var keyPair = CryptoUtils.GenerateKeyPair();
+            var transactionOutputs =
+                Transaction.GenerateTransactionOutput(_senderWallet, _recipientWallet.PublicKey, 100);
 
-            var recipient = keyPair.Public as ECPublicKeyParameters;
-
-            var transactionOutputs = TransactionUtils.GenerateTransactionOutput(_wallet, recipient, 100);
-
-            var transactionInput = TransactionUtils.GenerateTransactionInput(_wallet, transactionOutputs);
+            var transactionInput = Transaction.GenerateTransactionInput(_senderWallet, transactionOutputs);
 
             var transaction = new Transaction(transactionOutputs, transactionInput);
 
@@ -148,12 +184,16 @@ namespace blockchain_dotnet_core.Tests.Models
             Assert.AreEqual(transaction, _transactionPool.Pool[transaction.Id]);
         }
 
-        //
+        [TestMethod]
+        public void ClearsBlockchainTransactionsNullBlockchainThrowsException()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => _transactionPool.ClearBlockchainTransactions(null));
+        }
 
         [TestMethod]
         public void TransactionPoolsAreEqual()
         {
-            var sameObject = (object) _transactionPool;
+            var sameObject = (object)_transactionPool;
 
             Assert.IsNotNull(sameObject);
             Assert.IsTrue(_transactionPool.Equals(sameObject));
@@ -174,7 +214,7 @@ namespace blockchain_dotnet_core.Tests.Models
 
             differentTransactionPool.Pool.Add(Guid.NewGuid(), new Transaction(transactionOutputs, transactionInput));
 
-            var differentObject = (object) differentTransactionPool;
+            var differentObject = (object)differentTransactionPool;
 
             Assert.IsNotNull(differentObject);
             Assert.IsFalse(_transactionPool.Equals(differentObject));
@@ -183,7 +223,7 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void TransactionPoolAndNullAreNotEqual()
         {
-            Assert.IsFalse(_transactionPool.Equals((object) null));
+            Assert.IsFalse(_transactionPool.Equals((object)null));
         }
     }
 }
