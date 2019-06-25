@@ -63,6 +63,16 @@ namespace blockchain_dotnet_core.API.Models
         public void UpdateTransaction(Wallet senderWallet,
             ECPublicKeyParameters recipient, decimal amount)
         {
+            if (senderWallet == null)
+            {
+                throw new ArgumentNullException(nameof(senderWallet));
+            }
+
+            if (recipient == null)
+            {
+                throw new ArgumentNullException(nameof(recipient));
+            }
+
             if (amount > TransactionOutputs[senderWallet.PublicKey])
             {
                 return;

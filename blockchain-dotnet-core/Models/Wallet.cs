@@ -61,6 +61,11 @@ namespace blockchain_dotnet_core.API.Models
                 throw new ArgumentNullException(nameof(blockchain));
             }
 
+            if (address == null)
+            {
+                throw new ArgumentNullException(nameof(address));
+            }
+
             var hasConductedTransaction = false;
 
             var outputsTotal = 0m;

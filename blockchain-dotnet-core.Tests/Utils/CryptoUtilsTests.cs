@@ -77,7 +77,7 @@ namespace blockchain_dotnet_core.Tests.Utils
         }
 
         [TestMethod]
-        public void VerifiySignature()
+        public void VerifySignature()
         {
             var bytes = HashUtils.ComputeHash("hetfdex");
 

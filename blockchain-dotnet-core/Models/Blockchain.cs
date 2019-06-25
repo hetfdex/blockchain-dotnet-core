@@ -39,6 +39,11 @@ namespace blockchain_dotnet_core.API.Models
         public void ReplaceChain(Blockchain otherBlockchain,
             bool validateTransactionData)
         {
+            if (otherBlockchain == null)
+            {
+                throw new ArgumentNullException(nameof(otherBlockchain));
+            }
+
             if (otherBlockchain.Chain.Count <= Chain.Count)
             {
                 return;

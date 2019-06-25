@@ -1,8 +1,8 @@
-﻿using System;
-using blockchain_dotnet_core.API.Models;
+﻿using blockchain_dotnet_core.API.Models;
 using blockchain_dotnet_core.API.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Org.BouncyCastle.Crypto.Parameters;
+using System;
 using System.Collections.Generic;
 
 namespace blockchain_dotnet_core.Tests.Models
@@ -29,7 +29,8 @@ namespace blockchain_dotnet_core.Tests.Models
 
             _recipientWallet = new Wallet();
 
-            _transactionOutputs = Transaction.GenerateTransactionOutput(_senderWallet, _recipientWallet.PublicKey, _amount);
+            _transactionOutputs =
+                Transaction.GenerateTransactionOutput(_senderWallet, _recipientWallet.PublicKey, _amount);
 
             _transactionInput = Transaction.GenerateTransactionInput(_senderWallet, _transactionOutputs);
 
@@ -69,7 +70,8 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void ConstructTransactionWithoutOutputAndInputNullWalletThrowsException()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => new Transaction(null, _recipientWallet.PublicKey, _amount));
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                new Transaction(null, _recipientWallet.PublicKey, _amount));
         }
 
         [TestMethod]
@@ -153,6 +155,20 @@ namespace blockchain_dotnet_core.Tests.Models
             Assert.AreNotEqual(originalSenderOutput - nextAmount,
                 _transaction.TransactionOutputs[_senderWallet.PublicKey]);
             Assert.AreEqual(originalSignature, _transaction.TransactionInput.Signature);
+        }
+
+        [TestMethod]
+        public void UpdateTransactionNullWalletThrowsException()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                _transaction.UpdateTransaction(null, _recipientWallet.PublicKey, 50));
+        }
+
+        [TestMethod]
+        public void UpdateTransactionNullRecipientThrowsException()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                _transaction.UpdateTransaction(_senderWallet, null, 50));
         }
 
         [TestMethod]
