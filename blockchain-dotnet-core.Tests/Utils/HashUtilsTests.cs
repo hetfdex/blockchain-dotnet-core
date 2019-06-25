@@ -33,6 +33,17 @@ namespace blockchain_dotnet_core.Tests.Utils
         }
 
         [TestMethod]
+        public void ComputeHashBlock()
+        {
+            var block = new Block(0, 0, "test-lastHash", new List<Transaction>(), 0, 1);
+
+            var hash = HashUtils.ComputeHash(block).ToBase64();
+
+            Assert.IsNotNull(hash);
+            Assert.AreEqual(block.Hash, hash);
+        }
+
+        [TestMethod]
         public void ComputeHashNullBlockThrowsException()
         {
             Assert.ThrowsException<ArgumentNullException>(() => HashUtils.ComputeHash((Block)null));

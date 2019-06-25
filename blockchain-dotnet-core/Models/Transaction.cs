@@ -23,6 +23,16 @@ namespace blockchain_dotnet_core.API.Models
 
         public Transaction(Wallet senderWallet, ECPublicKeyParameters recipient, decimal amount)
         {
+            if (senderWallet == null)
+            {
+                throw new ArgumentNullException(nameof(senderWallet));
+            }
+
+            if (recipient == null)
+            {
+                throw new ArgumentNullException(nameof(recipient));
+            }
+
             TransactionOutputs = GenerateTransactionOutput(senderWallet, recipient, amount);
             TransactionInput = GenerateTransactionInput(senderWallet, TransactionOutputs);
         }
