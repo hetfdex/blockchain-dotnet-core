@@ -109,17 +109,19 @@ namespace blockchain_dotnet_core.API.Models
 
         public bool AreValidTransactions()
         {
-            foreach (var block in Chain)
+            for (int i = 1; i < Chain.Count; i++)
             {
-                var minerRewardCount = 0;
+                var block = Chain[i];
+
+                var minerRewardTransactionCount = 0;
 
                 foreach (var transaction in block.Transactions)
                 {
-                    if (transaction.TransactionInput.Equals(TransactionInput.GetMinerTransactionInput()))
+                    if (transaction.TransactionInput.Address.Equals(Constants.MinerAddress))
                     {
-                        minerRewardCount++;
+                        minerRewardTransactionCount++;
 
-                        if (minerRewardCount > 1)
+                        if (minerRewardTransactionCount > 1)
                         {
                             return false;
                         }
@@ -138,19 +140,18 @@ namespace blockchain_dotnet_core.API.Models
                             return false;
                         }
 
-                        var actualWalletBalance =
-                            Wallet.CalculateBalance(this, transaction.TransactionInput.Address);
+                        var actualWalletBalance = Wallet.CalculateBalance(this, transaction.TransactionInput.Address);
 
                         if (transaction.TransactionInput.Amount != actualWalletBalance)
                         {
                             return false;
                         }
-                    }
-                }
 
-                if (block.Transactions.Count != block.Transactions.Distinct().Count())
-                {
-                    return false;
+                        if (block.Transactions.Count != block.Transactions.Distinct().Count())
+                        {
+                            return false;
+                        }
+                    }
                 }
             }
 

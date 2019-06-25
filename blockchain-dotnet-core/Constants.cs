@@ -5,7 +5,7 @@ namespace blockchain_dotnet_core.API
 {
     public static class Constants
     {
-        public const int InitialDifficulty = 1;
+        public const int InitialDifficulty = 2;
 
         public const int MiningRate = 10;
 

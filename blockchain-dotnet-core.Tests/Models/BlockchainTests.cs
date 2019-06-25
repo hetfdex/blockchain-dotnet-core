@@ -12,16 +12,37 @@ namespace blockchain_dotnet_core.Tests.Models
     {
         private readonly Blockchain _blockchain = new Blockchain();
 
+        private readonly Blockchain _replacementBlockchain = new Blockchain();
+
+        [TestInitialize]
+        public void BlockchainUtilsTestsSetup()
+        {
+            var senderWallet = new Wallet();
+
+            var recipientWallet = new Wallet();
+
+            var transactions = new List<Transaction>
+            {
+                senderWallet.GenerateTransaction(recipientWallet.PublicKey, 100, _blockchain),
+            };
+
+            _blockchain.AddBlock(transactions);
+
+            transactions = new List<Transaction>
+            {
+                recipientWallet.GenerateTransaction(senderWallet.PublicKey, 200, _blockchain)
+            };
+
+            _blockchain.AddBlock(transactions);
+        }
+
         [TestMethod]
         public void ConstructBlockchain()
         {
-            var genesisBlock = Block.GetGenesisBlock();
-
             Assert.IsNotNull(_blockchain);
             Assert.IsNotNull(_blockchain.Chain);
-            Assert.IsTrue(_blockchain.Chain.Count == 1);
-            Assert.IsNotNull(_blockchain.Chain[_blockchain.Chain.Count - 1]);
-            Assert.AreEqual(genesisBlock, _blockchain.Chain[_blockchain.Chain.Count - 1]);
+            Assert.IsTrue(_blockchain.Chain.Count == 2);
+            Assert.IsNotNull(_blockchain.Chain[_blockchain.Chain.Count - 2]);
         }
 
         [TestMethod]
@@ -31,7 +52,7 @@ namespace blockchain_dotnet_core.Tests.Models
 
             _blockchain.AddBlock(transactions);
 
-            Assert.IsTrue(_blockchain.Chain.Count == 2);
+            Assert.IsTrue(_blockchain.Chain.Count == 3);
             Assert.IsNotNull(_blockchain.Chain[_blockchain.Chain.Count - 1]);
             Assert.AreEqual(transactions, _blockchain.Chain[_blockchain.Chain.Count - 1].Transactions);
         }
@@ -52,52 +73,46 @@ namespace blockchain_dotnet_core.Tests.Models
             Assert.ThrowsException<ArgumentNullException>(() => _blockchain.AddBlock(transactions));
         }
 
-        /*[TestMethod]
-        public void ReplacesBlockchainWithLongerValidBlockchain()
+        [TestMethod]
+        public void ReplaceChainLongerValidBlockchain()
         {
-            var firstWallet = new Wallet();
+            var senderWallet = new Wallet();
 
-            var secondWallet = new Wallet();
+            var recipientWallet = new Wallet();
 
             var firstTransactions = new List<Transaction>
             {
-                WalletUtils.GenerateTransaction(firstWallet, secondWallet.PublicKey, 100, _replacementBlockchain),
+                senderWallet.GenerateTransaction(recipientWallet.PublicKey, 100, _replacementBlockchain),
             };
 
             var secondTransactions = new List<Transaction>
             {
-                WalletUtils.GenerateTransaction(secondWallet, firstWallet.PublicKey, 200, _replacementBlockchain)
+                recipientWallet.GenerateTransaction(senderWallet.PublicKey, 200, _replacementBlockchain)
             };
 
             _replacementBlockchain.AddBlock(firstTransactions);
             _replacementBlockchain.AddBlock(secondTransactions);
 
-            BlockchainUtils.ReplaceChain(ref _blockchain, _replacementBlockchain, false);
+            _blockchain.ReplaceChain(_replacementBlockchain, false);
 
             Assert.AreEqual(_replacementBlockchain, _blockchain);
         }
 
         [TestMethod]
-        public void DoesNotReplaceBlockchainWithLongerInvalidBlockchain()
+        public void ReplaceChainLongerInvalidBlockchain()
         {
-            var firstKeyPair = CryptoUtils.GenerateKeyPair();
+            var senderWallet = new Wallet();
 
-            var secondKeyPair = CryptoUtils.GenerateKeyPair();
-
-            var firstWallet = new Wallet(firstKeyPair.Private as ECPrivateKeyParameters,
-                firstKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
-
-            var secondWallet = new Wallet(secondKeyPair.Private as ECPrivateKeyParameters,
-                secondKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
+            var recipientWallet = new Wallet();
 
             var firstTransactions = new List<Transaction>
             {
-                WalletUtils.GenerateTransaction(firstWallet, secondWallet.PublicKey, 100, _blockchain),
+                senderWallet.GenerateTransaction(recipientWallet.PublicKey, 100, _blockchain)
             };
 
             var secondTransactions = new List<Transaction>
             {
-                WalletUtils.GenerateTransaction(secondWallet, firstWallet.PublicKey, 200, _blockchain)
+                recipientWallet.GenerateTransaction(senderWallet.PublicKey, 200, _blockchain)
             };
 
             _replacementBlockchain.AddBlock(firstTransactions);
@@ -105,54 +120,51 @@ namespace blockchain_dotnet_core.Tests.Models
 
             _replacementBlockchain.Chain[_replacementBlockchain.Chain.Count - 1].LastHash = "fake-lastHash";
 
-            BlockchainUtils.ReplaceChain(ref _blockchain, _replacementBlockchain, false);
+            _blockchain.ReplaceChain(_replacementBlockchain, false);
 
             Assert.AreNotEqual(_replacementBlockchain, _blockchain);
         }
 
         [TestMethod]
-        public void DoesNotReplaceBlockchainWithShorterBlockchain()
+        public void ReplaceChainShorterBlockchain()
         {
-            BlockchainUtils.ReplaceChain(ref _blockchain, _replacementBlockchain, false);
+            _blockchain.ReplaceChain(_replacementBlockchain, false);
 
             Assert.AreNotEqual(_replacementBlockchain, _blockchain);
         }
 
         [TestMethod]
-        public void ReplacesBlockchainWithValidTransactionData()
+        public void ReplaceChainNullOtherBlockchainThrowsException()
         {
-            var firstKeyPair = CryptoUtils.GenerateKeyPair();
+            Assert.ThrowsException<ArgumentNullException>(() => _blockchain.ReplaceChain(null, false));
+        }
 
-            var secondKeyPair = CryptoUtils.GenerateKeyPair();
+        [TestMethod]
+        public void ReplaceChainValidTransactionData()
+        {
+            var senderWallet = new Wallet();
 
-            var minerKeyPair = CryptoUtils.GenerateKeyPair();
+            var recipientWallet = new Wallet();
 
-            var firstWallet = new Wallet(firstKeyPair.Private as ECPrivateKeyParameters,
-                firstKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
+            var minerWallet = new Wallet();
 
-            var secondWallet = new Wallet(secondKeyPair.Private as ECPrivateKeyParameters,
-                secondKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
-
-            var minerWallet = new Wallet(minerKeyPair.Private as ECPrivateKeyParameters,
-                minerKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
-
-            var minerRewardTransaction = TransactionUtils.GetMinerRewardTransaction(minerWallet);
+            var minerRewardTransaction = Transaction.GetMinerRewardTransaction(minerWallet);
 
             var firstTransactions = new List<Transaction>
             {
-                WalletUtils.GenerateTransaction(firstWallet, secondWallet.PublicKey, 100, _blockchain),
+                senderWallet.GenerateTransaction(recipientWallet.PublicKey, 100, _blockchain),
                 minerRewardTransaction
             };
 
             var secondTransactions = new List<Transaction>
             {
-                WalletUtils.GenerateTransaction(secondWallet, firstWallet.PublicKey, 200, _blockchain)
+                recipientWallet.GenerateTransaction(senderWallet.PublicKey, 200, _blockchain)
             };
 
             _replacementBlockchain.AddBlock(firstTransactions);
             _replacementBlockchain.AddBlock(secondTransactions);
 
-            BlockchainUtils.ReplaceChain(ref _blockchain, _replacementBlockchain, true);
+            _blockchain.ReplaceChain(_replacementBlockchain, true);
 
             Assert.IsTrue(_replacementBlockchain.AreValidTransactions());
             Assert.AreEqual(_replacementBlockchain, _blockchain);
@@ -161,34 +173,32 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void DoesNotReplaceBlockchainWithMultipleMinerRewards()
         {
-            var firstKeyPair = CryptoUtils.GenerateKeyPair();
+            var senderWallet = new Wallet();
 
-            var secondKeyPair = CryptoUtils.GenerateKeyPair();
+            var recipientWallet = new Wallet();
 
-            var firstWallet = new Wallet(firstKeyPair.Private as ECPrivateKeyParameters,
-                firstKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
+            var minerWallet = new Wallet();
 
-            var secondWallet = new Wallet(secondKeyPair.Private as ECPrivateKeyParameters,
-                secondKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
+            var minerRewardTransaction = Transaction.GetMinerRewardTransaction(minerWallet);
 
-            var minerRewardTransaction = TransactionUtils.GetMinerRewardTransaction(firstWallet);
+            var transaction = senderWallet.GenerateTransaction(recipientWallet.PublicKey, 100, _blockchain);
 
             var firstTransactions = new List<Transaction>
             {
-                WalletUtils.GenerateTransaction(firstWallet, secondWallet.PublicKey, 100, _blockchain),
+                transaction,
                 minerRewardTransaction,
                 minerRewardTransaction
             };
 
             var secondTransactions = new List<Transaction>
             {
-                WalletUtils.GenerateTransaction(secondWallet, firstWallet.PublicKey, 200, _blockchain)
+                recipientWallet.GenerateTransaction(senderWallet.PublicKey, 200, _blockchain)
             };
 
             _replacementBlockchain.AddBlock(firstTransactions);
             _replacementBlockchain.AddBlock(secondTransactions);
 
-            BlockchainUtils.ReplaceChain(ref _blockchain, _replacementBlockchain, true);
+            _blockchain.ReplaceChain(_replacementBlockchain, true);
 
             Assert.IsFalse(_replacementBlockchain.AreValidTransactions());
             Assert.AreNotEqual(_replacementBlockchain, _blockchain);
@@ -197,31 +207,25 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void DoesNotReplaceBlockchainWithDuplicateTransactions()
         {
-            var firstKeyPair = CryptoUtils.GenerateKeyPair();
+            var senderWallet = new Wallet();
 
-            var secondKeyPair = CryptoUtils.GenerateKeyPair();
-
-            var firstWallet = new Wallet(firstKeyPair.Private as ECPrivateKeyParameters,
-                firstKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
-
-            var secondWallet = new Wallet(secondKeyPair.Private as ECPrivateKeyParameters,
-                secondKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
+            var recipientWallet = new Wallet();
 
             var firstTransactions = new List<Transaction>
             {
-                WalletUtils.GenerateTransaction(firstWallet, secondWallet.PublicKey, 100, _blockchain),
-                WalletUtils.GenerateTransaction(firstWallet, secondWallet.PublicKey, 100, _blockchain)
+                senderWallet.GenerateTransaction(recipientWallet.PublicKey, 100, _blockchain),
+                senderWallet.GenerateTransaction(recipientWallet.PublicKey, 100, _blockchain)
             };
 
             var secondTransactions = new List<Transaction>
             {
-                WalletUtils.GenerateTransaction(secondWallet, firstWallet.PublicKey, 200, _blockchain)
+                recipientWallet.GenerateTransaction(senderWallet.PublicKey, 200, _blockchain)
             };
 
             _replacementBlockchain.AddBlock(firstTransactions);
             _replacementBlockchain.AddBlock(secondTransactions);
 
-            BlockchainUtils.ReplaceChain(ref _blockchain, _replacementBlockchain, true);
+            _blockchain.ReplaceChain(_replacementBlockchain, true);
 
             Assert.IsFalse(_replacementBlockchain.AreValidTransactions());
             Assert.AreNotEqual(_replacementBlockchain, _blockchain);
@@ -230,32 +234,26 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void DoesNotReplaceBlockchainWithTransactionWithWrongOutput()
         {
-            var firstKeyPair = CryptoUtils.GenerateKeyPair();
+            var senderWallet = new Wallet();
 
-            var secondKeyPair = CryptoUtils.GenerateKeyPair();
-
-            var firstWallet = new Wallet(firstKeyPair.Private as ECPrivateKeyParameters,
-                firstKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
-
-            var secondWallet = new Wallet(secondKeyPair.Private as ECPrivateKeyParameters,
-                secondKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
+            var recipientWallet = new Wallet();
 
             var firstTransactions = new List<Transaction>
             {
-                WalletUtils.GenerateTransaction(firstWallet, secondWallet.PublicKey, 100, _blockchain),
+                senderWallet.GenerateTransaction(recipientWallet.PublicKey, 100, _blockchain),
             };
 
             var secondTransactions = new List<Transaction>
             {
-                WalletUtils.GenerateTransaction(secondWallet, firstWallet.PublicKey, 200, _blockchain)
+                recipientWallet.GenerateTransaction(senderWallet.PublicKey, 200, _blockchain)
             };
 
-            secondTransactions[0].TransactionOutputs[secondWallet.PublicKey] = 9999;
+            secondTransactions[0].TransactionOutputs[recipientWallet.PublicKey] = 9999;
 
             _replacementBlockchain.AddBlock(firstTransactions);
             _replacementBlockchain.AddBlock(secondTransactions);
 
-            BlockchainUtils.ReplaceChain(ref _blockchain, _replacementBlockchain, true);
+            _blockchain.ReplaceChain(_replacementBlockchain, true);
 
             Assert.IsFalse(_replacementBlockchain.AreValidTransactions());
             Assert.AreNotEqual(_replacementBlockchain, _blockchain);
@@ -264,20 +262,14 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void DoesNotReplaceBlockchainWithTransactionWithWrongOutputMiner()
         {
-            var senderKeyPair = CryptoUtils.GenerateKeyPair();
+            var senderWallet = new Wallet();
 
-            var senderWallet = new Wallet(senderKeyPair.Private as ECPrivateKeyParameters,
-                senderKeyPair.Public as ECPublicKeyParameters,
-                ConfigurationOptions.StartBalance);
-
-            var recipientKeyPair = CryptoUtils.GenerateKeyPair();
-
-            var recipientPublicKey = recipientKeyPair.Public as ECPublicKeyParameters;
+            var recipientWallet = new Wallet();
 
             var transaction =
-                WalletUtils.GenerateTransaction(senderWallet, recipientPublicKey, 100, _replacementBlockchain);
+                senderWallet.GenerateTransaction(recipientWallet.PublicKey, 100, _replacementBlockchain);
 
-            var minerRewardTransaction = TransactionUtils.GetMinerRewardTransaction(senderWallet);
+            var minerRewardTransaction = Transaction.GetMinerRewardTransaction(senderWallet);
 
             minerRewardTransaction.TransactionOutputs[senderWallet.PublicKey] = 9999;
 
@@ -289,7 +281,7 @@ namespace blockchain_dotnet_core.Tests.Models
 
             _replacementBlockchain.AddBlock(transactions);
 
-            BlockchainUtils.ReplaceChain(ref _blockchain, _replacementBlockchain, true);
+            _blockchain.ReplaceChain(_replacementBlockchain, true);
 
             Assert.IsFalse(_replacementBlockchain.AreValidTransactions());
             Assert.AreNotEqual(_replacementBlockchain, _blockchain);
@@ -298,32 +290,26 @@ namespace blockchain_dotnet_core.Tests.Models
         [TestMethod]
         public void DoesNotReplaceBlockchainWithTransactionWithWrongInput()
         {
-            var firstKeyPair = CryptoUtils.GenerateKeyPair();
+            var senderWallet = new Wallet();
 
-            var secondKeyPair = CryptoUtils.GenerateKeyPair();
-
-            var firstWallet = new Wallet(firstKeyPair.Private as ECPrivateKeyParameters,
-                firstKeyPair.Public as ECPublicKeyParameters, 9999);
-
-            var secondWallet = new Wallet(secondKeyPair.Private as ECPrivateKeyParameters,
-                secondKeyPair.Public as ECPublicKeyParameters, ConfigurationOptions.StartBalance);
+            var recipientWallet = new Wallet();
 
             var firstTransactions = new List<Transaction>
             {
-                WalletUtils.GenerateTransaction(firstWallet, secondWallet.PublicKey, 100, _blockchain),
+                senderWallet.GenerateTransaction(recipientWallet.PublicKey, 100, _blockchain),
             };
 
             var secondTransactions = new List<Transaction>
             {
-                WalletUtils.GenerateTransaction(secondWallet, firstWallet.PublicKey, 200, _blockchain)
+                recipientWallet.GenerateTransaction(senderWallet.PublicKey, 200, _blockchain)
             };
 
-            secondTransactions[0].TransactionOutputs[secondWallet.PublicKey] = 9999;
+            secondTransactions[0].TransactionOutputs[recipientWallet.PublicKey] = 9999;
 
             _replacementBlockchain.AddBlock(firstTransactions);
             _replacementBlockchain.AddBlock(secondTransactions);
 
-            BlockchainUtils.ReplaceChain(ref _blockchain, _replacementBlockchain, true);
+            _blockchain.ReplaceChain(_replacementBlockchain, true);
 
             Assert.IsFalse(_replacementBlockchain.AreValidTransactions());
             Assert.AreNotEqual(_replacementBlockchain, _blockchain);
@@ -336,7 +322,7 @@ namespace blockchain_dotnet_core.Tests.Models
 
             var recipientWallet = new Wallet();
 
-            var transaction = new Transaction(senderWallet, recipientWallet.PublicKey, 10);
+            var transaction = senderWallet.GenerateTransaction(recipientWallet.PublicKey, 10, _blockchain);
 
             var transactions = new List<Transaction>
             {
@@ -398,7 +384,7 @@ namespace blockchain_dotnet_core.Tests.Models
                 CryptoUtils.GenerateSignature(senderWallet.PrivateKey, fakeTransactionOutputs.ToHash());
 
             Assert.IsFalse(_blockchain.AreValidTransactions());
-        }*/
+        }
 
         [TestMethod]
         public void IsValidChain()

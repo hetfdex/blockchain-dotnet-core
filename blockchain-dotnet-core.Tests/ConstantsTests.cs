@@ -10,7 +10,7 @@ namespace blockchain_dotnet_core.Tests
         [TestMethod]
         public void ConstantsHaveCorrectValues()
         {
-            var expectedInitialDifficulty = 1;
+            var expectedInitialDifficulty = 2;
 
             var expectedMiningRate = 10;
 
