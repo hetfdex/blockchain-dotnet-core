@@ -48,10 +48,7 @@ namespace blockchain_dotnet_core.API.Models
                 return null;
             }
 
-            var transactionOutputs = Transaction.GenerateTransactionOutput(this, recipient, amount);
-            var transactionInput = Transaction.GenerateTransactionInput(this, transactionOutputs);
-
-            return new Transaction(transactionOutputs, transactionInput);
+            return new Transaction(this, recipient, amount);
         }
 
         public static decimal CalculateBalance(Blockchain blockchain, ECPublicKeyParameters address)
@@ -70,7 +67,7 @@ namespace blockchain_dotnet_core.API.Models
 
             var outputsTotal = 0m;
 
-            for (int i = blockchain.Chain.Count - 1; i > 0; i--)
+            for (var i = blockchain.Chain.Count - 1; i > 0; i--)
             {
                 var block = blockchain.Chain[i];
 
@@ -83,12 +80,7 @@ namespace blockchain_dotnet_core.API.Models
 
                     if (transaction.TransactionOutputs.ContainsKey(address))
                     {
-                        var addressOutput = transaction.TransactionOutputs[address];
-
-                        if (addressOutput != 0)
-                        {
-                            outputsTotal += addressOutput;
-                        }
+                        outputsTotal += transaction.TransactionOutputs[address];
                     }
                 }
 

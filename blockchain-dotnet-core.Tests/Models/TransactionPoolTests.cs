@@ -26,7 +26,7 @@ namespace blockchain_dotnet_core.Tests.Models
             _recipientWallet = new Wallet();
 
             var transactionOutputs =
-                Transaction.GenerateTransactionOutput(_senderWallet, _recipientWallet.PublicKey, 100);
+                Transaction.GenerateTransactionOutputs(_senderWallet, _recipientWallet.PublicKey, 100);
 
             var transactionInput = Transaction.GenerateTransactionInput(_senderWallet, transactionOutputs);
 
@@ -126,7 +126,7 @@ namespace blockchain_dotnet_core.Tests.Models
         public void GetsValidTransactions()
         {
             var transactionOutputs =
-                Transaction.GenerateTransactionOutput(_senderWallet, _recipientWallet.PublicKey, 100);
+                Transaction.GenerateTransactionOutputs(_senderWallet, _recipientWallet.PublicKey, 100);
 
             var transactionInput = Transaction.GenerateTransactionInput(_senderWallet, transactionOutputs);
 
@@ -167,7 +167,7 @@ namespace blockchain_dotnet_core.Tests.Models
             };
 
             var transactionOutputs =
-                Transaction.GenerateTransactionOutput(_senderWallet, _recipientWallet.PublicKey, 100);
+                Transaction.GenerateTransactionOutputs(_senderWallet, _recipientWallet.PublicKey, 100);
 
             var transactionInput = Transaction.GenerateTransactionInput(_senderWallet, transactionOutputs);
 

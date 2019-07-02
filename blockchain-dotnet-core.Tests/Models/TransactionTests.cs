@@ -30,7 +30,7 @@ namespace blockchain_dotnet_core.Tests.Models
             _recipientWallet = new Wallet();
 
             _transactionOutputs =
-                Transaction.GenerateTransactionOutput(_senderWallet, _recipientWallet.PublicKey, _amount);
+                Transaction.GenerateTransactionOutputs(_senderWallet, _recipientWallet.PublicKey, _amount);
 
             _transactionInput = Transaction.GenerateTransactionInput(_senderWallet, _transactionOutputs);
 
@@ -172,10 +172,10 @@ namespace blockchain_dotnet_core.Tests.Models
         }
 
         [TestMethod]
-        public void GenerateTransactionOutput()
+        public void GenerateTransactionOutputs()
         {
             var transactionOutputs =
-                Transaction.GenerateTransactionOutput(_senderWallet, _recipientWallet.PublicKey, _amount);
+                Transaction.GenerateTransactionOutputs(_senderWallet, _recipientWallet.PublicKey, _amount);
 
             Assert.IsNotNull(transactionOutputs);
             Assert.IsTrue(transactionOutputs.Count == 2);
@@ -184,24 +184,24 @@ namespace blockchain_dotnet_core.Tests.Models
         }
 
         [TestMethod]
-        public void GenerateTransactionOutputNullWalletThrowsException()
+        public void GenerateTransactionOutputsNullWalletThrowsException()
         {
             Assert.ThrowsException<ArgumentNullException>(() =>
-                Transaction.GenerateTransactionOutput(null, _recipientWallet.PublicKey, _amount));
+                Transaction.GenerateTransactionOutputs(null, _recipientWallet.PublicKey, _amount));
         }
 
         [TestMethod]
-        public void GenerateTransactionOutputNullRecipientThrowsException()
+        public void GenerateTransactionOutputsNullRecipientThrowsException()
         {
             Assert.ThrowsException<ArgumentNullException>(() =>
-                Transaction.GenerateTransactionOutput(_senderWallet, null, _amount));
+                Transaction.GenerateTransactionOutputs(_senderWallet, null, _amount));
         }
 
         [TestMethod]
         public void GenerateTransactionInput()
         {
             var transactionOutputs =
-                Transaction.GenerateTransactionOutput(_senderWallet, _recipientWallet.PublicKey, _amount);
+                Transaction.GenerateTransactionOutputs(_senderWallet, _recipientWallet.PublicKey, _amount);
 
             var transactionInput =
                 Transaction.GenerateTransactionInput(_senderWallet, transactionOutputs);

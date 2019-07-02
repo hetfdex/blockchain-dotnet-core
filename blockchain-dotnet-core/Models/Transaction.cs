@@ -33,7 +33,7 @@ namespace blockchain_dotnet_core.API.Models
                 throw new ArgumentNullException(nameof(recipient));
             }
 
-            TransactionOutputs = GenerateTransactionOutput(senderWallet, recipient, amount);
+            TransactionOutputs = GenerateTransactionOutputs(senderWallet, recipient, amount);
             TransactionInput = GenerateTransactionInput(senderWallet, TransactionOutputs);
         }
 
@@ -93,7 +93,7 @@ namespace blockchain_dotnet_core.API.Models
                 GenerateTransactionInput(senderWallet, TransactionOutputs);
         }
 
-        public static IDictionary<ECPublicKeyParameters, decimal> GenerateTransactionOutput(Wallet senderWallet,
+        public static IDictionary<ECPublicKeyParameters, decimal> GenerateTransactionOutputs(Wallet senderWallet,
             ECPublicKeyParameters recipient,
             decimal amount)
         {
